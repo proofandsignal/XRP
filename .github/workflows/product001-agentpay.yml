@@ -1,0 +1,54 @@
+name: PRODUCT-001 AgentPay Guard
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/product001-agentpay.yml"
+      - "packages/agentpay-guard-core/**"
+      - "products/agentpay-guard-api/**"
+      - "docs/PRODUCT-001-AGENTPAY-GUARD.md"
+      - "evidence/LAB-004C-PASS.md"
+
+permissions:
+  contents: read
+
+jobs:
+  core:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/agentpay-guard-core
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --ignore-scripts
+      - run: npm test
+      - run: node --check src/index.mjs
+      - run: node --check src/policy.mjs
+      - run: node --check src/protocol.mjs
+      - run: node --check src/guarded-fetch.mjs
+
+  api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install core dependencies
+        working-directory: packages/agentpay-guard-core
+        run: npm install --ignore-scripts
+      - name: Install API dependencies
+        working-directory: products/agentpay-guard-api
+        run: npm install --ignore-scripts
+      - name: Test API
+        working-directory: products/agentpay-guard-api
+        run: npm test
+      - name: Syntax check
+        working-directory: products/agentpay-guard-api
+        run: |
+          node --check src/app.mjs
+          node --check src/server.mjs
