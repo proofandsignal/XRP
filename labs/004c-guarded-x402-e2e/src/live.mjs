@@ -170,7 +170,9 @@ async function main() {
     const ledgerAmount =
       typeof tx.Amount === "string"
         ? tx.Amount
-        : tx.tx_json?.Amount ?? null;
+        : typeof tx.DeliverMax === "string"
+          ? tx.DeliverMax
+          : tx.tx_json?.Amount ?? tx.tx_json?.DeliverMax ?? null;
     const ledgerDestination =
       tx.Destination ?? tx.tx_json?.Destination ?? null;
     const ledgerAccount =
@@ -183,7 +185,9 @@ async function main() {
       ledgerAccount === payer.address;
 
     if (!independentLedgerPass) {
-      throw new Error("Independent ledger reconciliation failed.");
+      throw new Error(
+        `Independent ledger reconciliation failed: validated=${tx.validated === true} account=${ledgerAccount} destination=${ledgerDestination} amount=${JSON.stringify(ledgerAmount)}`
+      );
     }
 
     const payingCallsAfterAllowed = payingFetchCalls;
