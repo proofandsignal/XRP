@@ -17,18 +17,29 @@ jobs:
   guarded-x402-e2e:
     runs-on: ubuntu-latest
     timeout-minutes: 12
-    defaults:
-      run:
-        working-directory: labs/004c-guarded-x402-e2e
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - run: npm install --ignore-scripts
-      - run: node --check src/live.mjs
+
+      - name: Install LAB-004C dependencies
+        working-directory: labs/004c-guarded-x402-e2e
+        run: npm install --ignore-scripts
+
+      - name: Install shared LAB-004B runtime dependency at workspace root
+        run: npm install --ignore-scripts --no-save xrpl@5.3.0
+
+      - name: Syntax check
+        working-directory: labs/004c-guarded-x402-e2e
+        run: node --check src/live.mjs
+
       - name: Run guarded x402 Testnet settlement
+        working-directory: labs/004c-guarded-x402-e2e
         run: npm run live
+
       - name: Upload sanitized LAB-004C evidence
         if: always()
         uses: actions/upload-artifact@v4
