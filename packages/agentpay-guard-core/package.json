@@ -1,0 +1,16 @@
+{
+  "name": "@proofandsignal/agentpay-guard-core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Deterministic pre-sign policy core for XRPL/x402 machine payments.",
+  "exports": {
+    ".": "./src/index.mjs"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "dependencies": {
+    "xrpl": "^5.3.0"
+  }
+}
