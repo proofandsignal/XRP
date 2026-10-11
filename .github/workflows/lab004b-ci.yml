@@ -1,0 +1,31 @@
+name: XRPL LAB-004B CI
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/lab004b-ci.yml"
+      - ".github/workflows/lab004b-compat.yml"
+      - "labs/004b-x402-pre-sign-guard/**"
+      - "docs/LAB-004B-X402-PRE-SIGN-CONTRACT.md"
+      - "labs/004-agentpay-guard/src/policy.mjs"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: labs/004b-x402-pre-sign-guard
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --ignore-scripts
+      - run: npm test
+      - run: node --check src/protocol.mjs
+      - run: node --check src/guarded-fetch.mjs
+      - run: node --check src/compat-smoke.mjs
