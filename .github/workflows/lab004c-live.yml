@@ -1,0 +1,39 @@
+name: XRPL LAB-004C Guarded X402 E2E
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/lab004c-live.yml"
+      - "labs/004c-guarded-x402-e2e/**"
+      - "labs/004b-x402-pre-sign-guard/**"
+      - "labs/004-agentpay-guard/src/policy.mjs"
+      - "docs/LAB-004C-GUARDED-X402-E2E.md"
+
+permissions:
+  contents: read
+
+jobs:
+  guarded-x402-e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    defaults:
+      run:
+        working-directory: labs/004c-guarded-x402-e2e
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --ignore-scripts
+      - run: node --check src/live.mjs
+      - name: Run guarded x402 Testnet settlement
+        run: npm run live
+      - name: Upload sanitized LAB-004C evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xrpl-lab-004c-x402-e2e
+          path: labs/004c-guarded-x402-e2e/artifacts/*.json
+          if-no-files-found: error
+          retention-days: 30
