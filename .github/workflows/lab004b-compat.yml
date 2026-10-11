@@ -1,0 +1,35 @@
+name: XRPL LAB-004B X402 Compatibility
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/lab004b-compat.yml"
+      - "labs/004b-x402-pre-sign-guard/**"
+
+permissions:
+  contents: read
+
+jobs:
+  compat:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: labs/004b-x402-pre-sign-guard
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install --ignore-scripts
+      - name: Check pinned x402 SDK and T54 Testnet facilitator
+        run: npm run compat
+      - name: Upload sanitized compatibility evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xrpl-lab-004b-x402-compat
+          path: labs/004b-x402-pre-sign-guard/artifacts/*.json
+          if-no-files-found: error
+          retention-days: 30
