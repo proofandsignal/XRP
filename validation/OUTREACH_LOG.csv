@@ -1,5 +1,5 @@
 target,repo,priority,status,outreach_url,response,qualified,integration_attempt,monetization_signal,notes
-Good Meta,goodmeta/a2a-x402-payment-agent,P0,READY_TO_SEND,,,,,,GitHub connector cannot create issues in external repos (403)
+Good Meta,goodmeta/a2a-x402-payment-agent,P0,SENT,https://github.com/goodmeta/a2a-x402-payment-agent/issues/13,,false,false,false,Published by proofandsignal; awaiting reply
 NearDeFi,NearDeFi/agent-payments-skill,P0,READY_TO_SEND,,,,,,GitHub connector cannot create issues in external repos (403)
 Xenarch,xenarch-ai/x402-agent,P0,READY_TO_SEND,,,,,,GitHub connector cannot create issues in external repos (403)
 Primer Systems,primer-systems/x402,P0,READY_TO_SEND,,,,,,GitHub connector cannot create issues in external repos (403)
