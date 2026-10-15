@@ -6,6 +6,10 @@
   "description": "Deterministic T0/T1 comparator for RLUSD evidence snapshots.",
   "scripts": {
     "test": "node --test",
-    "compare": "node src/compare.mjs"
+    "compare": "node src/compare.mjs",
+    "historical": "node src/historical-pair.mjs"
+  },
+  "dependencies": {
+    "xrpl": "^5.3.0"
   }
 }
