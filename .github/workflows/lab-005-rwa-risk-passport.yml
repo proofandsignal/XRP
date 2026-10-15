@@ -39,17 +39,16 @@ jobs:
         working-directory: labs/005-rwa-risk-passport
     env:
       XRPL_WS: wss://s.devnet.rippletest.net:51233/
-      MPT_ISSUANCE_ID: 05EECEBE97A7D635DE2393068691A015FED5A89AD203F5AA
-    steps:
+          steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
       - run: npm install
-      - run: npm run live
+      - run: npm run discover
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: lab-005-devnet-smoke
+          name: lab-005-devnet-discovery-smoke
           path: labs/005-rwa-risk-passport/artifacts/*.json
           if-no-files-found: warn
