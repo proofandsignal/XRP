@@ -189,7 +189,7 @@ export function normalizeIssuerActivity(result, error = null, max = 50) {
     transactionTypes[type] = (transactionTypes[type] ?? 0) + 1;
 
     recent.push({
-      hash: tx.hash ?? tx.Hash ?? null,
+      hash: tx.hash ?? tx.Hash ?? item?.hash ?? item?.tx_hash ?? null,
       transaction_type: type,
       ledger_index:
         item?.ledger_index ??
