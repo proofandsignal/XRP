@@ -1,6 +1,6 @@
 target,priority,status,contact_route,outreach_url,response,qualified,integration_attempt,monetization_signal,notes
 Cicada Partners,P0,SENT,info@cicada.partners,,,false,false,false,Sent by proofandsignal; awaiting reply
-Clearpool,P0,READY_TO_SEND,Clearpool institutional/borrower contact route,,,false,false,false,Building XRPL institutional lending stack; existing third-party credit risk process
+Clearpool,P0,SENT,bd@clearpool.finance,,,false,false,false,Sent by proofandsignal; awaiting reply
 XRPL Commons,P0/P1,READY_TO_SEND,adoption@xrpl-commons.org,,,false,false,false,XRPL lending adoption and integration architecture
 Hex Trust,P1,READY_TO_SEND,sales@hextrust.com,,,false,false,false,RLUSD custody layer in Clearpool XRPL stack; operational integration test
 Ripple Partnerships,P1,READY_TO_SEND,Ripple Contact Partnerships form,,,false,false,false,Ecosystem/integration signal; not assumed buyer
