@@ -1,0 +1,56 @@
+name: LAB-006 RLUSD Intelligence
+
+on:
+  pull_request:
+    paths:
+      - "labs/006-rlusd-intelligence/**"
+      - "docs/PRODUCT-003-RLUSD-INTELLIGENCE.md"
+      - "evidence/LAB-006-MAINNET-PASS.md"
+      - ".github/workflows/lab-006-rlusd-intelligence.yml"
+  push:
+    branches:
+      - "lab/006-rlusd-intelligence"
+    paths:
+      - "labs/006-rlusd-intelligence/**"
+      - "docs/PRODUCT-003-RLUSD-INTELLIGENCE.md"
+      - "evidence/LAB-006-MAINNET-PASS.md"
+      - ".github/workflows/lab-006-rlusd-intelligence.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: labs/006-rlusd-intelligence
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install
+      - run: npm test
+
+  live-mainnet-readonly-smoke:
+    needs: unit-tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: labs/006-rlusd-intelligence
+    env:
+      XRPL_WS: wss://xrplcluster.com
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install
+      - run: npm run live
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lab-006-rlusd-mainnet-readonly-smoke
+          path: labs/006-rlusd-intelligence/artifacts/*.json
+          if-no-files-found: warn
