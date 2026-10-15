@@ -6,7 +6,8 @@
   "description": "Evidence-first read-only XRPL MPT risk passport.",
   "scripts": {
     "test": "node --test",
-    "live": "node src/live.mjs"
+    "live": "node src/live.mjs",
+    "discover": "node src/discover-live.mjs"
   },
   "dependencies": {
     "xrpl": "^5.3.0"
