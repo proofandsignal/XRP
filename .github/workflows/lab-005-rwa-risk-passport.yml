@@ -1,0 +1,35 @@
+name: LAB-005 RWA Risk Passport
+
+on:
+  pull_request:
+    paths:
+      - "labs/005-rwa-risk-passport/**"
+      - "docs/PRODUCT-002-RWA-RISK-PASSPORT.md"
+      - ".github/workflows/lab-005-rwa-risk-passport.yml"
+  push:
+    branches:
+      - "lab/005-rwa-risk-passport"
+    paths:
+      - "labs/005-rwa-risk-passport/**"
+      - "docs/PRODUCT-002-RWA-RISK-PASSPORT.md"
+      - ".github/workflows/lab-005-rwa-risk-passport.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: labs/005-rwa-risk-passport
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: labs/005-rwa-risk-passport/package-lock.json
+      - run: npm install --package-lock-only
+      - run: npm ci
+      - run: npm test
