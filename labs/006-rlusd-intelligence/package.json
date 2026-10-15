@@ -1,0 +1,14 @@
+{
+  "name": "xrpl-lab-006-rlusd-intelligence",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Read-only evidence-first RLUSD intelligence adapter for XRPL.",
+  "scripts": {
+    "test": "node --test",
+    "live": "node src/live-mainnet.mjs"
+  },
+  "dependencies": {
+    "xrpl": "^5.3.0"
+  }
+}
