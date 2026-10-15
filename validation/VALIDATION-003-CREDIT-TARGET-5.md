@@ -70,7 +70,7 @@ Missing evidence remains UNKNOWN.
 
 **Validation angle:** Would borrower/loan/first-loss evidence be useful alongside custody, settlement or institutional reporting, or should it remain entirely in the credit manager's domain?
 
-**Public route:** sales@hextrust.com
+**Public route:** partnerships@hextrust.com
 
 **Evidence sources:**
 - https://clearpool.finance/
