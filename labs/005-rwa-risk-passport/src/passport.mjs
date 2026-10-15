@@ -9,7 +9,25 @@ const FLAGS = Object.freeze({
   CAN_HOLD_CONFIDENTIAL_BALANCE: 0x00000080
 });
 
+const IMMUTABLE_FLAGS = Object.freeze({
+  CAN_LOCK: 0x00000002,
+  REQUIRE_AUTH: 0x00000004,
+  CAN_ESCROW: 0x00000008,
+  CAN_TRADE: 0x00000010,
+  CAN_TRANSFER: 0x00000020,
+  CAN_CLAWBACK: 0x00000040,
+  CAN_HOLD_CONFIDENTIAL_BALANCE: 0x00000080,
+  METADATA: 0x00010000,
+  TRANSFER_FEE: 0x00020000
+});
+
+const DEFAULT_MAXIMUM_AMOUNT = "9223372036854775807";
+
 const KNOWN_FLAG_MASK = Object.values(FLAGS).reduce((a, b) => (a | b) >>> 0, 0);
+const KNOWN_IMMUTABLE_FLAG_MASK = Object.values(IMMUTABLE_FLAGS).reduce(
+  (a, b) => (a | b) >>> 0,
+  0
+);
 
 function asUInt32(value) {
   const n = Number(value);
@@ -83,6 +101,37 @@ export function decodeFlags(value) {
   };
 }
 
+export function decodeImmutableFlags(value = 0) {
+  const flags = asUInt32(value ?? 0);
+  if (flags === null) {
+    return {
+      valid: false,
+      raw: value ?? null,
+      unknown_bits: null,
+      immutable: {}
+    };
+  }
+
+  return {
+    valid: true,
+    raw: flags,
+    unknown_bits: (flags & (~KNOWN_IMMUTABLE_FLAG_MASK >>> 0)) >>> 0,
+    immutable: {
+      can_lock: Boolean(flags & IMMUTABLE_FLAGS.CAN_LOCK),
+      require_auth: Boolean(flags & IMMUTABLE_FLAGS.REQUIRE_AUTH),
+      can_escrow: Boolean(flags & IMMUTABLE_FLAGS.CAN_ESCROW),
+      can_trade: Boolean(flags & IMMUTABLE_FLAGS.CAN_TRADE),
+      can_transfer: Boolean(flags & IMMUTABLE_FLAGS.CAN_TRANSFER),
+      can_clawback: Boolean(flags & IMMUTABLE_FLAGS.CAN_CLAWBACK),
+      can_hold_confidential_balance: Boolean(
+        flags & IMMUTABLE_FLAGS.CAN_HOLD_CONFIDENTIAL_BALANCE
+      ),
+      metadata: Boolean(flags & IMMUTABLE_FLAGS.METADATA),
+      transfer_fee: Boolean(flags & IMMUTABLE_FLAGS.TRANSFER_FEE)
+    }
+  };
+}
+
 export function normalizeMptIssuance(node, issuanceId = null) {
   if (!node || node.LedgerEntryType !== "MPTokenIssuance") {
     return {
@@ -94,29 +143,66 @@ export function normalizeMptIssuance(node, issuanceId = null) {
   }
 
   const flags = decodeFlags(node.Flags ?? 0);
+  const immutableFlags = decodeImmutableFlags(node.ImmutableFlags ?? 0);
   const metadata = decodeMetadata(node.MPTokenMetadata);
   const transferFee = Number(node.TransferFee ?? 0);
   const transferFeeValid =
     Number.isInteger(transferFee) && transferFee >= 0 && transferFee <= 50000;
 
+  const assetScaleRaw = node.AssetScale ?? 0;
+  const assetScale = Number(assetScaleRaw);
+  const assetScaleValid =
+    Number.isInteger(assetScale) && assetScale >= 0 && assetScale <= 255;
+
+  const maximumAmount =
+    node.MaximumAmount === undefined || node.MaximumAmount === null
+      ? DEFAULT_MAXIMUM_AMOUNT
+      : asUInt64String(node.MaximumAmount);
+  const outstandingAmount = asUInt64String(node.OutstandingAmount ?? "0");
+  const lockedAmount = asUInt64String(node.LockedAmount ?? "0");
+  const confidentialOutstandingAmount = asUInt64String(
+    node.ConfidentialOutstandingAmount ?? "0"
+  );
+
+  const verified =
+    flags.valid &&
+    immutableFlags.valid &&
+    transferFeeValid &&
+    assetScaleValid &&
+    maximumAmount !== null &&
+    outstandingAmount !== null &&
+    lockedAmount !== null &&
+    confidentialOutstandingAmount !== null;
+
   return {
-    verification: flags.valid && transferFeeValid ? "VERIFIED" : "PARTIAL",
+    verification: verified ? "VERIFIED" : "PARTIAL",
     issuance_id: issuanceId,
     issuer: node.Issuer ?? null,
-    asset_scale:
-      Number.isInteger(Number(node.AssetScale)) ? Number(node.AssetScale) : null,
-    maximum_amount: asUInt64String(node.MaximumAmount),
-    outstanding_amount: asUInt64String(node.OutstandingAmount),
-    locked_amount: asUInt64String(node.LockedAmount),
+    asset_scale: assetScaleValid ? assetScale : null,
+    asset_scale_source:
+      node.AssetScale === undefined || node.AssetScale === null
+        ? "PROTOCOL_DEFAULT"
+        : "LEDGER_FIELD",
+    maximum_amount: maximumAmount,
+    maximum_amount_source:
+      node.MaximumAmount === undefined || node.MaximumAmount === null
+        ? "PROTOCOL_DEFAULT"
+        : "LEDGER_FIELD",
+    outstanding_amount: outstandingAmount,
+    locked_amount: lockedAmount,
+    confidential_outstanding_amount: confidentialOutstandingAmount,
     transfer_fee: {
       raw_tenths_of_basis_point: transferFeeValid ? transferFee : null,
       basis_points: transferFeeValid ? transferFee / 10 : null,
       percent: transferFeeValid ? transferFee / 1000 : null
     },
     domain_id: node.DomainID ?? null,
-    immutable_flags: asUInt32(node.ImmutableFlags),
     flags,
+    immutable_flags: immutableFlags,
     metadata,
+    issuer_encryption_key_present: Boolean(node.IssuerEncryptionKey),
+    auditor_encryption_key_present: Boolean(node.AuditorEncryptionKey),
+    sponsor: node.Sponsor ?? null,
     previous_txn_id: node.PreviousTxnID ?? null,
     previous_txn_ledger: node.PreviousTxnLgrSeq ?? null,
     sequence: node.Sequence ?? null
@@ -159,6 +245,9 @@ export function buildRiskPassport({
   }
   if ((issuance.flags?.unknown_bits ?? 0) !== 0) {
     reviewPoints.push("UNKNOWN_FLAG_BITS_PRESENT");
+  }
+  if ((issuance.immutable_flags?.unknown_bits ?? 0) !== 0) {
+    reviewPoints.push("UNKNOWN_IMMUTABLE_FLAG_BITS_PRESENT");
   }
 
   return {
