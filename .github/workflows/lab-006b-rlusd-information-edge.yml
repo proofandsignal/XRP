@@ -81,3 +81,26 @@ jobs:
             labs/006-rlusd-intelligence/artifacts/*.json
             labs/006b-rlusd-information-edge/artifacts/*.json
           if-no-files-found: error
+
+  historical-horizon-change:
+    needs: comparator-tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: labs/006b-rlusd-information-edge
+    env:
+      XRPL_WS: wss://xrplcluster.com
+      HORIZON_LEDGERS: "1000"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install
+      - run: npm run historical
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lab-006b-rlusd-historical-horizon
+          path: labs/006b-rlusd-information-edge/artifacts/lab-006b-historical-*.json
+          if-no-files-found: error
