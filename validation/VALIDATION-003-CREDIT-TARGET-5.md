@@ -33,7 +33,7 @@ Missing evidence remains UNKNOWN.
 
 **Validation angle:** Does normalized XRPL borrower/loan evidence reduce work or improve monitoring around origination, servicing, impairment/default and explainability?
 
-**Public route:** team@cicada.partners
+**Public route:** info@cicada.partners
 
 **Evidence sources:**
 - https://www.cicada.partners/about
