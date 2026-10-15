@@ -5,6 +5,7 @@ on:
     paths:
       - "labs/005-rwa-risk-passport/**"
       - "docs/PRODUCT-002-RWA-RISK-PASSPORT.md"
+      - "evidence/LAB-005-DEVNET-PASS.md"
       - ".github/workflows/lab-005-rwa-risk-passport.yml"
   push:
     branches:
@@ -12,6 +13,7 @@ on:
     paths:
       - "labs/005-rwa-risk-passport/**"
       - "docs/PRODUCT-002-RWA-RISK-PASSPORT.md"
+      - "evidence/LAB-005-DEVNET-PASS.md"
       - ".github/workflows/lab-005-rwa-risk-passport.yml"
 
 permissions:
