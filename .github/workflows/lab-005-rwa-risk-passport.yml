@@ -28,8 +28,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "npm"
-          cache-dependency-path: labs/005-rwa-risk-passport/package-lock.json
-      - run: npm install --package-lock-only
-      - run: npm ci
+      - run: npm install
       - run: npm test
