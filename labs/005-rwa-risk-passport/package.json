@@ -1,0 +1,14 @@
+{
+  "name": "xrpl-lab-005-rwa-risk-passport",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Evidence-first read-only XRPL MPT risk passport.",
+  "scripts": {
+    "test": "node --test",
+    "live": "node src/live.mjs"
+  },
+  "dependencies": {
+    "xrpl": "^5.3.0"
+  }
+}
