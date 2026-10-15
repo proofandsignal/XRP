@@ -39,7 +39,7 @@ jobs:
         working-directory: labs/005-rwa-risk-passport
     env:
       XRPL_WS: wss://s.devnet.rippletest.net:51233/
-          steps:
+    steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
