@@ -1,0 +1,11 @@
+{
+  "name": "xrpl-lab-006b-rlusd-information-edge",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Deterministic T0/T1 comparator for RLUSD evidence snapshots.",
+  "scripts": {
+    "test": "node --test",
+    "compare": "node src/compare.mjs"
+  }
+}
