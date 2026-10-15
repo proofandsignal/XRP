@@ -1,6 +1,6 @@
 target,priority,status,contact_route,outreach_url,response,qualified,integration_attempt,monetization_signal,notes
 Licuido,P0,SENT,hello@licuido.io,,,false,false,false,Sent by proofandsignal; awaiting reply
-ZILO,P0,READY_TO_SEND,contact@zilo.co.uk,,,false,false,false,Digital transfer agency + tokenization; Ripple strategic partner
+ZILO,P0,SENT,contact@zilo.co.uk,,,false,false,false,Sent by proofandsignal; awaiting reply
 CRX Markets,P0,READY_TO_SEND,sales@crxmarkets.com,,,false,false,false,Tokenized-asset platform cited by Ripple; institutional financing workflow
 CSD BR,P1,READY_TO_SEND,contato@csdbr.com,,,false,false,false,Live XRPL recording/audit layer; authoritative off-chain source-of-record boundary
 Ondo Finance,P1,READY_TO_SEND,support@ondo.finance / contact form,,,false,false,false,OUSG live on XRPL; rich backing/redemption/liquidity evidence
