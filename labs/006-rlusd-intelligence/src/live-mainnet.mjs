@@ -19,6 +19,10 @@ function now() {
   return new Date().toISOString();
 }
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function write(payload) {
   await fs.mkdir(ARTIFACT_DIR, { recursive: true });
   const file = path.join(
@@ -44,13 +48,23 @@ function errorInfo(error) {
   };
 }
 
-async function safeRequest(client, request) {
-  try {
-    const response = await client.request(request);
-    return { ok: true, result: response.result, error: null };
-  } catch (error) {
-    return { ok: false, result: null, error: errorInfo(error) };
+async function safeRequest(client, request, retries = 2) {
+  let lastError = null;
+
+  for (let attempt = 0; attempt <= retries; attempt += 1) {
+    try {
+      const response = await client.request(request);
+      return { ok: true, result: response.result, error: null };
+    } catch (error) {
+      lastError = errorInfo(error);
+      const retryable = lastError.code === "tooBusy";
+
+      if (!retryable || attempt === retries) break;
+      await sleep(500 * (attempt + 1));
+    }
   }
+
+  return { ok: false, result: null, error: lastError };
 }
 
 async function main() {
@@ -65,11 +79,16 @@ async function main() {
       ledger_index: "validated"
     });
 
+    const snapshotLedger = issuerResponse.result?.ledger_index;
+    if (!Number.isInteger(snapshotLedger)) {
+      throw new Error("Validated snapshot ledger index was not returned.");
+    }
+
     const gateway = await safeRequest(client, {
       command: "gateway_balances",
       account: RLUSD_MAINNET_ISSUER,
       strict: true,
-      ledger_index: "validated"
+      ledger_index: snapshotLedger
     });
 
     const rlusd = {
@@ -81,7 +100,7 @@ async function main() {
       command: "book_offers",
       taker_gets: { currency: "XRP" },
       taker_pays: rlusd,
-      ledger_index: "validated",
+      ledger_index: snapshotLedger,
       limit: 20
     });
 
@@ -89,7 +108,7 @@ async function main() {
       command: "book_offers",
       taker_gets: rlusd,
       taker_pays: { currency: "XRP" },
-      ledger_index: "validated",
+      ledger_index: snapshotLedger,
       limit: 20
     });
 
@@ -97,14 +116,14 @@ async function main() {
       command: "amm_info",
       asset: { currency: "XRP" },
       asset2: rlusd,
-      ledger_index: "validated"
+      ledger_index: snapshotLedger
     });
 
     const activity = await safeRequest(client, {
       command: "account_tx",
       account: RLUSD_MAINNET_ISSUER,
       ledger_index_min: -1,
-      ledger_index_max: -1,
+      ledger_index_max: snapshotLedger,
       binary: false,
       forward: false,
       limit: 50
@@ -133,9 +152,12 @@ async function main() {
       )
     });
 
+    snapshot.snapshot_ledger = snapshotLedger;
+
     const file = await write(snapshot);
 
     console.log("\n=== XRPL LAB-006 RLUSD INTELLIGENCE ===");
+    console.log(`Snapshot ledger: ${snapshotLedger}`);
     console.log(`Issuer: ${RLUSD_MAINNET_ISSUER}`);
     console.log(`Decision: ${snapshot.decision}`);
     console.log(`PASS locked: ${snapshot.pass_locked}`);
@@ -161,6 +183,18 @@ async function main() {
       snapshot.markets.xrp_rlusd_amm.verification !== "VERIFIED"
     ) {
       throw new Error("No validated XRPL market surface was verified.");
+    }
+
+    const ledgerValues = [
+      snapshot.issuer_account.ledger_index,
+      snapshot.supply.ledger_index,
+      snapshot.markets.xrp_for_rlusd.ledger_index,
+      snapshot.markets.rlusd_for_xrp.ledger_index,
+      snapshot.markets.xrp_rlusd_amm.ledger_index
+    ].filter((value) => value !== null && value !== undefined);
+
+    if (ledgerValues.some((value) => value !== snapshotLedger)) {
+      throw new Error("Snapshot evidence was not pinned to one validated ledger.");
     }
   } finally {
     if (client.isConnected()) await client.disconnect();
