@@ -3,4 +3,4 @@ Licuido,P0,SENT,hello@licuido.io,,,false,false,false,Sent by proofandsignal; awa
 ZILO,P0,SENT,contact@zilo.co.uk,,,false,false,false,Sent by proofandsignal; awaiting reply
 CRX Markets,P0,SENT,sales@crxmarkets.com,,,false,false,false,Sent by proofandsignal; awaiting reply
 CSD BR,P1,SENT,contato@csdbr.com,,,false,false,false,Sent by proofandsignal; awaiting reply
-Ondo Finance,P1,SENT,support@ondo.finance / contact form,,,false,false,false,Sent by proofandsignal; awaiting reply
+Ondo Finance,P1,SENT,support@ondo.finance / contact form,AUTO_ACK,false,false,false,Support ticket acknowledged; awaiting human/technical reply
