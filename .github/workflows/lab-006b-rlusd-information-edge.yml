@@ -1,0 +1,106 @@
+name: LAB-006B RLUSD Information Edge
+
+on:
+  pull_request:
+    paths:
+      - "labs/006b-rlusd-information-edge/**"
+      - ".github/workflows/lab-006b-rlusd-information-edge.yml"
+      - "evidence/LAB-006B-CHANGE-PASS.md"
+  push:
+    branches:
+      - "lab/006b-rlusd-information-edge"
+    paths:
+      - "labs/006b-rlusd-information-edge/**"
+      - ".github/workflows/lab-006b-rlusd-information-edge.yml"
+      - "evidence/LAB-006B-CHANGE-PASS.md"
+
+permissions:
+  contents: read
+
+jobs:
+  comparator-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: labs/006b-rlusd-information-edge
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm test
+
+  live-two-snapshot-change:
+    needs: comparator-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install LAB-006 collector
+        working-directory: labs/006-rlusd-intelligence
+        run: npm install
+
+      - name: Capture T0
+        working-directory: labs/006-rlusd-intelligence
+        env:
+          XRPL_WS: wss://xrplcluster.com
+        run: npm run live
+
+      - name: Freeze T0 path
+        run: |
+          T0=$(ls -1t labs/006-rlusd-intelligence/artifacts/lab-006-rlusd-mainnet-*.json | head -1)
+          echo "T0=$T0" >> "$GITHUB_ENV"
+
+      - name: Observation gap
+        run: sleep 20
+
+      - name: Capture T1
+        working-directory: labs/006-rlusd-intelligence
+        env:
+          XRPL_WS: wss://xrplcluster.com
+        run: npm run live
+
+      - name: Freeze T1 path
+        run: |
+          T1=$(ls -1t labs/006-rlusd-intelligence/artifacts/lab-006-rlusd-mainnet-*.json | head -1)
+          echo "T1=$T1" >> "$GITHUB_ENV"
+
+      - name: Compare T0 and T1
+        run: |
+          mkdir -p labs/006b-rlusd-information-edge/artifacts
+          node labs/006b-rlusd-information-edge/src/compare.mjs "$T0" "$T1" labs/006b-rlusd-information-edge/artifacts/lab-006b-change.json
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lab-006b-rlusd-information-edge
+          path: |
+            labs/006-rlusd-intelligence/artifacts/*.json
+            labs/006b-rlusd-information-edge/artifacts/*.json
+          if-no-files-found: error
+
+  historical-horizon-change:
+    needs: comparator-tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: labs/006b-rlusd-information-edge
+    env:
+      XRPL_WS: wss://xrplcluster.com
+      HORIZON_LEDGERS: "1000"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install
+      - run: npm run historical
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lab-006b-rlusd-historical-horizon
+          path: labs/006b-rlusd-information-edge/artifacts/lab-006b-historical-*.json
+          if-no-files-found: error
