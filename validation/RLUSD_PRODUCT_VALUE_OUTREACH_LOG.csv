@@ -1,6 +1,6 @@
 target,priority,status,contact_route,response,qualified,workflow_evaluation,product_signal,notes
 LMAX Digital,P0,SENT,info@lmaxdigital.com,,false,false,false,Sent from partners@proofandsignal.xyz; awaiting reply
-OpenPayd,P0,READY_TO_SEND,OpenPayd Sales contact form,,false,false,false,Stablecoin payments and treasury infrastructure
+OpenPayd,P0,SENT,OpenPayd Sales contact form,,false,false,false,Sent from partners@proofandsignal.xyz; awaiting reply
 Keyrock,P0,READY_TO_SEND,Keyrock contact form,,false,false,false,Institutional liquidity/market making/treasury
 DriveWealth,P1,READY_TO_SEND,DriveWealth Sales contact form,,false,false,false,Ripple stablecoin/payment/liquidity/custody/settlement infrastructure partnership
 Standard Chartered,P1,READY_TO_SEND,ecommercesales@sc.com,,false,false,false,RLUSD custody live on XRPL and planned collateral integration
