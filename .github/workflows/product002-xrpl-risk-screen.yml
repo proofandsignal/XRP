@@ -1,0 +1,34 @@
+name: XRPL Risk Screen CI
+
+on:
+  pull_request:
+    paths:
+      - "products/xrpl-risk-screen/**"
+      - ".github/workflows/product002-xrpl-risk-screen.yml"
+  push:
+    branches:
+      - "build/007-risk-passport-platform"
+    paths:
+      - "products/xrpl-risk-screen/**"
+      - ".github/workflows/product002-xrpl-risk-screen.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: products/xrpl-risk-screen
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm test
+      - name: Static syntax checks
+        run: |
+          node --check server.mjs
+          node --check lib/runtime.mjs
