@@ -41,3 +41,36 @@ The message is not "buy another risk score." The hypothesis is:
 3. Partnerships / ecosystem integrations.
 4. Institutional product / treasury.
 5. Engineering owner for APIs and post-issuance monitoring.
+
+
+## Batch 002 — institutional custody / collateral / brokerage
+
+Gmail deduplication on 2026-10-19 found no prior messages for these organizations.
+
+| Lead | Operational fit | Current XRPL/Ripple workflow | Official contact path | Status |
+|---|---|---|---|---|
+| LMAX Group | Institutional trading + collateral management; strong fit for independent RLUSD issuer/evidence monitoring and change alerts | Working with Standard Chartered and Ripple to make RLUSD eligible collateral in institutional trading workflows | Official LMAX contact page + Partner enquiries route | QUALIFIED — PARTNER ROUTE |
+| DriveWealth | Brokerage/custody infrastructure; fit for RLUSD settlement evidence, counterparty verification and machine-readable monitoring | Integrating Ripple stablecoin infrastructure using RLUSD on XRPL, alongside custody/payments work | Official DriveWealth Sales form | QUALIFIED — SALES FORM READY |
+| Standard Chartered | Institutional custody/collateral; direct need for current asset/issuer evidence and operational change monitoring | Live institutional custody for RLUSD on XRPL; planned collateral integration with Ripple and LMAX | Official Standard Chartered institutional/contact routes; press contact is not treated as a sales contact | WORKFLOW VERIFIED — BUYER CONTACT PENDING |
+| Meritz Securities | Institutional custody/tokenization exploration; fit for tokenized-asset evidence and post-issuance monitoring | Strategic Ripple partnership exploring custody and tokenization infrastructure in Korean capital markets | Official Meritz support channels found; appropriate product/partnership buyer route not yet verified | WORKFLOW VERIFIED — BUYER CONTACT PENDING |
+
+### Batch 002 sources
+
+- Standard Chartered / LMAX RLUSD custody and collateral workflow:
+  https://www.sc.com/en/press-release/standard-chartered-launches-rlusd-custody-and-joins-planned-collateral-integration-with-ripple-and-lmax-group
+- LMAX partner/contact route:
+  https://www.lmax.com/global/contact
+- DriveWealth / Ripple institutional integration:
+  https://ripple.com/ripple-press/drivewealth-and-ripple-partner-to-bring-institutional-digital-asset-infrastructure-to-global-investing/
+- DriveWealth sales form:
+  https://www.drivewealth.com/contact/
+- Meritz / Ripple partnership:
+  https://ripple.com/ripple-press/ripple-and-meritz-securities-partner-to-bring-institutional-custody-and-tokenization-to-korea-s-capital-markets/
+- Meritz official support:
+  https://home.imeritz.com/cust/custInqr/CtCntr.do
+
+Batch accounting:
+- New candidates discovered: 4
+- Newly qualified with usable B2B contact route: 2
+- Buyer/contact verification pending: 2
+- New outreach sent: 0
