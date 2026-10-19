@@ -32,3 +32,57 @@ jobs:
         run: |
           node --check server.mjs
           node --check lib/runtime.mjs
+
+  live-rlusd-evidence:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: products/xrpl-risk-screen
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Read RLUSD Mainnet issuer and build unsigned passport
+        env:
+          RLUSD_ISSUER: rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De
+        run: |
+          mkdir -p evidence
+          node --input-type=module <<'NODE'
+          import { writeFile } from "node:fs/promises"
+          import { scanAccount, buildPassport } from "./lib/runtime.mjs"
+          const account = process.env.RLUSD_ISSUER
+          const report = await scanAccount(account, { network: "mainnet", timeoutMs: 12000 })
+          const passport = buildPassport(report)
+          const artifact = {
+            case_id: "RLUSD-001",
+            captured_at: new Date().toISOString(),
+            source_identity: {
+              asset: "Ripple USD (RLUSD)",
+              issuer: account,
+              identity_status: "OFFICIAL_ADDRESS_SUPPLIED_BY_RIPPLE_DOCS"
+            },
+            report,
+            passport
+          }
+          await writeFile("evidence/rlusd-001.json", JSON.stringify(artifact, null, 2))
+          console.log(JSON.stringify({
+            case_id: artifact.case_id,
+            ledger_index: report.subject.ledger_index,
+            ledger_hash: report.subject.ledger_hash,
+            state: report.summary.state,
+            issuer_role: report.summary.issuer_role,
+            issued_assets: report.summary.issued_assets,
+            findings: report.findings.map(x => x.id),
+            passport_id: passport.passport_id
+          }, null, 2))
+          NODE
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: xrpl-rlusd-001-evidence
+          path: products/xrpl-risk-screen/evidence/
+          if-no-files-found: warn
