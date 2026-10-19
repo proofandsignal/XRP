@@ -3,7 +3,7 @@ import assert from "node:assert/strict"
 import { scanAccount, buildPassport, verifyPassport } from "../lib/runtime.mjs"
 const account="rG1QQv2nh2gr7RCZ1P8YYcBUKCCN633jCn"
 const ok=result=>({ok:true,status:200,async json(){return{result}}})
-test("account scan pins one validated ledger and emits passport",async()=>{const fetchImpl=async(_url,init)=>{const {method}=JSON.parse(init.body);if(method==="account_info")return ok({validated:true,ledger_index:888,ledger_hash:"H888",account_data:{Account:account,Balance:"5000000",OwnerCount:0,Sequence:1,Flags:0}});if(method==="account_lines")return ok({validated:true,ledger_index:888,ledger_hash:"H888",lines:[]});if(method==="account_objects")return ok({validated:true,ledger_index:888,ledger_hash:"H888",account_objects:[]})};const report=await scanAccount(account,{endpoint:"https://example/",fetchImpl});assert.equal(report.subject.ledger_index,888);assert.equal(report.summary.state,"PASS");const p=buildPassport(report,{createdAt:"2026-10-19T12:00:00.000Z"});assert.equal(p.subject.ledger.index,888);assert.equal(verifyPassport(p).valid,true)})
+test("account scan pins one validated ledger and emits passport",async()=>{const fetchImpl=async(_url,init)=>{const {method}=JSON.parse(init.body);if(method==="account_info")return ok({validated:true,ledger_index:888,ledger_hash:"H888",account_data:{Account:account,Balance:"5000000",OwnerCount:0,Sequence:1,Flags:0}});if(method==="account_lines")return ok({validated:true,ledger_index:888,ledger_hash:"H888",lines:[]});if(method==="account_objects")return ok({validated:true,ledger_index:888,ledger_hash:"H888",account_objects:[]})};const report=await scanAccount(account,{endpoint:"https://example/",fetchImpl});assert.equal(report.subject.ledger_index,888);assert.equal(report.summary.state,"PASS");assert.equal(report.summary.evidence_status,"COMPLETE");const p=buildPassport(report,{createdAt:"2026-10-19T12:00:00.000Z"});assert.equal(p.subject.ledger.index,888);assert.equal(verifyPassport(p).valid,true)})
 test("passport tamper breaks artifact integrity",async()=>{const report={schema_version:"xrpl.scan_report.v0.8",subject:{network:"mainnet",account,ledger_index:1,ledger_hash:"H1",validated:true},summary:{state:"PASS"},findings:[]};const p=buildPassport(report,{createdAt:"2026-10-19T12:00:00.000Z"});p.decision.state="BLOCK";assert.equal(verifyPassport(p).valid,false)})
 
 
@@ -26,10 +26,31 @@ test("pagination restarts from page one when failover changes endpoint", async (
     }
     throw new Error("unexpected request")
   }
-  const report=await scanAccount(account,{endpoints:["https://a/","https://b/"],fetchImpl,timeoutMs:1000})
-  assert.equal(report.summary.objects,2)
+  const report=await scanAccount(account,{endpoints:["https://a/","https://b/"],fetchImpl,timeoutMs:1000,includeObjects:true})
+  assert.equal(report.summary.objects_scanned,2)
   const bObjectCalls=calls.filter(x=>x.url==="https://b/"&&x.method==="account_objects")
   assert.equal(bObjectCalls[0].marker,null)
   assert.equal(bObjectCalls[1].marker,"CURSOR-B")
   assert.equal(bObjectCalls.some(x=>x.marker==="CURSOR-A"),false)
+})
+
+
+test("partial evidence does not become a BLOCK risk decision", async () => {
+  let linePage=0
+  const fetchImpl=async(_url,init)=>{
+    const {method}=JSON.parse(init.body)
+    if(method==="account_info") return ok({validated:true,ledger_index:1001,ledger_hash:"H1001",account_data:{Account:account,Balance:"1000000",OwnerCount:0,Sequence:1,Flags:2147483648}})
+    if(method==="account_lines"){
+      linePage++
+      return ok({validated:true,ledger_index:1001,ledger_hash:"H1001",lines:[{account:"r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",currency:"USD",balance:"-1",limit:"0",limit_peer:"100"}],marker:"MORE"})
+    }
+    throw new Error("unexpected request")
+  }
+  const report=await scanAccount(account,{endpoint:"https://example/",fetchImpl,maxItemsPerCollection:1,maxPagesPerCollection:1})
+  assert.equal(report.summary.evidence_status,"PARTIAL")
+  assert.equal(report.summary.state,"REVIEW")
+  assert.equal(report.findings.some(x=>x.id==="DATA_TRUNCATED"),false)
+  assert.equal(report.evidence_issues.some(x=>x.id==="DATA_TRUNCATED"),true)
+  const passport=buildPassport(report,{createdAt:"2026-10-19T12:00:00.000Z"})
+  assert.equal(passport.decision.evidence_status,"PARTIAL")
 })
