@@ -54,3 +54,22 @@ test("partial evidence does not become a BLOCK risk decision", async () => {
   const passport=buildPassport(report,{createdAt:"2026-10-19T12:00:00.000Z"})
   assert.equal(passport.decision.evidence_status,"PARTIAL")
 })
+
+
+test("RLUSD observed raw AccountRoot flags decode without dropping known bits", async () => {
+  const raw=2174353408
+  const fetchImpl=async(_url,init)=>{
+    const {method}=JSON.parse(init.body)
+    if(method==="account_info") return ok({validated:true,ledger_index:107761255,ledger_hash:"H",account_data:{Account:account,Balance:"1",OwnerCount:19,Sequence:1,Flags:raw}})
+    if(method==="account_lines") return ok({validated:true,ledger_index:107761255,ledger_hash:"H",lines:[]})
+    throw new Error("unexpected request")
+  }
+  const report=await scanAccount(account,{endpoint:"https://example/",fetchImpl})
+  assert.equal(report.account.flags.allow_trustline_clawback,true)
+  assert.equal(report.account.flags.deposit_auth,true)
+  assert.equal(report.account.flags.default_ripple,true)
+  assert.equal(report.account.flags.disable_master,true)
+  assert.equal(report.account.flags.disallow_xrp,true)
+  assert.equal(report.account.flags.require_dest_tag,true)
+  assert.equal(report.account.flags.global_freeze,false)
+})
