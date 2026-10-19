@@ -1,46 +1,50 @@
 # RLUSD on XRPL: what the ledger proves — and what still needs external evidence
 
-Status: DRAFT — LIVE CASE RESULT REQUIRED BEFORE PUBLICATION
+Status: **LIVE-VERIFIED CASE DRAFT — READY FOR EDITORIAL REVIEW**
 
 Ripple officially identifies the XRPL Mainnet issuer of Ripple USD (RLUSD) as:
 
 `rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De`
 
-That gives us a useful real-world case for an evidence-first question:
+We used that address as the first live case for the Proof & Signal XRPL Intelligence Screen.
 
-> What can we verify directly from XRPL, and what still depends on evidence outside the ledger?
+## The on-ledger result
 
-## On-ledger layer
+The scan was anchored to validated XRPL ledger **107,761,290** with ledger hash:
 
-BUILD-008 is designed to anchor issuer/account evidence to one validated ledger and inspect:
+`137E4B85103AA3E67224EDAB8933DB1E8F2A038B769E505FCC198CBABBADABF7`
 
-- issuer configuration,
-- control flags,
-- trust-line state,
-- observable issuer obligations,
-- data completeness,
-- material deterministic findings,
-- provenance and a machine-readable Risk Passport.
+The deterministic risk state was **REVIEW**, with **0 BLOCK findings**.
 
-**LIVE RESULT PLACEHOLDER — do not publish until verified.**
+The REVIEW finding was **Clawback capability enabled**. This means the issuer account has the XRPL trust-line clawback capability enabled. It is a control capability — not evidence that clawback has been misused.
 
-## External-evidence layer
+Other observed AccountRoot facts included Global Freeze off, DepositAuth on, Default Ripple on, Disable Master on, Disallow XRP on, Require Auth off and Require Destination Tag on.
 
-Claims about reserves, redemption, legal issuer identity and regulatory status are not proven merely because a token exists on XRPL.
+## A second result matters just as much: evidence completeness
 
-Ripple publishes separate RLUSD transparency and reserve-report information. In the Risk Passport model, those sources belong to an external-evidence namespace rather than being silently treated as ledger facts.
+The live scan observed **20,000 trust lines** before reaching its configured safety bound. Within that bounded set it observed one issued asset, RLUSD, and **15,513 issuer-holder lines**.
 
-## Why this separation matters
+So the evidence status is **PARTIAL**.
 
-A useful institutional evidence system should be able to say:
+> **Risk state: REVIEW**  
+> **Evidence status: PARTIAL**
 
-- **VERIFIED ON XRPL**
-- **VERIFIED EXTERNALLY**
-- **UNKNOWN**
-- **INTERPRETATION**
+We do not turn incomplete data into an asset-risk BLOCK, and we do not present bounded counts or obligation sums as complete totals.
 
-without collapsing all four into one opaque score.
+## What XRPL still does not prove by itself
 
-That is the design direction of the Proof & Signal XRPL Intelligence Screen.
+The ledger can establish account configuration, control flags, trust-line state and a validated ledger anchor.
 
-This is technical research, not investment advice.
+It does not by itself prove reserve sufficiency, redemption enforceability, legal issuer identity or regulatory compliance.
+
+Ripple publishes separate RLUSD transparency and reserve information. In the Risk Passport model, that information belongs to an **external-evidence namespace** rather than being silently promoted to a ledger fact.
+
+## Why this matters
+
+Institutional systems need to distinguish **VERIFIED ON XRPL**, **VERIFIED EXTERNALLY**, **UNKNOWN** and **INTERPRETATION**.
+
+The XRPL Intelligence Screen is being built around that separation, with a machine-readable Risk Passport underneath the UI.
+
+The live case also produced an unsigned deterministic Risk Passport anchored to the validated ledger. Its hashes verify artifact integrity; they are not a publisher signature.
+
+This is technical evidence research, not investment advice.
