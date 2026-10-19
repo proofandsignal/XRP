@@ -6,10 +6,21 @@ export const NETWORKS = Object.freeze({
 })
 
 const ACCOUNT_FLAGS = Object.freeze({
-  allow_trustline_clawback:0x80000000, allow_trustline_locking:0x40000000,
-  disallow_incoming_trustline:0x20000000, deposit_auth:0x01000000,
-  default_ripple:0x00800000, global_freeze:0x00400000, no_freeze:0x00200000,
-  disable_master:0x00100000, require_auth:0x00040000, require_dest_tag:0x00020000
+  allow_trustline_clawback:0x80000000,
+  allow_trustline_locking:0x40000000,
+  disallow_incoming_trustline:0x20000000,
+  disallow_incoming_paychan:0x10000000,
+  disallow_incoming_check:0x08000000,
+  disallow_incoming_nft_offer:0x04000000,
+  deposit_auth:0x01000000,
+  default_ripple:0x00800000,
+  global_freeze:0x00400000,
+  no_freeze:0x00200000,
+  disable_master:0x00100000,
+  disallow_xrp:0x00080000,
+  require_auth:0x00040000,
+  require_dest_tag:0x00020000,
+  password_spent:0x00010000
 })
 
 function decodeFlags(raw=0){ const v=Number(raw)>>>0; return Object.fromEntries(Object.entries(ACCOUNT_FLAGS).map(([k,m])=>[k,(v&(m>>>0))!==0])) }
