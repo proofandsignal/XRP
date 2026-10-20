@@ -1,6 +1,6 @@
 # RLUSD в XRPL: какво доказва ledger-ът и какво изисква външно evidence
 
-Статус: **LIVE-VERIFIED CASE — чернова за редакционен преглед**
+Статус: **LIVE-VERIFIED — READY FOR PUBLICATION REVIEW**
 
 Ripple официално посочва следния XRPL Mainnet issuer за Ripple USD (RLUSD):
 
@@ -31,6 +31,23 @@ Live scan-ът достигна предварително зададената 
 
 Не превръщаме непълните данни в изкуствен BLOCK risk и не представяме bounded counts или obligation sums като пълни totals.
 
+## Първият резултат от Change Intelligence
+
+Сравнихме и два независимо заснети validated RLUSD snapshots:
+
+- ledger **107 761 255**
+- ledger **107 761 290**
+
+Deterministic transition result:
+
+> **NO MATERIAL CHANGE**
+
+В сравненото evidence raw AccountRoot flags, risk state, finding set и bounded 20 000-line trust-line window останаха стабилни.
+
+Понеже и двата snapshots са с partial bounded evidence, това означава **не е открита материална промяна в сравнените доказателства**. Не означава, че доказваме непроменено абсолютно цялото issuer state.
+
+Точно това е целта на Transition Engine: движението на ledger index само по себе си не е alert.
+
 ## Какво XRPL не доказва сам
 
 Ledger-ът може да докаже account configuration, control flags, trust-line state и конкретен validated ledger anchor.
@@ -43,8 +60,14 @@ Ripple публикува отделна transparency/reserve информаци
 
 Една институционална evidence система трябва да различава **VERIFIED ON XRPL**, **VERIFIED EXTERNALLY**, **UNKNOWN** и **INTERPRETATION**.
 
-Точно около това разделение изграждаме XRPL Intelligence Screen и machine-readable Risk Passport.
+Точно около това разделение изграждаме XRPL Intelligence Screen, machine-readable Risk Passport и deterministic Transition Engine.
 
 Live case-ът създаде и unsigned Risk Passport, закотвен към validated ledger. Hash-овете доказват deterministic integrity на artifact-а, но не са publisher digital signature.
+
+### Първични източници
+
+- Ripple RLUSD token addresses: https://docs.ripple.com/products/stablecoin/overview/token-addresses
+- Ripple RLUSD transparency: https://ripple.com/products/stablecoin/transparency/
+- XRPL AccountRoot reference: https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/accountroot
 
 Материалът е технически и образователен, не инвестиционен съвет.
