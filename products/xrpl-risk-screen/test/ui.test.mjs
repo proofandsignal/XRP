@@ -18,3 +18,12 @@ test("Android/share controls remain wired",async()=>{
   assert.match(html,/localStorage/)
   assert.match(html,/\/api\/transition/)
 })
+
+
+test("ledger-derived row values are HTML escaped",async()=>{
+  const html=await readFile(new URL("../public/index.html",import.meta.url),"utf8")
+  assert.match(html,/function row\(a,b\)\{return .*esc\(a\).*esc\(b\?\?'UNKNOWN'\)/)
+  assert.match(html,/function esc\(s\)/)
+  assert.doesNotMatch(html,/row\('Passport','<span/)
+  assert.doesNotMatch(html,/row\('Issuance ID','<span/)
+})
