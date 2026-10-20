@@ -10,7 +10,7 @@ const found=[]
 let marker
 let endpointIndex=0
 
-for(let page=1;page<=40 && found.length<20;page++){
+for(let page=1;page<=12 && found.length<20;page++){
   let payload,last
   for(let tries=0;tries<endpoints.length;tries++){
     const endpoint=endpoints[(endpointIndex+tries)%endpoints.length]
@@ -20,7 +20,7 @@ for(let page=1;page<=40 && found.length<20;page++){
         ledger_index_min:-1,
         ledger_index_max:-1,
         binary:false,
-        forward:false,
+        forward:true,
         limit:200,
         ...(marker!==undefined?{marker}:{})
       },{timeoutMs:15000})
