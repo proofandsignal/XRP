@@ -91,7 +91,7 @@ The goal is not to replace custody or compliance systems. It is to give operator
 - whether the evidence is complete or bounded,
 - and whether any material configuration or risk signal changed since the prior snapshot.
 
-We have now validated the pipeline against a live Mainnet issuer and a historical material issuer-control transition across two consecutive validated ledgers.
+We have now validated the pipeline against a live Mainnet issuer, a historical issuer-control transition, and separate signing-authority changes covering both signer-list creation and master-key disablement.
 
 Would this kind of evidence/transition layer be useful to Komainu's tokenization, custody product or institutional infrastructure team?
 
@@ -111,3 +111,12 @@ Evidence / fit:
 `3 QUALIFIED → 3 DRAFTED → 0 SENT → RESPONSE UNKNOWN → PAID PILOT LOCKED`
 
 No outreach is counted until it is actually sent/submitted.
+
+
+## New reusable proof point — RLUSD-003
+
+For qualified institutional leads, the strongest non-sales claim now available is:
+
+> We verified two real XRPL signing-authority transitions on the same issuer account: a SignerListSet that introduced an 8-entry multi-sign list with quorum 15, and a later AccountSet that disabled the master key while the signer list remained available. Both were classified as deterministic MATERIAL_CHANGE even though the risk state stayed REVIEW.
+
+Use this only where authorization/key-management monitoring is relevant (custody, wallet, tokenization, treasury, compliance infrastructure). Do not imply knowledge of off-ledger key custody or signer identity.
