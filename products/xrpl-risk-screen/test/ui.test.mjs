@@ -11,7 +11,7 @@ test("inline screen JavaScript parses",async()=>{
 
 test("Android/share controls remain wired",async()=>{
   const html=await readFile(new URL("../public/index.html",import.meta.url),"utf8")
-  for(const id of ["copySummary","copyPassport","shareResult","exportJson","forgetBaseline","transitionClass","transition"]){
+  for(const id of ["copySummary","copyPassport","shareResult","exportJson","forgetBaseline","transitionClass","transition","signing"]){
     assert.match(html,new RegExp(`id=["']${id}["']`))
   }
   assert.match(html,/navigator\.share/)
@@ -26,4 +26,13 @@ test("ledger-derived row values are HTML escaped",async()=>{
   assert.match(html,/function esc\(s\)/)
   assert.doesNotMatch(html,/row\('Passport','<span/)
   assert.doesNotMatch(html,/row\('Issuance ID','<span/)
+})
+
+
+test("account UI renders signing authority evidence", async () => {
+  const html=await readFile(new URL("../public/index.html",import.meta.url),"utf8")
+  assert.match(html,/Master key disabled/)
+  assert.match(html,/Signer lists/)
+  assert.match(html,/Signer entries/)
+  assert.match(html,/signing_authority/)
 })
