@@ -58,3 +58,37 @@ test("subject mismatch is rejected",()=>{
   changed.subject.identifier="rDifferent"
   assert.throws(()=>compareTransitionSnapshots(before,changed),/subjects do not match/)
 })
+
+
+test("real RLUSD clawback AccountSet yields material PASS to REVIEW transition",()=>{
+  const historicalBefore={
+    schema_version:"xrpl.transition_snapshot.v0.1",
+    type:"ACCOUNT",
+    subject:{network:"mainnet",identifier:"rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De"},
+    ledger:{index:89925779,hash:"AD7308164F0CBFE88665A36DF1E541FEB24A9E75FCA3C5FA298064BEBF989D3E",validated:true},
+    risk_state:"PASS",
+    evidence_status:"COMPLETE",
+    account:{flags_raw:25821184,domain:"https://ripple.com/",transfer_rate:null,regular_key:null,balance_xrp:null,owner_count:0},
+    issuer:{role:"ISSUER_CONFIG_PRESENT_NO_ACTIVE_OBLIGATION",settings:{default_ripple:true,require_auth:false,global_freeze:false,no_freeze:false,clawback_enabled:false,token_escrow_enabled:false,transfer_rate:null},counts:{issued_assets:0,issued_holder_lines:0,issuer_frozen_lines:0}},
+    findings:[],evidence_issues:[],
+    observed_trust_lines:{count:0,digest_sha256:"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e72555d46f219e8f14a6f4",complete:true,truncated:false,truncation_reason:null},
+    passport:{id:null,evidence_fingerprint_sha256:null,artifact_sha256:null}
+  }
+  const historicalAfter=structuredClone(historicalBefore)
+  historicalAfter.ledger={index:89925780,hash:"A8F0BF600D9969FCC6E8BD99E83FADC397CA93CD2DF2F33DC42DF63827C2EBF2",validated:true}
+  historicalAfter.risk_state="REVIEW"
+  historicalAfter.account.flags_raw=2173304832
+  historicalAfter.issuer.settings.clawback_enabled=true
+  historicalAfter.findings=[{id:"CLAWBACK_CAPABILITY_ENABLED",severity:"REVIEW",category:"ISSUER_CONTROL"}]
+
+  const r=compareTransitionSnapshots(historicalBefore,historicalAfter)
+  assert.equal(r.classification,"MATERIAL_CHANGE")
+  assert.equal(r.material_change,true)
+  assert.equal(r.event_count,4)
+  assert.deepEqual(r.events.map(x=>x.id),[
+    "RISK_STATE_CHANGED",
+    "FINDING_ADDED",
+    "ACCOUNT_FLAGS_CHANGED",
+    "ISSUER_CLAWBACK_ENABLED_CHANGED"
+  ])
+})
