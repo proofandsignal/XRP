@@ -108,3 +108,16 @@ test("invalid MPT issuance id is rejected before RPC",async()=>{
     /Invalid MPTokenIssuanceID/
   )
 })
+
+
+test("canonical MPT ledger flag bits stay aligned",()=>{
+  assert.deepEqual(decodeMptFlags(0x01),{
+    locked:true,can_lock:false,require_auth:false,can_escrow:false,can_trade:false,can_transfer:false,can_clawback:false
+  })
+  assert.deepEqual(decodeMptFlags(0x42),{
+    locked:false,can_lock:true,require_auth:false,can_escrow:false,can_trade:false,can_transfer:false,can_clawback:true
+  })
+  assert.deepEqual(decodeMptFlags(0x3c),{
+    locked:false,can_lock:false,require_auth:true,can_escrow:true,can_trade:true,can_transfer:true,can_clawback:false
+  })
+})
