@@ -86,3 +86,29 @@ jobs:
           name: xrpl-rlusd-001-evidence
           path: products/xrpl-risk-screen/evidence/
           if-no-files-found: warn
+
+  discover-material-transition:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: products/xrpl-risk-screen
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Discover historical RLUSD issuer-control changes
+        env:
+          RLUSD_ISSUER: rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De
+        run: |
+          node scripts/discover-material-transition.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: xrpl-rlusd-material-discovery
+          path: products/xrpl-risk-screen/evidence/rlusd-material-discovery.json
+          if-no-files-found: warn
+
