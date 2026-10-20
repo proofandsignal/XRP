@@ -74,3 +74,42 @@ Batch accounting:
 - Newly qualified with usable B2B contact route: 2
 - Buyer/contact verification pending: 2
 - New outreach sent: 0
+
+
+## Batch 003 — tokenized funds / stablecoin settlement / institutional custody
+
+Gmail deduplication on 2026-10-20:
+- Aviva Investors: 0 prior messages found.
+- Bitso: 0 prior messages found.
+- Komainu: 0 prior messages found.
+- ZILO: prior outreach already exists — excluded from new-lead count.
+- Licuido: prior outreach already exists — excluded from new-lead count.
+
+| Lead | Operational fit | Verified XRPL workflow | Official contact path | Status |
+|---|---|---|---|---|
+| Aviva Investors | Live tokenized fund issuer/asset-manager workflow; strong fit for post-issuance evidence, issuer/control changes, partner-facing Risk Passports and transition monitoring | Launched a tokenized share class of the Aviva Investors USD Liquidity Fund on XRPL in July 2026 | Official Aviva Investors Institutional Sales: distribution.ukirelandinstitutional@avivainvestors.com | QUALIFIED — INSTITUTIONAL EMAIL READY |
+| Bitso | Enterprise stablecoin settlement and liquidity infrastructure; fit for issuer/stablecoin evidence, permissioned-market monitoring and machine-readable counterparty verification | MXNB is being issued on XRPL and integrated with Ripple's Payments on DEX infrastructure alongside RLUSD for enterprise settlement | Official Bitso Business / Contact Sales form | QUALIFIED — SALES FORM READY |
+| Komainu | Regulated institutional custody and tokenized-asset infrastructure; strong fit for custody-side independent evidence, issuer changes and asset lifecycle monitoring | Strategic digital-asset infrastructure and custody partner for Aviva Investors' tokenized USD Liquidity Fund share class on XRPL | Official Komainu institutional Contact page | QUALIFIED — CONTACT PAGE READY |
+
+### Batch 003 sources
+
+- Aviva Investors tokenized XRPL fund launch:
+  https://www.avivainvestors.com/en-gb/about/company-news/
+- Aviva Investors institutional contact:
+  https://www.avivainvestors.com/en-gb/contact/institutional/
+- Bitso / Ripple enterprise stablecoin settlement:
+  https://ripple.com/ripple-press/ripple-and-bitso-expand-partnership/
+- Bitso Business:
+  https://bitso.com/business
+- Komainu / Aviva Investors tokenized XRPL fund:
+  https://komainu.com/insights/komainu-selected-by-aviva-investors-to-support-first-tokenized-fund-share-class/
+- Komainu institutional contact:
+  https://komainu.com/contact/
+
+Batch 003 accounting:
+- Candidates investigated: 5
+- Deduplicated because prior outreach exists: 2
+- Newly qualified with official B2B/institutional route: 3
+- New outreach sent: 0
+
+Current qualified-lead total in this BUILD-008 validation file: **11**.
