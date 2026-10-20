@@ -88,3 +88,23 @@ test("account scan accepts exact historical validated ledger index", async () =>
   assert.equal(calls.find(x=>x.method==="account_info").ledger_index,777)
   assert.equal(calls.find(x=>x.method==="account_lines").ledger_index,777)
 })
+
+
+test("signing authority is read directly from account_info without account_objects", async () => {
+  const signerList={LedgerEntryType:"SignerList",SignerListID:0,SignerQuorum:2,SignerEntries:[
+    {SignerEntry:{Account:"r4J1uYLNDwHmM3aPLZgR62atDsF31ocHWa",SignerWeight:1}},
+    {SignerEntry:{Account:"raavECzoyoiFAcxobxG4kHmLdHEYjAJbct",SignerWeight:1}}
+  ]}
+  const fetchImpl=async(_url,init)=>{
+    const {method}=JSON.parse(init.body)
+    if(method==="account_info") return ok({validated:true,ledger_index:1200,ledger_hash:"H1200",account_data:{Account:account,Balance:"1",OwnerCount:1,Sequence:1,Flags:1048576},signer_lists:[signerList]})
+    if(method==="account_lines") return ok({validated:true,ledger_index:1200,ledger_hash:"H1200",lines:[]})
+    throw new Error("account_objects should not be needed")
+  }
+  const report=await scanAccount(account,{endpoint:"https://example/",fetchImpl})
+  assert.equal(report.signing_authority.evidence_status,"COMPLETE")
+  assert.equal(report.signing_authority.signer_list_count,1)
+  assert.equal(report.signing_authority.signer_lists[0].quorum,2)
+  assert.equal(report.signing_authority.signer_lists[0].entries.length,2)
+  assert.equal(report.acquisition.objects_requested,false)
+})
