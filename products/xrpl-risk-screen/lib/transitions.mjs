@@ -112,11 +112,14 @@ export function compareTransitionSnapshots(before,after){
 
   const events=[]
   if(before.risk_state!==after.risk_state) events.push(event("RISK_STATE_CHANGED","REVIEW","DECISION","Deterministic risk state changed.",before.risk_state,after.risk_state))
-  if(before.evidence_status!==after.evidence_status) events.push(event("EVIDENCE_STATUS_CHANGED","INFO","EVIDENCE","Evidence completeness status changed.",before.evidence_status,after.evidence_status))
+  if(before.evidence_status!==after.evidence_status){
+    const degraded=after.evidence_status!=="COMPLETE"
+    events.push(event("EVIDENCE_STATUS_CHANGED",degraded?"REVIEW":"INFO","EVIDENCE",degraded?"Evidence completeness degraded.":"Evidence completeness status changed.",before.evidence_status,after.evidence_status))
+  }
 
   const bf=keyed(before.findings), af=keyed(after.findings)
   for(const [id,x] of af) if(!bf.has(id)) events.push(event("FINDING_ADDED","REVIEW","FINDING",`Finding added: ${id}`,null,x))
-  for(const [id,x] of bf) if(!af.has(id)) events.push(event("FINDING_REMOVED","INFO","FINDING",`Finding removed: ${id}`,x,null))
+  for(const [id,x] of bf) if(!af.has(id)) events.push(event("FINDING_REMOVED","REVIEW","FINDING",`Finding removed: ${id}`,x,null))
 
   if(before.type==="ACCOUNT"){
     if(before.account?.flags_raw!==after.account?.flags_raw) events.push(event("ACCOUNT_FLAGS_CHANGED","REVIEW","ISSUER_CONTROL","Raw AccountRoot flags changed.",before.account?.flags_raw,after.account?.flags_raw))
@@ -182,7 +185,7 @@ export function compareTransitionSnapshots(before,after){
       evidence_status_after:after.evidence_status
     },
     caveat:before.type==="ACCOUNT"&&(before.evidence_status!=="COMPLETE"||after.evidence_status!=="COMPLETE")
-      ?"At least one snapshot has partial evidence. NO_MATERIAL_CHANGE means no material change was detected in the compared validated evidence; it does not prove the complete ledger state was unchanged."
-      :"NO_MATERIAL_CHANGE means no material change was detected by this deterministic comparison."
+      ?"At least one snapshot has partial evidence. Classification is material only within this deterministic rule set; NO_MATERIAL_CHANGE does not prove the complete ledger state was unchanged and does not express economic materiality."
+      :"Classification is material only within this deterministic rule set; it does not express economic, accounting, legal, or investment materiality."
   }
 }
