@@ -32,6 +32,65 @@ jobs:
         run: |
           node --check server.mjs
           node --check lib/runtime.mjs
+          node --check lib/mpt.mjs
+
+
+  live-mpt-evidence:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: products/xrpl-risk-screen
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Read verified Mainnet MPT issuance and build unsigned passport
+        env:
+          MPT_ISSUANCE_ID: 05EECEBE97A7D635DE2393068691A015FED5A89AD203F5AA
+        run: |
+          mkdir -p evidence
+          node --input-type=module <<'NODE'
+          import { writeFile } from "node:fs/promises"
+          import { scanMptIssuance } from "./lib/mpt.mjs"
+          import { buildPassport } from "./lib/runtime.mjs"
+          const issuanceId = process.env.MPT_ISSUANCE_ID
+          const report = await scanMptIssuance(issuanceId, { network: "mainnet", timeoutMs: 12000 })
+          const passport = buildPassport(report)
+          const artifact = {
+            case_id: "MPT-001",
+            captured_at: new Date().toISOString(),
+            identity: {
+              mpt_issuance_id: issuanceId,
+              basis: "XRPL reference Mainnet transaction example",
+              business_identity_status: "UNVERIFIED"
+            },
+            report,
+            passport
+          }
+          await writeFile("evidence/mpt-001.json", JSON.stringify(artifact, null, 2))
+          console.log(JSON.stringify({
+            case_id: artifact.case_id,
+            ledger_index: report.snapshot.ledger.index,
+            ledger_hash: report.snapshot.ledger.hash,
+            state: report.state,
+            evidence_status: report.evidence_status,
+            issuer: report.snapshot.issuer,
+            permissioned_domain: report.snapshot.permissioned_domain.status,
+            metadata_status: report.snapshot.metadata.status,
+            findings: report.findings.map(x => x.id),
+            passport_id: passport.passport_id
+          }, null, 2))
+          NODE
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: xrpl-mpt-001-evidence
+          path: products/xrpl-risk-screen/evidence/mpt-001.json
+          if-no-files-found: warn
 
   live-rlusd-evidence:
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
