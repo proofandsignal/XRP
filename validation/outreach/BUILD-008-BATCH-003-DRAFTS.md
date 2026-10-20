@@ -21,7 +21,7 @@ We have built a read-only XRPL Intelligence Screen that turns validated ledger s
 
 The workflow is intended for post-issuance monitoring and partner verification: issuer controls, token configuration, observed asset state, evidence completeness and deterministic change alerts.
 
-We have now validated the same pipeline against a live XRPL Mainnet issuer case and a real two-snapshot transition.
+We have now validated the pipeline against a live XRPL Mainnet issuer and a historical two-ledger material transition where an issuer-control change moved the deterministic policy from PASS to REVIEW.
 
 Would this kind of independent evidence layer be useful to the team responsible for tokenized-product operations, digital-asset infrastructure or counterparty verification at Aviva Investors?
 
@@ -56,7 +56,7 @@ For a stablecoin settlement workflow, the value is not another generic risk scor
 - what remains unknown,
 - and what has materially changed since the previous validated snapshot.
 
-We have already run the pipeline against a live XRPL Mainnet stablecoin issuer and validated the first real transition pair.
+We have already run the pipeline against a live XRPL Mainnet stablecoin issuer and verified a historical material issuer-control transition from PASS to REVIEW across two consecutive validated ledgers.
 
 Would this be relevant to Bitso's stablecoin, treasury, payments infrastructure or institutional operations team as an independent evidence/monitoring layer?
 
@@ -91,7 +91,7 @@ The goal is not to replace custody or compliance systems. It is to give operator
 - whether the evidence is complete or bounded,
 - and whether any material configuration or risk signal changed since the prior snapshot.
 
-We have now validated the pipeline against a live Mainnet issuer and a real two-snapshot transition.
+We have now validated the pipeline against a live Mainnet issuer and a historical material issuer-control transition across two consecutive validated ledgers.
 
 Would this kind of evidence/transition layer be useful to Komainu's tokenization, custody product or institutional infrastructure team?
 
