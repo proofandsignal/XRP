@@ -73,3 +73,18 @@ test("RLUSD observed raw AccountRoot flags decode without dropping known bits", 
   assert.equal(report.account.flags.require_dest_tag,true)
   assert.equal(report.account.flags.global_freeze,false)
 })
+
+
+test("account scan accepts exact historical validated ledger index", async () => {
+  const calls=[]
+  const fetchImpl=async(_url,init)=>{
+    const {method,params:[p]}=JSON.parse(init.body);calls.push({method,ledger_index:p.ledger_index})
+    if(method==="account_info") return ok({validated:true,ledger_index:777,ledger_hash:"H777",account_data:{Account:account,Balance:"1000000",OwnerCount:0,Sequence:1,Flags:0}})
+    if(method==="account_lines") return ok({validated:true,ledger_index:777,ledger_hash:"H777",lines:[]})
+    throw new Error("unexpected request")
+  }
+  const report=await scanAccount(account,{endpoint:"https://example/",fetchImpl,ledgerIndex:777})
+  assert.equal(report.subject.ledger_index,777)
+  assert.equal(calls.find(x=>x.method==="account_info").ledger_index,777)
+  assert.equal(calls.find(x=>x.method==="account_lines").ledger_index,777)
+})
