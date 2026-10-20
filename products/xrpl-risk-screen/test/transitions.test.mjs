@@ -92,3 +92,34 @@ test("real RLUSD clawback AccountSet yields material PASS to REVIEW transition",
     "ISSUER_CLAWBACK_ENABLED_CHANGED"
   ])
 })
+
+
+test("finding removal remains a material deterministic change",()=>{
+  const b=structuredClone(after)
+  const a=structuredClone(after)
+  a.ledger={index:107761301,hash:"H301",validated:true}
+  a.findings=[]
+  const r=compareTransitionSnapshots(b,a)
+  assert.equal(r.classification,"MATERIAL_CHANGE")
+  assert.equal(r.events.some(x=>x.id==="FINDING_REMOVED"&&x.severity==="REVIEW"),true)
+})
+
+test("evidence degradation is material but recovery is informational",()=>{
+  const degraded=structuredClone(after)
+  degraded.ledger={index:107761302,hash:"H302",validated:true}
+  degraded.evidence_status="UNKNOWN"
+  const d=compareTransitionSnapshots(after,degraded)
+  assert.equal(d.classification,"MATERIAL_CHANGE")
+  assert.equal(d.events.find(x=>x.id==="EVIDENCE_STATUS_CHANGED")?.severity,"REVIEW")
+
+  const recovered=structuredClone(degraded)
+  recovered.ledger={index:107761303,hash:"H303",validated:true}
+  recovered.evidence_status="COMPLETE"
+  const r=compareTransitionSnapshots(degraded,recovered)
+  assert.equal(r.events.find(x=>x.id==="EVIDENCE_STATUS_CHANGED")?.severity,"INFO")
+})
+
+test("materiality caveat excludes economic or legal meaning",()=>{
+  const r=compareTransitionSnapshots(before,after)
+  assert.match(r.caveat,/does not express economic materiality/i)
+})
