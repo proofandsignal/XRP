@@ -64,6 +64,8 @@ export async function scanMptIssuance(value,opts={}){
       const domain=await read([primary.endpoint,...endpoints],{index:node.DomainID,...pin},opts)
       const dr=domain.payload.result
       if(dr.validated!==true||dr.node?.LedgerEntryType!=="PermissionedDomain") throw new Error("PermissionedDomain verification failed")
+      if(ledger.index!=null&&dr.ledger_index!=null&&ledger.index!==dr.ledger_index) throw new Error("PermissionedDomain ledger index mismatch")
+      if(ledger.hash&&dr.ledger_hash&&ledger.hash!==dr.ledger_hash) throw new Error("PermissionedDomain ledger hash mismatch")
       permissioned_domain={id:node.DomainID,status:"VERIFIED",owner:dr.node.Owner,accepted_credentials:dr.node.AcceptedCredentials??[]}
     }catch(error){
       evidence_issues.push({id:"PERMISSIONED_DOMAIN_LOOKUP_FAILED",category:"DATA_INTEGRITY",message:error.message})
@@ -76,7 +78,7 @@ export async function scanMptIssuance(value,opts={}){
     generated_at:new Date().toISOString(),
     state,
     evidence_status:evidence_issues.length?"PARTIAL":"COMPLETE",
-    snapshot:{network,ledger,issuance_id:issuanceId,issuer:node.Issuer,sequence:node.Sequence??null,flags_raw:node.Flags??0,flags,asset_scale:node.AssetScale??0,maximum_amount:node.MaximumAmount??null,outstanding_amount:String(node.OutstandingAmount??"0"),transfer_fee:node.TransferFee??0,permissioned_domain,metadata:metadata(node.MPTokenMetadata),previous_txn_id:node.PreviousTxnID??null,previous_txn_ledger:node.PreviousTxnLgrSeq??null},
+    snapshot:{network,ledger,issuance_id:issuanceId,issuer:node.Issuer,sequence:node.Sequence??null,flags_raw:node.Flags??0,flags,immutable_flags_raw:node.ImmutableFlags??null,asset_scale:node.AssetScale??0,maximum_amount:node.MaximumAmount??null,outstanding_amount:String(node.OutstandingAmount??"0"),transfer_fee:node.TransferFee??0,permissioned_domain,metadata:metadata(node.MPTokenMetadata),previous_txn_id:node.PreviousTxnID??null,previous_txn_ledger:node.PreviousTxnLgrSeq??null},
     findings,
     evidence_issues,
     disclaimer:"On-ledger MPT configuration only. Issuer metadata and credential requirements are not independent proof of backing, legal status, yield, redemption rights, liquidity quality, or investment safety."
