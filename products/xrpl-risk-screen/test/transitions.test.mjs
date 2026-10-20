@@ -123,3 +123,74 @@ test("materiality caveat excludes economic or legal meaning",()=>{
   const r=compareTransitionSnapshots(before,after)
   assert.match(r.caveat,/does not express economic materiality/i)
 })
+
+
+test("real RLUSD signer-list introduction is material without risk-state change",()=>{
+  const base={
+    schema_version:"xrpl.transition_snapshot.v0.1",
+    type:"ACCOUNT",
+    subject:{network:"mainnet",identifier:"rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De"},
+    ledger:{index:89925796,hash:"H89925796",validated:true},
+    risk_state:"REVIEW",
+    evidence_status:"COMPLETE",
+    account:{flags_raw:2173304832,domain:"https://ripple.com/",transfer_rate:null,regular_key:null,balance_xrp:null,owner_count:0},
+    issuer:{role:"ISSUER_CONFIG_PRESENT_NO_ACTIVE_OBLIGATION",settings:{default_ripple:true,require_auth:false,global_freeze:false,no_freeze:false,clawback_enabled:true,token_escrow_enabled:false,transfer_rate:null},counts:{issued_assets:0,issued_holder_lines:0,issuer_frozen_lines:0}},
+    signing_authority:{evidence_status:"COMPLETE",master_key_disabled:false,regular_key:null,signer_list_count:0,signer_lists_digest_sha256:"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e72555d46f219e8f14a6f4",signer_lists:[]},
+    findings:[{id:"CLAWBACK_CAPABILITY_ENABLED",severity:"REVIEW",category:"ISSUER_CONTROL"}],
+    evidence_issues:[],
+    observed_trust_lines:{count:0,digest_sha256:"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e72555d46f219e8f14a6f4",complete:true,truncated:false,truncation_reason:null},
+    passport:{id:null,evidence_fingerprint_sha256:null,artifact_sha256:null}
+  }
+  const next=structuredClone(base)
+  next.ledger={index:89925797,hash:"H89925797",validated:true}
+  next.signing_authority={
+    evidence_status:"COMPLETE",
+    master_key_disabled:false,
+    regular_key:null,
+    signer_list_count:1,
+    signer_lists_digest_sha256:"rlusd-real-signer-list-digest",
+    signer_lists:[{signer_list_id:0,quorum:15,entries:[
+      {account:"r4J1uYLNDwHmM3aPLZgR62atDsF31ocHWa",weight:1},
+      {account:"raavECzoyoiFAcxobxG4kHmLdHEYjAJbct",weight:1},
+      {account:"rJYBorvrnZHx3UHEm5UtYnXsFFEWPYtqwW",weight:13},
+      {account:"rL8Wd9KNFnL3Dyh3vvf5BK4XhztXptHTA5",weight:13},
+      {account:"rP2AD2S8LfvuDdHcf48gq9PNkUzh8VvWhm",weight:13},
+      {account:"rPdzZDDCiHpBdSh6ZW4s7dzHefKHjNiEDY",weight:1},
+      {account:"rUGEMwnXKs8u2VXGK7CsoBaH69uisqdBHq",weight:13},
+      {account:"rwu4JB2C5Lu2BAPMuS7UqD7f3JHx8tJ4ii",weight:1}
+    ]}]
+  }
+  const r=compareTransitionSnapshots(base,next)
+  assert.equal(r.classification,"MATERIAL_CHANGE")
+  assert.equal(r.events.length,1)
+  assert.equal(r.events[0].id,"SIGNER_LIST_CHANGED")
+  assert.equal(r.observations.risk_state_stable,true)
+  assert.equal(r.observations.signing_authority_stable,false)
+})
+
+test("real RLUSD DisableMaster change is material with signer list preserved",()=>{
+  const base={
+    schema_version:"xrpl.transition_snapshot.v0.1",
+    type:"ACCOUNT",
+    subject:{network:"mainnet",identifier:"rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De"},
+    ledger:{index:89925802,hash:"H89925802",validated:true},
+    risk_state:"REVIEW",
+    evidence_status:"COMPLETE",
+    account:{flags_raw:2173304832,domain:"https://ripple.com/",transfer_rate:null,regular_key:null,balance_xrp:null,owner_count:1},
+    issuer:{role:"ISSUER_CONFIG_PRESENT_NO_ACTIVE_OBLIGATION",settings:{default_ripple:true,require_auth:false,global_freeze:false,no_freeze:false,clawback_enabled:true,token_escrow_enabled:false,transfer_rate:null},counts:{issued_assets:0,issued_holder_lines:0,issuer_frozen_lines:0}},
+    signing_authority:{evidence_status:"COMPLETE",master_key_disabled:false,regular_key:null,signer_list_count:1,signer_lists_digest_sha256:"stable-signer-list",signer_lists:[{signer_list_id:0,quorum:15}]},
+    findings:[{id:"CLAWBACK_CAPABILITY_ENABLED",severity:"REVIEW",category:"ISSUER_CONTROL"}],
+    evidence_issues:[],
+    observed_trust_lines:{count:0,digest_sha256:"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e72555d46f219e8f14a6f4",complete:true,truncated:false,truncation_reason:null},
+    passport:{id:null,evidence_fingerprint_sha256:null,artifact_sha256:null}
+  }
+  const next=structuredClone(base)
+  next.ledger={index:89925803,hash:"H89925803",validated:true}
+  next.account.flags_raw=2174353408
+  next.signing_authority.master_key_disabled=true
+  const r=compareTransitionSnapshots(base,next)
+  assert.equal(r.classification,"MATERIAL_CHANGE")
+  assert.deepEqual(r.events.map(x=>x.id),["ACCOUNT_FLAGS_CHANGED","MASTER_KEY_STATUS_CHANGED"])
+  assert.equal(r.observations.risk_state_stable,true)
+  assert.equal(r.observations.signing_authority_stable,false)
+})
