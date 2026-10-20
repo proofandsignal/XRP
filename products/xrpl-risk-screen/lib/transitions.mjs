@@ -8,6 +8,7 @@ function canon(v){
 function sha(v){ return createHash("sha256").update(JSON.stringify(canon(v))).digest("hex") }
 function same(a,b){ return JSON.stringify(canon(a))===JSON.stringify(canon(b)) }
 function sortFindings(xs=[]){ return xs.map(x=>({id:x.id,severity:x.severity,category:x.category??null})).sort((a,b)=>a.id.localeCompare(b.id)) }
+function signerDigest(signing){ return sha(signing?.signer_lists??[]) }
 function lineDigest(lines=[]){
   const fields=["counterparty","currency","balance","limit","limit_peer","authorized","peer_authorized","freeze","freeze_peer","no_ripple","no_ripple_peer"]
   const rows=lines.map(x=>Object.fromEntries(fields.map(k=>[k,x?.[k]??null]))).sort((a,b)=>String(a.counterparty).localeCompare(String(b.counterparty))||String(a.currency).localeCompare(String(b.currency)))
@@ -58,6 +59,14 @@ export function buildTransitionSnapshot(report, passport=null){
           issued_holder_lines:i.counts?.issued_holder_lines??null,
           issuer_frozen_lines:i.counts?.issuer_frozen_lines??null
         }
+      },
+      signing_authority:{
+        evidence_status:report.signing_authority?.evidence_status??"NOT_ASSESSED",
+        master_key_disabled:report.signing_authority?.master_key_disabled??report.account?.flags?.disable_master??false,
+        regular_key:report.signing_authority?.regular_key??report.account?.regular_key??null,
+        signer_list_count:report.signing_authority?.signer_list_count??null,
+        signer_lists_digest_sha256:signerDigest(report.signing_authority),
+        signer_lists:report.signing_authority?.signer_lists??[]
       },
       findings:sortFindings(report.findings),
       evidence_issues:(report.evidence_issues??[]).map(x=>x.id).sort(),
@@ -123,6 +132,8 @@ export function compareTransitionSnapshots(before,after){
 
   if(before.type==="ACCOUNT"){
     if(before.account?.flags_raw!==after.account?.flags_raw) events.push(event("ACCOUNT_FLAGS_CHANGED","REVIEW","ISSUER_CONTROL","Raw AccountRoot flags changed.",before.account?.flags_raw,after.account?.flags_raw))
+    if(before.signing_authority?.master_key_disabled!==after.signing_authority?.master_key_disabled) events.push(event("MASTER_KEY_STATUS_CHANGED","REVIEW","SIGNING_AUTHORITY","Master-key authorization status changed.",before.signing_authority?.master_key_disabled,after.signing_authority?.master_key_disabled))
+    if(before.signing_authority?.signer_lists_digest_sha256!==after.signing_authority?.signer_lists_digest_sha256) events.push(event("SIGNER_LIST_CHANGED","REVIEW","SIGNING_AUTHORITY","Signer-list authorization configuration changed.",{count:before.signing_authority?.signer_list_count,digest_sha256:before.signing_authority?.signer_lists_digest_sha256},{count:after.signing_authority?.signer_list_count,digest_sha256:after.signing_authority?.signer_lists_digest_sha256}))
     for(const k of ["domain","transfer_rate","regular_key"]){
       if(!same(before.account?.[k],after.account?.[k])) events.push(event(`ACCOUNT_${k.toUpperCase()}_CHANGED`,"REVIEW","ACCOUNT_CONFIGURATION",`Account ${k} changed.`,before.account?.[k],after.account?.[k]))
     }
@@ -180,6 +191,7 @@ export function compareTransitionSnapshots(before,after){
       risk_state_stable:before.risk_state===after.risk_state,
       findings_stable:same(before.findings,after.findings),
       account_flags_stable:before.type==="ACCOUNT"?before.account?.flags_raw===after.account?.flags_raw:null,
+      signing_authority_stable:before.type==="ACCOUNT"?before.signing_authority?.master_key_disabled===after.signing_authority?.master_key_disabled&&before.signing_authority?.signer_lists_digest_sha256===after.signing_authority?.signer_lists_digest_sha256&&before.signing_authority?.regular_key===after.signing_authority?.regular_key:null,
       observed_trust_line_window_stable:observedWindowStable,
       evidence_status_before:before.evidence_status,
       evidence_status_after:after.evidence_status
