@@ -1,6 +1,7 @@
 import test from "node:test"
 import assert from "node:assert/strict"
 import { scanMptIssuance, decodeMptFlags } from "../lib/mpt.mjs"
+import { buildPassport, verifyPassport } from "../lib/runtime.mjs"
 
 const issuanceId="000004C463C52827307480341125DA0577DEFC38405B0E3E"
 const issuer="rBT9cUqK6UvpvZhPFNQ2qpUTin8rDokBeL"
@@ -69,6 +70,11 @@ test("MPT issuance scan preserves issuer-declared metadata boundary",async()=>{
   assert.equal(report.snapshot.permissioned_domain.status,"VERIFIED")
   assert.equal(report.snapshot.metadata.status,"SELF_DECLARED_ON_LEDGER")
   assert.match(report.disclaimer,/not independent proof/)
+  const passport=buildPassport(report,{createdAt:"2026-10-20T00:00:00.000Z"})
+  assert.equal(passport.subject.type,"MPT_ISSUANCE")
+  assert.equal(passport.subject.identifier,issuanceId)
+  assert.equal(passport.current_evidence.kind,"MPT_ISSUANCE_REPORT")
+  assert.equal(verifyPassport(passport).valid,true)
   assert.equal(calls.length,2)
 })
 
