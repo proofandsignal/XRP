@@ -146,3 +146,20 @@ Sources:
 
 Updated qualified-lead total: **12**.
 Updated direct email outreach sent: **5**.
+
+
+## Batch 005 — institutional infrastructure
+
+Gmail deduplication on 2026-10-21:
+- Figment: 0 prior messages found.
+
+| Lead | Operational fit | Verified workflow | Official contact | Status |
+|---|---|---|---|---|
+| Figment | Institutional infrastructure in Ripple Custody ecosystem; fit for independent XRPL authorization/change evidence | Ripple announced Figment integration as part of institutional custody capability expansion | sales@figment.io | SENT — RESPONSE PENDING |
+
+Sources:
+- https://ripple.com/ripple-press/ripple-accelerates-institutional-custody-adoption-with-security-compliance-and-staking-capabilities/
+- https://www.figment.io/insights/figment-white-label/
+
+Updated qualified-lead total: **13**.
+Updated direct-email outreach sent: **6**.
