@@ -104,3 +104,24 @@ Cumulative email outreach:
 - SENT: 5
 - replies: 0
 - bounces: 0
+
+
+## Batch 004 direct-email extension — Figment
+
+Figment:
+- workflow fit: institutional digital-asset infrastructure / Ripple Custody ecosystem
+- official sales route: sales@figment.io
+- Gmail dedupe: 0 prior messages
+- Gmail message id: 1a15cfec27606766
+- thread id: 1a15cfeaa8247134
+- status: SENT
+- response: PENDING
+
+Official sources:
+- Ripple custody integration context: https://ripple.com/ripple-press/ripple-accelerates-institutional-custody-adoption-with-security-compliance-and-staking-capabilities/
+- Figment published sales route: https://www.figment.io/insights/figment-white-label/
+
+Cumulative direct email outreach:
+- SENT: 6
+- replies: 0
+- bounces: 0
