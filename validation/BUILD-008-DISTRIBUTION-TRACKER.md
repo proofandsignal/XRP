@@ -82,3 +82,25 @@ Cumulative email outreach:
 - SENT: 4
 - replies: 0
 - bounces: 0
+
+
+## Batch 003 direct-email extension — 2026-10-21
+
+Securosys:
+- workflow fit: Ripple Custody / institutional cryptographic infrastructure
+- official sales route: sales@securosys.com
+- Gmail dedupe: 0 prior messages
+- Gmail message id: 1a15cfd3794c3465
+- thread id: 1a15cfd234a8da12
+- status: SENT
+- response: PENDING
+- outreach proof point: RLUSD-003 signing-authority / key-management transition
+
+Official sources:
+- Ripple / Securosys custody collaboration: https://ripple.com/ripple-press/ripple-accelerates-institutional-custody-adoption-with-security-compliance-and-staking-capabilities/
+- Securosys sales contact: https://www.securosys.com/en/contact
+
+Cumulative email outreach:
+- SENT: 5
+- replies: 0
+- bounces: 0
