@@ -1,0 +1,60 @@
+{
+  "case_id": "RLUSD-002",
+  "status": "LIVE_HISTORICAL_TRANSITION_VERIFIED",
+  "verified_at": "2026-10-20",
+  "subject": {
+    "asset": "Ripple USD (RLUSD)",
+    "network": "XRPL Mainnet",
+    "issuer": "rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De"
+  },
+  "trigger_transaction": {
+    "hash": "9B1042DD30188C9BAE7F81C5B3DB91F9C121669A359F4124FBB88531F8BAADA2",
+    "transaction_type": "AccountSet",
+    "ledger_index": 89925780,
+    "ripple_epoch_date": 776466081,
+    "timestamp_utc": "2024-08-08T21:01:21Z",
+    "set_flag": 16,
+    "set_flag_name": "asfAllowTrustLineClawback"
+  },
+  "before": {
+    "ledger_index": 89925779,
+    "ledger_hash": "AD7308164F0CBFE88665A36DF1E541FEB24A9E75FCA3C5FA298064BEBF989D3E",
+    "risk_state": "PASS",
+    "evidence_status": "COMPLETE",
+    "flags_raw": 25821184,
+    "clawback_enabled": false,
+    "findings": []
+  },
+  "after": {
+    "ledger_index": 89925780,
+    "ledger_hash": "A8F0BF600D9969FCC6E8BD99E83FADC397CA93CD2DF2F33DC42DF63827C2EBF2",
+    "risk_state": "REVIEW",
+    "evidence_status": "COMPLETE",
+    "flags_raw": 2173304832,
+    "clawback_enabled": true,
+    "findings": [
+      "CLAWBACK_CAPABILITY_ENABLED"
+    ]
+  },
+  "transition": {
+    "classification": "MATERIAL_CHANGE",
+    "material_change": true,
+    "event_count": 4,
+    "events": [
+      "RISK_STATE_CHANGED",
+      "FINDING_ADDED",
+      "ACCOUNT_FLAGS_CHANGED",
+      "ISSUER_CLAWBACK_ENABLED_CHANGED"
+    ]
+  },
+  "semantics": {
+    "capability_boundary": "Clawback capability is an issuer-control capability and is not evidence of misuse.",
+    "evidence_boundary": "Both before and after snapshots were COMPLETE for the evidence collected by this case."
+  },
+  "provenance": {
+    "workflow_run_id": 39364212169,
+    "workflow_artifact_id": 12239015655,
+    "workflow_artifact_zip_sha256": "27a3e0629df1e75df50672f6817878b8c03aae67e250053793d1e3eddf4d4745",
+    "head_sha": "1cd4791da9ef8293c856f0e9763aba24344e3e7b"
+  }
+}
