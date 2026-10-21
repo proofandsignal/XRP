@@ -125,3 +125,24 @@ Cumulative direct email outreach:
 - SENT: 6
 - replies: 0
 - bounces: 0
+
+
+## Batch 006 — DZ BANK institutional custody
+
+DZ BANK:
+- workflow fit: institutional crypto custody / Ripple Custody client context
+- official custody contact: digital-custody@dzbank.de
+- Gmail dedupe: 0 prior messages
+- Gmail message id: 1a15d144d12015af
+- thread id: 1a15d143f3d3012b
+- status: SENT
+- response: PENDING
+
+Official sources:
+- DZ BANK institutional crypto custody contact: https://www.dzbank.de/content/dzbank/de/home/institutionelle-kunden/produkt-serviceangebot.html
+- Ripple institutional custody page citing DZ BANK: https://ripple.com/products/custody/
+
+Cumulative direct email outreach:
+- SENT: 7
+- replies: 0
+- bounces: 0
