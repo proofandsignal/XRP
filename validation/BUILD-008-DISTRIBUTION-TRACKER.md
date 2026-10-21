@@ -56,3 +56,29 @@ A sent email is distribution activity, not validation.
 Validation begins when there is a real response, introduction, meeting, workflow confirmation, pilot request, or other attributable action.
 
 `PUBLICATION → OUTREACH → RESPONSE → WORKFLOW VALIDATION → PILOT → PAYMENT`
+
+
+## Batch 002 delta — 2026-10-21
+
+Aviva Investors:
+- route: official institutional-sales email
+- recipient: distribution.ukirelandinstitutional@avivainvestors.com
+- Gmail message id: 1a15cfb90b4f7020
+- thread id: 1a15ca3e5a31fb58
+- status: SENT
+- response: PENDING
+
+Bitso Business:
+- official route: Contact Sales form
+- status: FORM READY / NOT SUBMITTED
+- no verified direct sales email used
+
+Komainu:
+- official route: institutional Contact form
+- status: FORM READY / NOT SUBMITTED
+- published email addresses are press routes and are intentionally not used for sales outreach
+
+Cumulative email outreach:
+- SENT: 4
+- replies: 0
+- bounces: 0
