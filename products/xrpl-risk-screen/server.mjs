@@ -5,7 +5,7 @@ import { dirname, join } from "node:path"
 import { scanAccount, scanAmm, buildPassport } from "./lib/runtime.mjs"
 import { scanMptIssuance } from "./lib/mpt.mjs"
 import { buildTransitionSnapshot, compareTransitionSnapshots } from "./lib/transitions.mjs"
-import { DEMO_CASES, PUBLIC_RESEARCH_NOTE_URL } from "./lib/demoCases.mjs"
+import { DEMO_CASES, PUBLIC_RESEARCH_NOTE_URL, buildDemoEvidencePack } from "./lib/demoCases.mjs"
 
 const here=dirname(fileURLToPath(import.meta.url))
 const port=Number(process.env.PORT??8787)
@@ -29,6 +29,7 @@ const server=http.createServer(async(req,res)=>{
     const u=new URL(req.url,`http://${req.headers.host??"localhost"}`)
     if(u.pathname==="/api/health") return send(res,200,JSON.stringify({ok:true,version:"0.9.0",build:"BUILD-009"}))
     if(u.pathname==="/api/demo-cases") return send(res,200,JSON.stringify({cases:DEMO_CASES,public_research_note:PUBLIC_RESEARCH_NOTE_URL}))
+    if(u.pathname.startsWith("/api/demo-cases/")){const id=decodeURIComponent(u.pathname.slice("/api/demo-cases/".length));const pack=buildDemoEvidencePack(id);return pack?send(res,200,JSON.stringify(pack)):send(res,404,JSON.stringify({error:"Demo case not found"}))}
 
     if(u.pathname==="/api/account"){
       const account=u.searchParams.get("account")
