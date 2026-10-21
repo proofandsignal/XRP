@@ -163,3 +163,20 @@ Sources:
 
 Updated qualified-lead total: **13**.
 Updated direct-email outreach sent: **6**.
+
+
+## Batch 006 — bank-grade digital custody
+
+Gmail deduplication on 2026-10-21:
+- DZ BANK: 0 prior messages found.
+
+| Lead | Operational fit | Verified workflow | Official contact | Status |
+|---|---|---|---|---|
+| DZ BANK | Institutional crypto custody and transfer services; strong fit for XRPL signing-authority, issuer-control and audit evidence | Ripple Custody institutional client context; DZ BANK operates institutional crypto custody services | digital-custody@dzbank.de | SENT — RESPONSE PENDING |
+
+Sources:
+- https://www.dzbank.de/content/dzbank/de/home/institutionelle-kunden/produkt-serviceangebot.html
+- https://ripple.com/products/custody/
+
+Updated qualified-lead total: **14**.
+Updated direct-email outreach sent: **7**.
