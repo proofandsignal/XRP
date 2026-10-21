@@ -113,3 +113,19 @@ Batch 003 accounting:
 - New outreach sent: 0
 
 Current qualified-lead total in this BUILD-008 validation file: **11**.
+
+
+## Distribution event — 2026-10-21
+
+Public canonical source:
+https://github.com/proofandsignal/XRP/issues/27
+
+First email batch sent from Proof Of Signal <proofandsignal@gmail.com>:
+
+- OpenEden → support@openeden.com → SENT
+- Zoniqx → marketing@zoniqx.com → SENT
+- Schuman Financial → contact@schuman.io → SENT
+
+Current response count: 0.
+
+This changes the gate from `DRAFTED` to `SENT / RESPONSE PENDING` for these three organizations only. Other leads remain at their previously recorded status.
