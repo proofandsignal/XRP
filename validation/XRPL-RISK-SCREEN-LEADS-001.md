@@ -129,3 +129,20 @@ First email batch sent from Proof Of Signal <proofandsignal@gmail.com>:
 Current response count: 0.
 
 This changes the gate from `DRAFTED` to `SENT / RESPONSE PENDING` for these three organizations only. Other leads remain at their previously recorded status.
+
+
+## Batch 004 — signing authority / custody infrastructure
+
+Gmail deduplication on 2026-10-21:
+- Securosys: 0 prior messages found.
+
+| Lead | Operational fit | Verified workflow | Official contact | Status |
+|---|---|---|---|---|
+| Securosys | HSM, key management and institutional custody infrastructure; direct fit for RLUSD-003 signing-authority change intelligence | Ripple Custody collaboration adds institutional key-security / cryptographic infrastructure | sales@securosys.com | SENT — RESPONSE PENDING |
+
+Sources:
+- https://ripple.com/ripple-press/ripple-accelerates-institutional-custody-adoption-with-security-compliance-and-staking-capabilities/
+- https://www.securosys.com/en/contact
+
+Updated qualified-lead total: **12**.
+Updated direct email outreach sent: **5**.
