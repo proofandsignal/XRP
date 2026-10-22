@@ -8,7 +8,9 @@ Scope: provenance hardening for existing verified demo cases. No new RLUSD telem
 - An offline exporter for the **existing** RLUSD-001, RLUSD-002 and RLUSD-003 cases.
 - Comparison of curated demo classifications, ledger spans, risk transitions and event lists to the checked-in canonical validation artifacts.
 - SHA-256 digest of the **exact canonical file bytes** used by the exporter.
-- Fail-closed behavior: any mismatched checked field aborts the export and does **not** produce an audit PASS.
+- Fail-closed behavior: any mismatched checked field or unexpected canonical verification status aborts the export and does **not** produce an audit PASS.
+- Exact allowlist of canonical statuses for RLUSD-001/002/003; the substring `UNVERIFIED` is never accepted just because it contains `VERIFIED`.
+- If the canonical artifact omits evidence-completeness fields, the audited pack downgrades `case.evidence_status` to `UNKNOWN`, lists it in `unverified_fields`, and reports `REPOSITORY_ARTIFACT_PARTIAL_CONSISTENCY` instead of full PASS. This applies to RLUSD-003 in the present checked-in artifact; the separate demo catalogue's previously reported `COMPLETE` is disclosed as `demo_reported_evidence_status`, not independently verified by this audit.
 - Explicit evidence boundary; RLUSD-001 remains **PARTIAL**, and off-chain settlement or reserve claims remain unverified.
 
 ## Run locally
@@ -27,7 +29,7 @@ Generated outputs are local and are **not** automatically published, sent or upl
 
 ## Meaning of PASS
 
-`REPOSITORY_ARTIFACT_CONSISTENCY_PASS` proves only that the derived demo fields were consistent with the checked-in artifact read during this run. It is **not**:
+`REPOSITORY_ARTIFACT_CONSISTENCY_PASS` proves only that the checked derived demo fields, including any asserted completeness, were consistent with the checked-in artifact read during this run. `REPOSITORY_ARTIFACT_PARTIAL_CONSISTENCY` explicitly identifies unchecked claims in `unverified_fields`; neither status is an independent ledger attestation. They are **not**:
 
 - a fresh query or independent revalidation of XRPL Mainnet;
 - an independent authenticity attestation for the repository or artifact;
@@ -38,6 +40,6 @@ For third-party verification, pin the exact Git commit and independently obtain 
 
 ## Next gate
 
-`LOCAL UNIT PASS → EXACT-HEAD GITHUB CI → REVIEW → HUMAN APPROVAL`
+`FIX + REGRESSION TESTS → EXACT-HEAD GITHUB CI → INDEPENDENT SECURITY REVIEW → HUMAN APPROVAL`
 
 BUILD-009 remains the active stacked Draft PR. Do not merge or deploy without explicit human approval. Use verified cases in customer discovery, but do not claim an institutional pilot or revenue until separately demonstrated.
