@@ -36,3 +36,29 @@ test("account UI renders signing authority evidence", async () => {
   assert.match(html,/Signer entries/)
   assert.match(html,/signing_authority/)
 })
+
+
+test("BUILD-009 demo case library is wired for mobile distribution", async () => {
+  const html=await readFile(new URL("../public/index.html",import.meta.url),"utf8")
+  assert.match(html,/Verified Demo Cases/)
+  assert.match(html,/\/api\/demo-cases/)
+  assert.match(html,/Copy case/)
+  assert.match(html,/Public note/)
+  assert.match(html,/demoCaseText/)
+})
+
+
+test("demo cases expose shareable deep links", async () => {
+  const html=await readFile(new URL("../public/index.html",import.meta.url),"utf8")
+  assert.match(html,/function caseLink\(id\)/)
+  assert.match(html,/searchParams\.set\('case',id\)/)
+  assert.match(html,/Copy case link/)
+  assert.match(html,/scrollIntoView/)
+  assert.match(html,/classList\.add\('focused'\)/)
+})
+
+test("mobile case grid CSS is syntactically structured", async () => {
+  const html=await readFile(new URL("../public/index.html",import.meta.url),"utf8")
+  assert.match(html,/@media\(max-width:800px\)\{\.cases\{grid-template-columns:1fr\}main\{/)
+  assert.doesNotMatch(html,/\.cases\{grid-template-columns:1fr\}\{main/)
+})
