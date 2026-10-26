@@ -1,0 +1,78 @@
+{
+  "case_id": "RLUSD-001",
+  "status": "LIVE_VERIFIED_PARTIAL_EVIDENCE",
+  "captured_at": "2026-10-19T11:57:16.234Z",
+  "source_identity": {
+    "asset": "Ripple USD (RLUSD)",
+    "network": "XRPL Mainnet",
+    "issuer": "rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De",
+    "identity_source": "https://docs.ripple.com/products/stablecoin/overview/token-addresses"
+  },
+  "ledger_anchor": {
+    "validated": true,
+    "ledger_index": 107761290,
+    "ledger_hash": "137E4B85103AA3E67224EDAB8933DB1E8F2A038B769E505FCC198CBABBADABF7"
+  },
+  "decision": {
+    "state": "REVIEW",
+    "evidence_status": "PARTIAL",
+    "findings": [
+      {
+        "id": "CLAWBACK_CAPABILITY_ENABLED",
+        "severity": "REVIEW",
+        "category": "ISSUER_CONTROL",
+        "meaning": "Trust-line clawback capability is enabled; capability is not evidence of misuse."
+      }
+    ],
+    "block_findings": 0
+  },
+  "account_evidence": {
+    "balance_xrp": "99.77836",
+    "domain": "https://ripple.com/",
+    "flags_raw": 2174353408,
+    "flags": {
+      "allow_trustline_clawback": true,
+      "allow_trustline_locking": false,
+      "disallow_incoming_trustline": false,
+      "disallow_incoming_paychan": false,
+      "disallow_incoming_check": false,
+      "disallow_incoming_nft_offer": false,
+      "deposit_auth": true,
+      "default_ripple": true,
+      "global_freeze": false,
+      "no_freeze": false,
+      "disable_master": true,
+      "disallow_xrp": true,
+      "require_auth": false,
+      "require_dest_tag": true,
+      "password_spent": false
+    }
+  },
+  "bounded_inventory": {
+    "observed_trust_lines": 20000,
+    "trust_lines_truncated": true,
+    "truncation_reason": "MAX_ITEMS",
+    "observed_issued_assets": 1,
+    "observed_issued_holder_lines": 15513,
+    "observed_issuer_frozen_lines": 0,
+    "observed_rlusd_obligation_lower_bound": "56337876.2512472175807424692641",
+    "warning": "All counts/sums derived from the bounded trust-line scan are observed lower bounds, not complete totals."
+  },
+  "passport": {
+    "passport_id": "xrpl:account:mainnet:rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De:107761290:b4fd6eafc5702019",
+    "attestation": "UNSIGNED",
+    "evidence_fingerprint_sha256": "b4fd6eafc5702019c1419a12cc7caa28d6bd90e4f1867a06f0305439c30c0422",
+    "artifact_sha256": "259baefa013c74c655086177aeb9b0ed48c921777a533160a9487507d2dbaf2b"
+  },
+  "provenance": {
+    "github_actions_run_id": 39248304831,
+    "workflow_artifact_id": 12185035018,
+    "workflow_artifact_zip_sha256": "4e45dd9b9a6ce84a553156866e6335ec129c83882fc2385c0fa2d18d486fa6e4",
+    "branch": "build/007-risk-passport-platform",
+    "head_sha": "d7b0e0ebcd78d626cccc46b5eaf802a65ae379be"
+  },
+  "external_evidence_boundary": {
+    "transparency_source": "https://ripple.com/products/stablecoin/transparency/",
+    "note": "Reserve, redemption, legal-identity and regulatory claims remain external evidence and are not promoted to XRPL ledger facts."
+  }
+}

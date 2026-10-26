@@ -1,0 +1,223 @@
+name: XRPL Risk Screen CI
+
+on:
+  pull_request:
+    paths:
+      - "products/xrpl-risk-screen/**"
+      - ".github/workflows/product002-xrpl-risk-screen.yml"
+  push:
+    branches:
+      - "build/007-risk-passport-platform"
+    paths:
+      - "products/xrpl-risk-screen/**"
+      - ".github/workflows/product002-xrpl-risk-screen.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: products/xrpl-risk-screen
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm test
+      - name: Static syntax checks
+        run: |
+          node --check server.mjs
+          node --check lib/runtime.mjs
+          node --check lib/mpt.mjs
+
+
+  live-mpt-evidence:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: products/xrpl-risk-screen
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Read verified Mainnet MPT issuance and build unsigned passport
+        env:
+          MPT_ISSUANCE_ID: 05EECEBE97A7D635DE2393068691A015FED5A89AD203F5AA
+        run: |
+          mkdir -p evidence
+          node --input-type=module <<'NODE'
+          import { writeFile } from "node:fs/promises"
+          import { scanMptIssuance } from "./lib/mpt.mjs"
+          import { buildPassport } from "./lib/runtime.mjs"
+          const issuanceId = process.env.MPT_ISSUANCE_ID
+          const report = await scanMptIssuance(issuanceId, { network: "mainnet", timeoutMs: 12000 })
+          const passport = buildPassport(report)
+          const artifact = {
+            case_id: "MPT-001",
+            captured_at: new Date().toISOString(),
+            identity: {
+              mpt_issuance_id: issuanceId,
+              basis: "XRPL reference Mainnet transaction example",
+              business_identity_status: "UNVERIFIED"
+            },
+            report,
+            passport
+          }
+          await writeFile("evidence/mpt-001.json", JSON.stringify(artifact, null, 2))
+          console.log(JSON.stringify({
+            case_id: artifact.case_id,
+            ledger_index: report.snapshot.ledger.index,
+            ledger_hash: report.snapshot.ledger.hash,
+            state: report.state,
+            evidence_status: report.evidence_status,
+            issuer: report.snapshot.issuer,
+            permissioned_domain: report.snapshot.permissioned_domain.status,
+            metadata_status: report.snapshot.metadata.status,
+            findings: report.findings.map(x => x.id),
+            passport_id: passport.passport_id
+          }, null, 2))
+          NODE
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: xrpl-mpt-001-evidence
+          path: products/xrpl-risk-screen/evidence/mpt-001.json
+          if-no-files-found: warn
+
+  live-rlusd-evidence:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: products/xrpl-risk-screen
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Read RLUSD Mainnet issuer and build unsigned passport
+        env:
+          RLUSD_ISSUER: rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De
+        run: |
+          mkdir -p evidence
+          node --input-type=module <<'NODE'
+          import { writeFile } from "node:fs/promises"
+          import { scanAccount, buildPassport } from "./lib/runtime.mjs"
+          const account = process.env.RLUSD_ISSUER
+          const report = await scanAccount(account, { network: "mainnet", timeoutMs: 12000 })
+          const passport = buildPassport(report)
+          const artifact = {
+            case_id: "RLUSD-001",
+            captured_at: new Date().toISOString(),
+            source_identity: {
+              asset: "Ripple USD (RLUSD)",
+              issuer: account,
+              identity_status: "OFFICIAL_ADDRESS_SUPPLIED_BY_RIPPLE_DOCS"
+            },
+            report,
+            passport
+          }
+          await writeFile("evidence/rlusd-001.json", JSON.stringify(artifact, null, 2))
+          console.log(JSON.stringify({
+            case_id: artifact.case_id,
+            ledger_index: report.subject.ledger_index,
+            ledger_hash: report.subject.ledger_hash,
+            state: report.summary.state,
+            issuer_role: report.summary.issuer_role,
+            issued_assets: report.summary.issued_assets,
+            findings: report.findings.map(x => x.id),
+            passport_id: passport.passport_id
+          }, null, 2))
+          NODE
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: xrpl-rlusd-001-evidence
+          path: products/xrpl-risk-screen/evidence/
+          if-no-files-found: warn
+
+  discover-material-transition:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: products/xrpl-risk-screen
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Discover historical RLUSD issuer-control changes
+        env:
+          RLUSD_ISSUER: rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De
+        run: |
+          node scripts/discover-material-transition.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: xrpl-rlusd-material-discovery
+          path: products/xrpl-risk-screen/evidence/rlusd-material-discovery.json
+          if-no-files-found: warn
+
+  verify-rlusd-material-transition:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: products/xrpl-risk-screen
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify historical RLUSD clawback material transition
+        env:
+          RLUSD_ISSUER: rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De
+        run: |
+          node scripts/capture-rlusd-material-transition.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: xrpl-rlusd-002-material-transition
+          path: products/xrpl-risk-screen/evidence/rlusd-002-material-transition.json
+          if-no-files-found: warn
+
+  verify-rlusd-key-management-transition:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: products/xrpl-risk-screen
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify historical RLUSD signer-list and master-key transitions
+        env:
+          RLUSD_ISSUER: rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De
+        run: |
+          node scripts/capture-rlusd-key-management-transition.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: xrpl-rlusd-003-key-management-transition
+          path: products/xrpl-risk-screen/evidence/rlusd-003-key-management-transition.json
+          if-no-files-found: warn
+

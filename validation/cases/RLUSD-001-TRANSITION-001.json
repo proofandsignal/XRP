@@ -1,0 +1,56 @@
+{
+  "transition_id": "RLUSD-001-TRANSITION-001",
+  "status": "LIVE_ARTIFACT_PAIR_VERIFIED",
+  "subject": {
+    "asset": "Ripple USD (RLUSD)",
+    "network": "XRPL Mainnet",
+    "issuer": "rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De"
+  },
+  "before": {
+    "captured_at": "2026-10-19T11:55:19.143Z",
+    "ledger_index": 107761255,
+    "ledger_hash": "592DA3E3EE264BBE22D2B9C843A76E48F5F333F46F10FB6AAEFCD664191C531F",
+    "risk_state": "REVIEW",
+    "evidence_status": "PARTIAL",
+    "account_flags_raw": 2174353408,
+    "findings": [
+      "CLAWBACK_CAPABILITY_ENABLED"
+    ],
+    "observed_trust_lines": 20000,
+    "observed_trust_line_digest_sha256": "b7f4f8aa0edf0a7338840c2edc39bf829fd9ec4131c480d936db045adce915ee"
+  },
+  "after": {
+    "captured_at": "2026-10-19T11:57:16.234Z",
+    "ledger_index": 107761290,
+    "ledger_hash": "137E4B85103AA3E67224EDAB8933DB1E8F2A038B769E505FCC198CBABBADABF7",
+    "risk_state": "REVIEW",
+    "evidence_status": "PARTIAL",
+    "account_flags_raw": 2174353408,
+    "findings": [
+      "CLAWBACK_CAPABILITY_ENABLED"
+    ],
+    "observed_trust_lines": 20000,
+    "observed_trust_line_digest_sha256": "b7f4f8aa0edf0a7338840c2edc39bf829fd9ec4131c480d936db045adce915ee"
+  },
+  "transition": {
+    "ledger_delta": 35,
+    "classification": "NO_MATERIAL_CHANGE",
+    "material_change": false,
+    "event_count": 0,
+    "observations": {
+      "risk_state_stable": true,
+      "findings_stable": true,
+      "account_flags_stable": true,
+      "observed_trust_line_window_stable": true,
+      "evidence_status_before": "PARTIAL",
+      "evidence_status_after": "PARTIAL"
+    },
+    "caveat": "Both snapshots contain bounded partial trust-line evidence. NO_MATERIAL_CHANGE means no material change was detected in the compared validated evidence; it does not prove the complete issuer state was unchanged."
+  },
+  "provenance": {
+    "before_artifact_id": 12184470849,
+    "after_artifact_id": 12185035018,
+    "transition_test_commit": "748ee48d7be83a047cd0c18920b6d9bcbe2ef91b"
+  },
+  "semantics": "Ledger-anchor changes alone are not material alerts. Alerts are emitted only for deterministic changes in risk state, findings, issuer/account controls, AMM state, or compared evidence windows."
+}

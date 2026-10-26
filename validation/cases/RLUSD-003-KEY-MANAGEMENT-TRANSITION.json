@@ -1,0 +1,97 @@
+{
+  "case_id": "RLUSD-003",
+  "status": "LIVE_HISTORICAL_KEY_MANAGEMENT_TRANSITIONS_VERIFIED",
+  "verified_at": "2026-10-20",
+  "subject": {
+    "asset": "Ripple USD (RLUSD)",
+    "network": "XRPL Mainnet",
+    "issuer": "rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De"
+  },
+  "stage_a": {
+    "trigger": {
+      "transaction_type": "SignerListSet",
+      "ledger_index": 89925797,
+      "hash": "38E3C789E229FF24778B9A5E6CCC6CABFA62DA98AC217C2A70D1A6A6E39468E",
+      "signer_quorum": 15
+    },
+    "before": {
+      "ledger_index": 89925796,
+      "risk_state": "REVIEW",
+      "signer_list_count": 0,
+      "master_key_disabled": false,
+      "regular_key": null
+    },
+    "after": {
+      "ledger_index": 89925797,
+      "risk_state": "REVIEW",
+      "signer_list_count": 1,
+      "master_key_disabled": false,
+      "regular_key": null,
+      "signer_list": {
+        "signer_list_id": 0,
+        "quorum": 15,
+        "entry_count": 8,
+        "weight_sum": 56,
+        "weights": [
+          1,
+          1,
+          13,
+          13,
+          13,
+          1,
+          13,
+          1
+        ]
+      }
+    },
+    "transition": {
+      "classification": "MATERIAL_CHANGE",
+      "events": [
+        "SIGNER_LIST_CHANGED"
+      ]
+    }
+  },
+  "stage_b": {
+    "trigger": {
+      "transaction_type": "AccountSet",
+      "ledger_index": 89925803,
+      "hash": "9A4212D87787986E262164A0A76558D76A6152835DBCC064EEF05A88CF2C92BA",
+      "set_flag": 4,
+      "set_flag_name": "asfDisableMaster"
+    },
+    "before": {
+      "ledger_index": 89925802,
+      "risk_state": "REVIEW",
+      "signer_list_count": 1,
+      "master_key_disabled": false,
+      "regular_key": null,
+      "alternative_signing_method_visible": true
+    },
+    "after": {
+      "ledger_index": 89925803,
+      "risk_state": "REVIEW",
+      "signer_list_count": 1,
+      "master_key_disabled": true,
+      "regular_key": null,
+      "alternative_signing_method_visible": true
+    },
+    "transition": {
+      "classification": "MATERIAL_CHANGE",
+      "events": [
+        "ACCOUNT_FLAGS_CHANGED",
+        "MASTER_KEY_STATUS_CHANGED"
+      ]
+    }
+  },
+  "semantics": {
+    "signer_list": "SignerListSet creates or replaces a multi-sign authorization list; quorum and weights determine which signer combinations can authorize transactions.",
+    "disable_master": "asfDisableMaster disables use of the master key pair. XRPL requires another authorization method to be configured before this can succeed.",
+    "boundary": "Ledger evidence proves configured authorization paths, not off-ledger key custody, signer identity, compromise status, or organizational governance."
+  },
+  "provenance": {
+    "workflow_run_id": 39372428220,
+    "workflow_artifact_id": 12241952549,
+    "workflow_artifact_zip_sha256": "4e205e045dbba8d2aa553805e721b4b7f6aca853ed88eda76289e6bec3b4fd00",
+    "head_sha": "7afb93597feaaeec2b23ae251b5b338a48c4bff7"
+  }
+}
