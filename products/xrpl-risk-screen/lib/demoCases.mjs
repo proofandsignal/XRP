@@ -37,7 +37,7 @@ export const DEMO_CASES = Object.freeze([
     subject:"Ripple USD (RLUSD) issuer",
     network:"XRPL Mainnet",
     ledgers:"89925796 → 89925803",
-    evidence_status:"COMPLETE",
+    evidence_status:"UNKNOWN",
     risk_transition:"REVIEW → REVIEW",
     headline:"A SignerListSet introduced multi-signing and a later AccountSet disabled the master key while an alternative signing path remained visible.",
     events:["SIGNER_LIST_CHANGED","ACCOUNT_FLAGS_CHANGED","MASTER_KEY_STATUS_CHANGED"],
