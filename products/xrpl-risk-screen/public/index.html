@@ -6,11 +6,141 @@
 <title>Proof & Signal — XRPL Intelligence Screen</title>
 <style>
 :root{font-family:Inter,system-ui,sans-serif;background:#0a0d12;color:#edf2f7;color-scheme:dark}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}main{max-width:1200px;margin:auto;padding:20px;padding-bottom:40px}.top{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:flex-start}.muted{color:#93a2b5}.search{display:grid;grid-template-columns:1fr 160px 120px;gap:8px;margin:20px 0}.search input,.search select,.search button,.action{min-height:44px;padding:11px 12px;border-radius:10px;border:1px solid #2a3544;background:#111720;color:#eef3f8}.search button{background:#eef3f8;color:#0a0d12;font-weight:800;cursor:pointer}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}.card{grid-column:span 6;background:#111720;border:1px solid #232f3d;border-radius:14px;padding:15px;min-width:0}.wide{grid-column:span 12}.third{grid-column:span 4}h1{margin:0}h2{font-size:15px;margin:0 0 10px}.state{font-size:30px;font-weight:900}.PASS{color:#91e5ae}.REVIEW{color:#ffd47d}.BLOCK{color:#ff9c92}.UNKNOWN{color:#aab6c6}.MATERIAL_CHANGE{color:#ffb282}.NO_MATERIAL_CHANGE{color:#91e5ae}.NON_MATERIAL_CHANGE{color:#b8c5d6}.row{display:flex;justify-content:space-between;gap:12px;border-top:1px solid #222d3a;padding:9px 0;overflow-wrap:anywhere}.row:first-of-type{border-top:0}.finding{border-top:1px solid #222d3a;padding:9px 0}.finding:first-child{border-top:0}.tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.action{cursor:pointer;text-align:left;background:#151d28}.action:active{transform:translateY(1px)}.error{white-space:pre-wrap;color:#ffaaa2}.small{font-size:12px}.status{padding:4px 8px;border:1px solid #344151;border-radius:999px;font-size:11px}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere}.transition-head{display:flex;justify-content:space-between;gap:12px;align-items:center}.pill{font-size:11px;padding:4px 8px;border-radius:999px;border:1px solid #344151}.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#edf2f7;color:#0a0d12;padding:10px 14px;border-radius:999px;font-size:13px;opacity:0;pointer-events:none;transition:.2s;z-index:4}.toast.show{opacity:1}.cases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 16px}.case{background:#101722;border:1px solid #263241;border-radius:12px;padding:13px;scroll-margin-top:12px}.case.focused{outline:2px solid #edf2f7;outline-offset:2px}.case h3{margin:0 0 7px;font-size:14px}.case-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.case-actions button,.case-actions a{min-height:38px;padding:8px 10px;border-radius:8px;border:1px solid #344151;background:#151d28;color:#edf2f7;text-decoration:none;cursor:pointer;font-size:12px}.case-meta{font-size:12px;color:#93a2b5;line-height:1.45}@media(max-width:800px){.cases{grid-template-columns:1fr}main{padding:14px;padding-bottom:28px}.search{grid-template-columns:1fr}.card,.third{grid-column:span 12}.tools{grid-template-columns:1fr 1fr}.state{font-size:27px}}@media(max-width:430px){.tools{grid-template-columns:1fr}.action{width:100%}}
+
+/* Premium discovery surface — curated historical cases only; existing analyzer stays below */
+body{background:radial-gradient(ellipse 75% 27% at 75% 0%,rgba(55,69,130,.18),transparent 75%),#0a0d12}
+main{max-width:1320px}
+.premium-hero{position:relative;overflow:hidden;padding:32px 30px 30px;margin:22px 0 12px;border-radius:21px;border:1px solid #38465e;background:radial-gradient(circle at 91% 23%,rgba(95,109,233,.27),transparent 37%),linear-gradient(123deg,#172136 0%,#0e1523 60%,#111827 100%);box-shadow:0 22px 70px #02050a55}
+.premium-hero:after{content:"";position:absolute;right:-35px;top:25px;width:280px;height:280px;border:1px solid #8da3ff35;border-radius:50%;box-shadow:0 0 0 34px #8da3ff0a,0 0 0 80px #8da3ff0a;pointer-events:none}
+.premium-eyebrow{font-size:11px;color:#d2b786;font-weight:850;letter-spacing:.18em;text-transform:uppercase;position:relative;z-index:1}
+.premium-title{position:relative;z-index:1;font-size:clamp(32px,4.4vw,57px);line-height:1.02;letter-spacing:-.045em;font-weight:850;max-width:820px;margin:15px 0}
+.premium-title em{font-style:normal;background:linear-gradient(90deg,#e4c38c,#f3dbab);background-clip:text;color:transparent}
+.premium-sub{max-width:660px;line-height:1.65;color:#acbcd1;font-size:14px;position:relative;z-index:1}
+.premium-hero-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:24px;position:relative;z-index:1}
+.premium-button{border:1px solid #4a5770;background:#1d2940;color:#f5f7fb;font-weight:750;border-radius:10px;min-height:43px;padding:11px 16px;cursor:pointer}
+.premium-button.primary{background:#e0c28f;color:#141a23;border-color:#e0c28f}
+.premium-button:focus-visible,.premium-tab:focus-visible{outline:2px solid #dfbd82;outline-offset:2px}
+.premium-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:21px;position:relative;z-index:1}
+.premium-badges span{border:1px solid #41516b;border-radius:999px;padding:6px 11px;font-size:11px;color:#a7b7ce;background:#0c162a99}
+.premium-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:12px 0 20px}
+.premium-stat{background:#101722;border:1px solid #293448;border-radius:13px;padding:15px}
+.premium-stat strong{display:block;font-size:25px;letter-spacing:-.05em;margin-bottom:4px;color:#f2f4fc}
+.premium-stat small{font-size:11px;color:#91a3b9}
+.premium-section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:23px 0 10px;flex-wrap:wrap}
+.premium-section-heading h2{font-size:20px;letter-spacing:-.02em;margin:0}
+.premium-section-heading p{color:#94a8be;font-size:12px;margin:0}
+.premium-layout{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(285px,1fr);gap:12px}
+.premium-panel{background:#111925;border:1px solid #2a3850;border-radius:16px;padding:19px;min-width:0}
+.premium-card-top{display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.premium-select{background:#0c1421;color:#f4f7fc;padding:10px 12px;border:1px solid #3c4c66;border-radius:9px;min-height:42px;width:100%;max-width:285px}
+.premium-panel h3{font-size:21px;letter-spacing:-.02em;margin:12px 0 8px}
+.premium-panel p{line-height:1.6}
+.premium-meta{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 12px}
+.premium-meta span{border:1px solid #354762;background:#15233a;color:#bdcce0;padding:7px 9px;font-size:11px;border-radius:8px}
+.premium-versus{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+.premium-snapshot{background:#0b1421;padding:15px;border:1px solid #314159;border-radius:12px}
+.premium-snapshot strong{font-size:25px;display:block;margin:7px 0;letter-spacing:-.035em}
+.premium-snapshot small{color:#8fa1b8;font-size:11px}
+.premium-timeline-rail{display:flex;gap:6px;margin:18px 0 6px}
+.premium-timeline-dot{border:1px solid #3e5571;color:#b7c8dd;border-radius:9px;background:#122036;flex:1;font-size:11px;min-height:34px;cursor:pointer;padding:5px}
+.premium-timeline-dot.active{background:#d6ba89;color:#111a27;border-color:#e1c596;font-weight:800}
+.premium-replay{padding:10px 13px;border:1px solid #33445a;background:#0d1724;border-radius:10px;font-size:13px;min-height:70px;color:#bdcde0}
+.premium-findings{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.premium-findings span{padding:6px 9px;background:#25233a;border:1px solid #474465;color:#e0c4a0;border-radius:7px;font-family:ui-monospace,monospace;font-size:10px;overflow-wrap:anywhere}
+.premium-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:17px}
+.premium-actions button,.premium-actions a{background:#1d2a40;color:#eff3ff;border:1px solid #3d5270;border-radius:9px;padding:10px 12px;min-height:40px;font-size:12px;text-decoration:none;cursor:pointer}
+.premium-workflow-buttons{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:12px}
+.premium-tab{background:#151f2e;color:#aebed2;border:1px solid #33445d;border-radius:9px;padding:11px 6px;cursor:pointer}
+.premium-tab.active{background:#26334b;color:#f5d7a4;border-color:#7a694d}
+.premium-workflow-answer{margin-top:12px;border-left:3px solid #dec18c;background:#101f2f;padding:12px;border-radius:0 10px 10px 0;min-height:122px}
+.premium-workflow-answer strong{color:#f1d6aa}
+.premium-workflow-answer p{font-size:12px;margin:8px 0 0;color:#b8c8d9}
+.premium-boundary{font-size:11px;color:#a9b7ca;line-height:1.65;border-top:1px solid #2b3b50;padding-top:12px;margin-top:20px}
+.premium-filterbar{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px}
+.premium-filterbar button{border:1px solid #37475f;background:#131e2d;color:#b7c8d8;border-radius:9px;padding:8px 12px;cursor:pointer;font-size:12px}
+.premium-filterbar button.active{border-color:#c9ad7c;color:#f2d5a6}
+.premium-compact{font-size:12px;color:#b0bed3}
+.premium-risk-state{font-weight:850}
+.premium-risk-state.m-change{color:#ffb582}
+.premium-risk-state.m-stable{color:#8ce1ad}
+.premium-alert{color:#e0c38e;font-weight:700}
+.premium-divider{border:0;border-top:1px solid #314158;margin:15px 0}
+@media(max-width:920px){.premium-layout{grid-template-columns:1fr}.premium-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.premium-hero{padding:23px}}
+@media(max-width:560px){.premium-title{font-size:36px}.premium-hero:after{opacity:.3}.premium-versus{grid-template-columns:1fr}.premium-stats{gap:7px}.premium-stat{padding:11px}.premium-stat strong{font-size:21px}.premium-panel{padding:14px}.premium-select{max-width:none}.premium-hero-actions{flex-direction:column}.premium-button{width:100%}}
+
 </style>
 </head>
 <body>
 <main>
 <div class="top"><div><h1>XRPL Intelligence Screen</h1><div class="muted">Validated evidence, Risk Passport and deterministic change intelligence.</div></div><span class="status">BUILD-009</span></div>
+
+<section class="premium-hero" aria-label="Premium verified evidence explorer">
+  <div class="premium-eyebrow">Proof &amp; Signal / XRPL Intelligence / Research Preview</div>
+  <div class="premium-title">Institutional clarity.<br><em>On-chain evidence.</em></div>
+  <p class="premium-sub">Explore material issuer-control changes, signing-authority transitions and stable periods from historical XRP Ledger evidence. Compare before and after, replay what changed, and export a review-ready demo dossier.</p>
+  <div class="premium-hero-actions"><button id="premiumExplore" class="premium-button primary">Explore verified cases</button><button id="premiumJumpAnalyzer" class="premium-button">Open read-only scanner</button></div>
+  <div class="premium-badges"><span>✓ 3 Curated XRPL Mainnet Cases</span><span>✓ Read-only / No Wallets</span><span>✓ Evidence-Bound Risk</span><span>⚠ Research Preview — Not Production</span></div>
+</section>
+<section class="premium-stats" aria-label="Evidence catalogue metrics">
+  <div class="premium-stat"><strong>03</strong><small>Historical evidence cases</small></div>
+  <div class="premium-stat"><strong>02</strong><small>Material change classifications</small></div>
+  <div class="premium-stat"><strong>01</strong><small>Bounded stable comparison</small></div>
+  <div class="premium-stat"><strong>0</strong><small>Wallet connections / trades</small></div>
+</section>
+<section id="premiumExploreSection">
+  <div class="premium-section-heading"><h2>Explore the Evidence</h2><p>Choose a historical scenario · Replay the changes · Inspect the boundary</p></div>
+  <div class="premium-filterbar" role="group" aria-label="Case filters">
+    <button data-premium-filter="all" class="active">All cases</button>
+    <button data-premium-filter="stable">Stable evidence</button>
+    <button data-premium-filter="controls">Issuer controls</button>
+    <button data-premium-filter="signing">Signing authority</button>
+  </div>
+  <div class="premium-layout">
+    <article class="premium-panel" aria-label="Case dossier">
+      <div class="premium-card-top">
+        <div class="premium-eyebrow">01 / Interactive Case Dossier</div>
+        <select id="premiumCasePicker" class="premium-select" aria-label="Choose verified case"><option value="">Loading cases…</option></select>
+      </div>
+      <h3 id="premiumCaseTitle">Loading evidence cases…</h3>
+      <div class="premium-meta" id="premiumCaseMeta"></div>
+      <p class="premium-compact" id="premiumCaseDescription">Connecting to the case library.</p>
+      <div class="premium-versus" id="premiumBeforeAfter" aria-label="Before and after evidence comparison"></div>
+      <h2>Historical Replay</h2>
+      <div id="premiumTimeline" class="premium-timeline-rail" aria-label="Historical evidence checkpoints"></div>
+      <div id="premiumReplay" class="premium-replay" aria-live="polite">Choose a case to replay a validated historical change.</div>
+      <hr class="premium-divider"/>
+      <div class="premium-eyebrow">Observed deterministic events</div>
+      <div id="premiumEvents" class="premium-findings"></div>
+      <p class="premium-compact" id="premiumCaseCaveat"></p>
+      <div class="premium-actions">
+        <button id="premiumCopyBrief">Copy evidence brief</button>
+        <button id="premiumDownloadPack">Export case dossier JSON</button>
+        <button id="premiumCopyLink">Copy case link</button>
+        <a id="premiumResearchNote" href="https://github.com/proofandsignal/XRP/issues/27" target="_blank" rel="noopener noreferrer">Verified public research note</a>
+      </div>
+    </article>
+    <aside class="premium-panel" aria-label="Institutional workflows">
+      <div class="premium-eyebrow">02 / Institutional Use Cases</div>
+      <h3>See it through your team's lens.</h3>
+      <p class="premium-compact">Same observed XRPL evidence. Different operational questions. These are prospective use cases, not confirmed customer workflows.</p>
+      <div class="premium-workflow-buttons" role="group" aria-label="Use-case lenses">
+        <button data-premium-lens="treasury" class="premium-tab active">Treasury</button>
+        <button data-premium-lens="custody" class="premium-tab">Custody</button>
+        <button data-premium-lens="rwa" class="premium-tab">RWA / Issuance</button>
+        <button data-premium-lens="risk" class="premium-tab">Risk &amp; Audit</button>
+      </div>
+      <div id="premiumWorkflowAnswer" class="premium-workflow-answer" aria-live="polite"></div>
+      <hr class="premium-divider"/>
+      <div class="premium-eyebrow">03 / Evidence Discipline</div>
+      <p class="premium-compact"><strong>On-chain facts:</strong> validated ledger anchors, issuer flags and authorization changes visible in the recorded cases.</p>
+      <p class="premium-compact"><strong>Interpretation:</strong> deterministic change classification, not an investment recommendation.</p>
+      <p class="premium-compact"><strong>Unknown:</strong> reserves, redemption rights, off-chain keys, legal status and real-world settlement. RLUSD-003 completeness is not independently proven by the canonical export.</p>
+      <p class="premium-boundary">Historical records are curated from archived validation artifacts. This panel does not stream live activity, confirm bank balances, certify settlement or promise an institutional deployment. The separate read-only scanner below is a technical preview.</p>
+    </aside>
+  </div>
+</section>
+<div class="premium-section-heading" id="premiumAnalyzerAnchor"><h2>Research Scanner</h2><p>Account / Issuer · AMM · MPT — technical preview, use read-only public addresses</p></div>
+
 <div class="search"><input id="subject" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="XRPL account / AMM account / MPT issuance ID"><select id="kind"><option value="account">Account / Issuer</option><option value="amm">AMM</option><option value="mpt">MPT / RWA</option></select><button id="analyze">ANALYZE</button></div>
 <div id="error" class="error"></div>
 <section class="card wide" style="margin-bottom:12px"><div class="transition-head"><h2>Verified Demo Cases</h2><span class="pill">BUILD-009</span></div><div id="demoCases" class="cases"><div class="muted">Loading verified cases…</div></div></section>
@@ -39,6 +169,105 @@ loadDemoCases()
 async function runTransition(current,key){let previous=null;try{previous=JSON.parse(localStorage.getItem(key)||'null')}catch{}if(!previous){localStorage.setItem(key,JSON.stringify(current));lastTransition=null;$('transitionClass').textContent='BASELINE SAVED';$('transitionClass').className='pill';$('transition').innerHTML='<div class="muted">Baseline saved locally. Re-scan this subject later to detect deterministic changes.</div>';return}const r=await fetch('/api/transition',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({before:previous,after:current})}),x=await r.json();if(!r.ok)throw new Error(x.error||('HTTP '+r.status));lastTransition=x.transition;localStorage.setItem(key,JSON.stringify(current));$('transitionClass').textContent=x.transition.classification;$('transitionClass').className='pill '+x.transition.classification;const events=x.transition.events?.length?x.transition.events.map(e=>'<div class="finding"><b>'+esc(e.id)+'</b><div class="small muted">'+esc(e.message)+'</div></div>').join(''):'<div class="NO_MATERIAL_CHANGE">No material change detected in the compared validated evidence.</div>';$('transition').innerHTML=row('Ledger delta',x.transition.ledger_delta)+row('Events',x.transition.event_count)+row('Observed trust-line window',x.transition.observations?.observed_trust_line_window_stable===true?'STABLE':x.transition.observations?.observed_trust_line_window_stable===false?'CHANGED':'N/A')+events+'<p class="small muted">'+esc(x.transition.caveat)+'</p>'}
 $('analyze').onclick=async()=>{const s=$('subject').value.trim(),k=$('kind').value;if(!s)return;$('error').textContent='';$('state').textContent='RUNNING';$('state').className='state UNKNOWN';try{const url=k==='amm'?'/api/amm?amm_account='+encodeURIComponent(s):k==='mpt'?'/api/mpt?mpt_issuance_id='+encodeURIComponent(s):'/api/account?account='+encodeURIComponent(s),r=await fetch(url),x=await r.json();if(!r.ok)throw new Error(x.error||('HTTP '+r.status));last=x;lastKey=x.transition_snapshot?baselineKey(k,x.transition_snapshot.subject.identifier):null;const report=x.report,state=report.state??report.summary?.state??'UNKNOWN';$('state').textContent=state;$('state').className='state '+state;const ledger=report.snapshot?.ledger??{index:report.subject?.ledger_index,hash:report.subject?.ledger_hash,validated:report.subject?.validated},evidenceStatus=report.summary?.evidence_status??report.evidence_status??'COMPLETE';$('anchor').textContent='Validated ledger '+(ledger.index??'?')+' · '+(ledger.hash??'hash unavailable')+' · evidence '+evidenceStatus;if(k==='account'){const i=report.issuer_intelligence,sig=report.signing_authority??{};$('issuer').innerHTML=row('Role',i.role)+row('Domain',i.settings.domain)+row('Issued assets',i.counts.issued_assets)+row('Observed holder lines',i.counts.issued_holder_lines)+row('Global Freeze',String(i.settings.global_freeze))+row('Clawback',String(i.settings.clawback_enabled))+row('Require Auth',String(i.settings.require_auth));const sl=sig.signer_lists?.[0]??null;$('signing').innerHTML=row('Evidence',sig.evidence_status)+row('Master key disabled',String(sig.master_key_disabled))+row('Regular key',sig.regular_key??'NONE')+row('Signer lists',sig.signer_list_count??0)+row('Quorum',sl?.quorum??'N/A')+row('Signer entries',sl?.entries?.length??0);$('amm').innerHTML='<div class="muted">Switch subject type to AMM to run same-ledger pool checks.</div>'}else if(k==='amm'){$('signing').innerHTML='<div class="muted">Signing-authority evidence is shown for account / issuer subjects.</div>';$('amm').innerHTML=row('AMM account',report.snapshot.amm_account)+row('Asset 1',report.snapshot.pool.asset1.currency_display)+row('Asset 2',report.snapshot.pool.asset2.currency_display)+row('Trading fee units',report.snapshot.trading_fee)+row('Structural checks',Object.values(report.snapshot.structural_verification).every(Boolean)?'PASS':'FAIL');$('issuer').innerHTML='<div class="muted">AMM pseudo-account is analyzed through the AMM evidence path.</div>'}else{$('signing').innerHTML='<div class="muted">Signing-authority evidence is shown for account / issuer subjects.</div>';const m=report.snapshot;$('issuer').innerHTML=row('Issuance ID',m.issuance_id)+row('Issuer',esc(m.issuer))+row('Outstanding amount',m.outstanding_amount)+row('Maximum amount',m.maximum_amount)+row('Asset scale',m.asset_scale)+row('Transfer fee units',m.transfer_fee)+row('Require Auth',String(m.flags.require_auth))+row('Can Transfer',String(m.flags.can_transfer))+row('Can Clawback',String(m.flags.can_clawback))+row('Permissioned Domain',m.permissioned_domain.status)+row('Metadata',m.metadata.status);$('amm').innerHTML='<div class="muted">MPT/RWA mode reports XRPL issuance configuration. Metadata and credential requirements are not independent proof of backing, legal status, yield or investment quality.</div>'}$('findings').innerHTML=report.findings?.length?report.findings.map(f=>'<div class="finding"><b class="'+f.severity+'">'+esc(f.severity)+' · '+esc(f.id)+'</b><div class="small muted">'+esc(f.message)+'</div></div>').join(''):'<div class="PASS">No deterministic REVIEW/BLOCK finding in the current rule set.</div>';$('evidence').innerHTML=row('Passport',x.passport.passport_id)+row('Attestation',x.passport.integrity.attestation)+row('Fingerprint',x.passport.integrity.evidence_fingerprint_sha256.slice(0,16)+'…')+row('Artifact hash',x.passport.integrity.artifact_sha256.slice(0,16)+'…');if(x.transition_snapshot){await runTransition(x.transition_snapshot,lastKey)}else{lastTransition=null;$('transitionClass').textContent='MPT NEXT GATE';$('transitionClass').className='pill';$('transition').innerHTML='<div class="muted">MPT scan and Risk Passport are active. Deterministic MPT transition comparison remains a separate BUILD-008 gate.</div>'}}catch(e){$('error').textContent=e.message;$('state').textContent='ERROR';$('state').className='state BLOCK'}};
 $('copySummary').onclick=()=>last?copy(summaryText(),'Summary copied'):toast('Analyze a subject first');$('copyPassport').onclick=()=>last?copy(last.passport.passport_id,'Passport ID copied'):toast('Analyze a subject first');$('shareResult').onclick=async()=>{if(!last)return toast('Analyze a subject first');const text=summaryText();if(navigator.share){try{await navigator.share({title:'XRPL Intelligence Screen',text});toast('Shared')}catch(e){if(e.name!=='AbortError')toast('Share failed')}}else await copy(text,'Share unavailable — summary copied')};$('exportJson').onclick=()=>{if(!last)return toast('Analyze a subject first');const payload={...last,transition:lastTransition},blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='xrpl-intelligence-evidence.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};$('forgetBaseline').onclick=()=>{if(!lastKey)return toast('Analyze a subject first');localStorage.removeItem(lastKey);lastTransition=null;$('transitionClass').textContent='NO BASELINE';$('transitionClass').className='pill';$('transition').innerHTML='<div class="muted">Local baseline cleared.</div>';toast('Baseline cleared')};
+
+/* Premium read-only research explorer. No trading, signing, wallets or new risk rules. */
+const premiumLensCopy={
+  treasury:{title:"Treasury / Settlement",body:"Which issuer-control or authorization change should prompt a closer review of treasury exposure and a reconciliation check? Ledger facts alone cannot confirm a bank-side settlement."},
+  custody:{title:"Custody / Signing Controls",body:"Did an issuer or account change signing authority, quorum or master-key configuration? Which internal key governance records would be required before closing the investigation?"},
+  rwa:{title:"RWA / Asset Operations",body:"Can a post-issuance review separate ledger-visible changes from off-ledger documentation, issuer claims, legal rights and asset backing?"},
+  risk:{title:"Risk / Evidence Review",body:"What is the exact validated ledger range, what deterministic finding changed, and what remains unknown? Can an analyst reproduce the observation without mistaking a score for proof?"}
+};
+const premiumSteps={
+ "RLUSD-001":[{label:"Ledger 107761255",title:"Baseline snapshot",body:"REVIEW state and observed 20,000 trust lines. Evidence status PARTIAL."},{label:"Ledger 107761290",title:"Observed window remained stable",body:"No material change detected within the bounded, compared evidence. This is not proof the entire issuer state was unchanged."}],
+ "RLUSD-002":[{label:"Before · 89925779",title:"Clawback flag not enabled",body:"Risk state PASS. The historical snapshot did not show the trust-line clawback capability."},{label:"After · 89925780",title:"Issuer control capability enabled",body:"AccountSet SetFlag 16 (asfAllowTrustLineClawback) was observed. Risk changed PASS → REVIEW. Capability is not misuse."}],
+ "RLUSD-003":[{label:"89925796",title:"Before multisigning",body:"Signer list count 0. Deterministic risk state REVIEW."},{label:"89925797",title:"Multi-signing configured",body:"SignerListSet introduced a signer list (quorum 15; eight entries). A material authorization change occurred while the risk label remained REVIEW."},{label:"89925803",title:"Master key disabled",body:"AccountSet SetFlag 4 (asfDisableMaster) disabled the master key. An alternative configured signing path remained visible. Off-chain key custody is UNKNOWN."}]
+};
+const premiumAnchorFacts={
+ "RLUSD-001":{issuer:"rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De",before:"107761255",after:"107761290",reference:"Boun​​ded trust-line snapshot",completeness:"PARTIAL"},
+ "RLUSD-002":{issuer:"rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De",before:"89925779",after:"89925780",reference:"AccountSet / SetFlag 16",completeness:"COMPLETE (recorded case)"},
+ "RLUSD-003":{issuer:"rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De",before:"89925796",after:"89925803",reference:"SignerListSet / AccountSet",completeness:"UNKNOWN in offline audit"}
+};
+let premiumCases=[],premiumSelected=null;
+function premiumBrief(c){
+  const anchor=premiumAnchorFacts[c.id];
+  return "Proof & Signal | XRPL Intelligence Research Preview\n"+
+  "Case: "+c.id+" — "+c.title+"\nNetwork: "+c.network+"\nIssuer: "+anchor.issuer+
+  "\nLedgers: "+c.ledgers+"\nClassification: "+c.classification+
+  "\nRisk: "+c.risk_transition+"\nEvidence (curated): "+c.evidence_status+
+  "\nAudit boundary: "+anchor.completeness+
+  "\nObserved events: "+(c.events.length?c.events.join(", "):"No material events within bounded comparison")+
+  "\n\n"+c.headline+"\n\nCaveat: "+c.caveat+
+  "\n\nSource: https://github.com/proofandsignal/XRP/issues/27\nHistorical evidence; not a live scanner, reserve audit or investment advice.";
+}
+function premiumReplay(id,n){
+  const steps=premiumSteps[id]||[],item=steps[n]||steps[0];if(!item)return;
+  $('premiumTimeline').innerHTML=steps.map((s,i)=>'<button class="premium-timeline-dot'+(i===n?' active':'')+'" data-premium-step="'+i+'">'+esc(s.label)+'</button>').join('');
+  $('premiumReplay').innerHTML='<div class="premium-eyebrow">Checkpoint '+esc(n+1)+' / '+esc(steps.length)+'</div><strong>'+esc(item.title)+'</strong><div class="premium-compact">'+esc(item.body)+'</div>';
+  for(const b of $('premiumTimeline').querySelectorAll('[data-premium-step]'))b.onclick=()=>premiumReplay(id,Number(b.dataset.premiumStep));
+}
+function renderPremiumCase(id){
+  const c=premiumCases.find(x=>x.id===id);if(!c)return;
+  premiumSelected=c;const fact=premiumAnchorFacts[id];if(!fact)return;
+  $('premiumCasePicker').value=id;
+  $('premiumCaseTitle').textContent=c.id+' · '+c.title;
+  $('premiumCaseDescription').textContent=c.headline;
+  $('premiumCaseMeta').innerHTML=[
+    c.network,c.classification,c.risk_transition,"Evidence: "+fact.completeness
+  ].map(s=>'<span>'+esc(s)+'</span>').join('');
+  const first=c.risk_transition.split(' → ')[0]||"UNKNOWN",last=c.risk_transition.split(' → ')[1]||"UNKNOWN";
+  $('premiumBeforeAfter').innerHTML='<div class="premium-snapshot"><small>BEFORE · LEDGER '+esc(fact.before)+'</small><strong>'+esc(first)+'</strong><small>'+esc(fact.reference)+'</small></div>'+
+    '<div class="premium-snapshot"><small>AFTER · LEDGER '+esc(fact.after)+'</small><strong class="'+(c.classification==='MATERIAL_CHANGE'?'premium-alert':'')+'">'+esc(last)+'</strong><small>'+esc(c.classification)+'</small></div>';
+  $('premiumEvents').innerHTML=c.events.length?c.events.map(e=>'<span>'+esc(e)+'</span>').join(''):'<span>NO MATERIAL EVENTS IN COMPARED WINDOW</span>';
+  $('premiumCaseCaveat').textContent='Evidence boundary: '+c.caveat;
+  premiumReplay(id,0);
+}
+function premiumFilter(key){
+  const target={stable:"RLUSD-001",controls:"RLUSD-002",signing:"RLUSD-003"}[key];
+  if(target)renderPremiumCase(target);
+  for(const b of document.querySelectorAll('[data-premium-filter]'))b.classList.toggle('active',b.dataset.premiumFilter===key);
+}
+function premiumSetLens(key){
+  const x=premiumLensCopy[key];if(!x)return;
+  $('premiumWorkflowAnswer').innerHTML='<strong>'+esc(x.title)+'</strong><p>'+esc(x.body)+'</p>';
+  for(const b of document.querySelectorAll('[data-premium-lens]'))b.classList.toggle('active',b.dataset.premiumLens===key);
+}
+async function loadPremiumOverview(){
+  try{
+    const response=await fetch('/api/demo-cases');
+    if(!response.ok)throw new Error("HTTP "+response.status);
+    const data=await response.json();
+    premiumCases=Array.isArray(data.cases)?data.cases.filter(x=>premiumAnchorFacts[x.id]):[];
+    if(!premiumCases.length)throw new Error("No supported verified cases available");
+    $('premiumCasePicker').innerHTML=premiumCases.map(c=>'<option value="'+esc(c.id)+'">'+esc(c.id)+' · '+esc(c.title)+'</option>').join('');
+    const requested=new URL(location.href).searchParams.get('case');
+    renderPremiumCase(premiumCases.find(c=>c.id===requested)?.id||premiumCases[0].id);
+    premiumSetLens('treasury');
+  }catch(error){
+    $('premiumCaseTitle').textContent="Case library unavailable";
+    $('premiumCaseDescription').textContent=error?.message||String(error);
+  }
+}
+$('premiumExplore').onclick=()=>document.getElementById('premiumExploreSection').scrollIntoView({behavior:'smooth',block:'start'});
+$('premiumJumpAnalyzer').onclick=()=>document.getElementById('premiumAnalyzerAnchor').scrollIntoView({behavior:'smooth',block:'start'});
+$('premiumCasePicker').onchange=()=>renderPremiumCase($('premiumCasePicker').value);
+for(const b of document.querySelectorAll('[data-premium-filter]'))b.onclick=()=>premiumFilter(b.dataset.premiumFilter);
+for(const b of document.querySelectorAll('[data-premium-lens]'))b.onclick=()=>premiumSetLens(b.dataset.premiumLens);
+$('premiumCopyBrief').onclick=async()=>{if(!premiumSelected)return toast("Select a case first");await copy(premiumBrief(premiumSelected),"Evidence brief copied")};
+$('premiumCopyLink').onclick=async()=>{if(!premiumSelected)return toast("Select a case first");await copy(caseLink(premiumSelected.id),"Case link copied")};
+$('premiumDownloadPack').onclick=async()=>{
+  if(!premiumSelected)return toast("Select a case first");
+  try{
+    const resp=await fetch('/api/demo-cases/'+encodeURIComponent(premiumSelected.id));
+    if(!resp.ok)throw new Error("HTTP "+resp.status);
+    const pack=await resp.json();
+    const dossier={...pack,preview_type:"CURATED_HISTORICAL_RESEARCH_DEMO",independent_audit_status:"NOT_ASSERTED_BY_THIS_PREVIEW",audit_completeness_note:premiumAnchorFacts[premiumSelected.id].completeness,created_from:"existing archived case library",disclaimer:"Not a fresh XRPL query, settlement attestation, regulatory opinion, reserve audit, or production-ready risk recommendation."};
+    const blob=new Blob([JSON.stringify(dossier,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=url;a.download=premiumSelected.id.toLowerCase()+"-research-dossier.json";document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),2000);toast("Research dossier downloaded");
+  }catch(e){toast("Export unavailable: "+(e.message||String(e)))}
+};
+loadPremiumOverview();
+
 </script>
 </body>
 </html>
