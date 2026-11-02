@@ -14,7 +14,7 @@ for (const id of ["RLUSD-001", "RLUSD-002", "RLUSD-003"]) {
     assert.deepEqual(pack.audit.unverified_fields, id === "RLUSD-003" ? ["case.evidence_status"] : [])
     if (id === "RLUSD-003") {
       assert.equal(pack.case.evidence_status, "UNKNOWN")
-      assert.equal(pack.audit.demo_reported_evidence_status, "COMPLETE")
+      assert.equal(pack.audit.demo_reported_evidence_status, "UNKNOWN")
     }
     assert.equal(pack.audit.canonical_sha256, createHash("sha256").update(bytes).digest("hex"))
     assert.equal(pack.case.id, id)
