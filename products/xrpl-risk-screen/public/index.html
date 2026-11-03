@@ -112,8 +112,10 @@ main{max-width:1320px}
       <div class="premium-eyebrow">Observed deterministic events</div>
       <div id="premiumEvents" class="premium-findings"></div>
       <p class="premium-compact" id="premiumCaseCaveat"></p>
+      <div id="premiumAuditResult" class="premium-replay" role="status" aria-live="polite">Canonical SHA-256 audit not run for the selected case. Select “Verify case evidence” to inspect the archived artifact’s consistency.</div>
       <div class="premium-actions">
         <button id="premiumCopyBrief">Copy evidence brief</button>
+        <button id="premiumVerifyEvidence">Verify case evidence</button>
         <button id="premiumDownloadPack">Export case dossier JSON</button>
         <button id="premiumCopyLink">Copy case link</button>
         <a id="premiumResearchNote" href="https://github.com/proofandsignal/XRP/issues/27" target="_blank" rel="noopener noreferrer">Verified public research note</a>
@@ -208,6 +210,7 @@ function premiumReplay(id,n){
 function renderPremiumCase(id){
   const c=premiumCases.find(x=>x.id===id);if(!c)return;
   premiumSelected=c;const fact=premiumAnchorFacts[id];if(!fact)return;
+  $('premiumAuditResult').textContent="Audit not run for this case. Select Verify case evidence to check the repository artifact.";
   $('premiumCasePicker').value=id;
   $('premiumCaseTitle').textContent=c.id+' · '+c.title;
   $('premiumCaseDescription').textContent=c.headline;
@@ -254,6 +257,24 @@ for(const b of document.querySelectorAll('[data-premium-filter]'))b.onclick=()=>
 for(const b of document.querySelectorAll('[data-premium-lens]'))b.onclick=()=>premiumSetLens(b.dataset.premiumLens);
 $('premiumCopyBrief').onclick=async()=>{if(!premiumSelected)return toast("Select a case first");await copy(premiumBrief(premiumSelected),"Evidence brief copied")};
 $('premiumCopyLink').onclick=async()=>{if(!premiumSelected)return toast("Select a case first");await copy(caseLink(premiumSelected.id),"Case link copied")};
+$('premiumVerifyEvidence').onclick=async()=>{
+  if(!premiumSelected)return toast("Select a case first");
+  const id=premiumSelected.id;
+  $('premiumAuditResult').textContent="Checking archived evidence…";
+  try{
+    const res=await fetch('/api/demo-cases/'+encodeURIComponent(id));
+    if(!res.ok)throw new Error("HTTP "+res.status);
+    const pack=await res.json();
+    if(!pack.audit?.canonical_sha256)throw new Error("No canonical SHA-256 returned");
+    if(premiumSelected?.id!==id)return;
+    $('premiumAuditResult').textContent="Repository consistency: "+pack.audit.status+
+      "\nCanonical SHA-256: "+pack.audit.canonical_sha256+
+      "\nUnverified fields: "+(pack.audit.unverified_fields?.join(", ")||"none")+
+      "\nThis does not independently re-query XRPL or attest to off-chain settlements.";
+  }catch(err){
+    $('premiumAuditResult').textContent="Audit unavailable: "+(err?.message||String(err));
+  }
+};
 $('premiumDownloadPack').onclick=async()=>{
   if(!premiumSelected)return toast("Select a case first");
   try{
