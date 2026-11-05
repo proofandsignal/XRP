@@ -76,6 +76,7 @@ const server=http.createServer(async(req,res)=>{
       return send(res,200,JSON.stringify({transition:compareTransitionSnapshots(body.before,body.after)}))
     }
 
+    if(u.pathname==="/workspace") return send(res,200,await readFile(join(here,"public","workspace.html"),"utf8"),"text/html; charset=utf-8")
     if(u.pathname==="/"||u.pathname==="/index.html") return send(res,200,await readFile(join(here,"public","index.html"),"utf8"),"text/html; charset=utf-8")
     return send(res,404,JSON.stringify({error:"Not found"}))
   }catch(e){
