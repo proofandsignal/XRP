@@ -441,12 +441,130 @@ function download(body,name,type){var blob=new Blob([body],{type:type}),url=URL.
 function createMemo(){if(!S.selected)return;var c=S.selected,action=$("decisionAction").value,team=$("decisionTeam").value,owner=$("decisionOwner").value.trim()||"Unassigned (local demo)",observations=$("decisionNotes").value.trim()||"No next-step observation supplied";
 S.memo=["PROOF & SIGNAL / XRPL EVIDENCE RESEARCH MEMO","Status: LOCAL UNAPPROVED DEMO — NOT A CUSTOMER INCIDENT","Case: "+c.id+" — "+c.title,"Operational lens: "+team,"Proposed disposition: "+action,"Reviewer label: "+owner,"Network: "+c.network,"Ledger range: "+c.ledgers,"Evidence completeness: "+c.evidence_status,"Deterministic classification: "+c.classification,"Risk transition: "+c.risk_transition,"Canonical source: "+c.evidence_file,"Public research note: https://github.com/proofandsignal/XRP/issues/27","Events: "+(c.events.join(", ")||"None in compared window"),"Evidence interpretation: "+c.headline,"Critical limitations: "+c.caveat,"Next verification question: "+observations,"Outcome: NO INDEPENDENT REVIEW OR APPROVAL DOCUMENTED","This memo is a locally generated research draft only. No data sent to the server. No financial or AML decision established."].join("\n");$("memoPreview").textContent=S.memo;notice("Local review memo created")}
 function copyText(t){if(!t){notice("Nothing to copy");return}if(navigator.clipboard?.writeText){navigator.clipboard.writeText(t).then(()=>notice("Copied to clipboard")).catch(()=>notice("Browser blocked clipboard"))}else notice("Clipboard unavailable in this browser")}
-async function init(){try{var r=await fetch("/api/demo-cases",{cache:"no-store"});if(!r.ok)throw Error("HTTP "+r.status);var data=await r.json();if(!Array.isArray(data.cases)||data.cases.length===0)throw Error("Case catalogue unavailable");S.cases=data.cases.filter(x=>["RLUSD-001","RLUSD-002","RLUSD-003"].includes(x.id));if(S.cases.length!==3)throw Error("Incomplete evidence catalogue");$("kpiCases").textContent=S.cases.length;$("kpiMaterial").textContent=S.cases.filter(x=>x.classification==="MATERIAL_CHANGE").length;$("kpiPartial").textContent=S.cases.filter(x=>x.evidence_status==="PARTIAL").length;$("kpiUnknown").textContent=S.cases.filter(x=>x.evidence_status==="UNKNOWN").length;selectCase(S.cases.find(x=>x.id==="RLUSD-002")?.id||S.cases[0].id);var asked=new URL(location.href).searchParams.get("case");if(asked&&S.cases.some(x=>x.id===asked)){selectCase(asked);go("case")}}catch(e){$("overviewCases").textContent="Case API unavailable: "+String(e.message||e);$("caseTitle").textContent="Unable to load evidence. Please retry.";$("auditOutput").textContent="Cannot perform an audit while the case catalogue is unavailable.";notice("Evidence service unavailable")}}
+
+/* V3 product discovery interactions. Only archived case metadata is used; no new risk scoring. */
+S.triage={};S.triageFilter="all";S.tourIndex=-1;
+function renderPulse(){
+  if(!S.cases.length)return;
+  $("pulseBars").innerHTML=S.cases.map(c=>{
+    const count=c.events.length,height=count?Math.round(count/4*108):5;
+    return '<button class="pulse-bar" type="button" data-pulse-case="'+safe(c.id)+'" aria-label="'+safe(c.id)+', '+count+' recorded events">'+
+      '<div class="pulse-count">'+count+' <small class="sub">events</small></div>'+
+      '<div class="pulse-bar-track"><span class="pulse-bar-fill" style="height:'+height+'px"></span></div>'+
+      '<span class="pulse-bar-name">'+safe(c.id)+'</span></button>';
+  }).join("");
+  $("pulseBars").querySelectorAll("[data-pulse-case]").forEach(b=>b.onclick=()=>{selectCase(b.dataset.pulseCase);go("case")});
+  const c=S.selected||S.cases[0];
+  $("pulseTitle").textContent=c.id+" — "+c.title;
+  $("pulseDetails").textContent=c.headline+" Evidence: "+c.evidence_status+".";
+}
+function renderCompare(){
+  if(!S.cases.length)return;
+  for(const name of ["compareLeft","compareRight"]){
+    const el=$(name),prior=el.value,choices=S.cases.map(c=>'<option value="'+safe(c.id)+'">'+safe(c.id)+' · '+safe(c.title)+'</option>').join("");
+    if(el.innerHTML!==choices){el.innerHTML=choices;if(prior&&S.cases.some(c=>c.id===prior))el.value=prior}
+  }
+  if(!$("compareLeft").value)$("compareLeft").value="RLUSD-002";
+  if(!$("compareRight").value||$("compareRight").value===$("compareLeft").value)$("compareRight").value="RLUSD-003";
+  const a=S.cases.find(c=>c.id===$("compareLeft").value),b=S.cases.find(c=>c.id===$("compareRight").value);
+  if(!a||!b)return;
+  const fields=c=>[
+    ["Ledger span",c.ledgers],["Risk state",c.risk_transition],["Classification",c.classification],
+    ["Evidence completeness",c.evidence_status],["Deterministic events",String(c.events.length)],
+    ["Canonical source",c.evidence_file],["Explicit limit",c.caveat]
+  ];
+  const html=c=>fields(c).map(([key,val])=>'<div class="signalrow"><span>'+safe(key)+'</span><strong>'+safe(val)+'</strong></div>').join("");
+  $("compareATitle").textContent=a.title;
+  $("compareBTitle").textContent=b.title;
+  $("compareA").innerHTML=html(a);
+  $("compareB").innerHTML=html(b);
+  const differences=fields(a).filter((field,i)=>field[1]!==fields(b)[i][1]).map(x=>x[0]);
+  $("compareHeadline").textContent=a.id+" vs "+b.id+" · "+differences.length+" different recorded dimensions";
+  $("compareSummary").textContent=(a.classification===b.classification?
+    "The two cases share a deterministic change classification, but their specific controls, evidence boundaries and observations may differ. ":
+    "The two cases have different deterministic materiality classifications. ")+
+    "The comparison checks archived fields only, not financial exposure or economic materiality. Both canonical records should be reviewed independently.";
+}
+function exportCompare(){
+  const a=S.cases.find(c=>c.id===$("compareLeft").value),b=S.cases.find(c=>c.id===$("compareRight").value);
+  if(!a||!b)return notice("Select two historical cases");
+  const text=["XRPL EVIDENCE OS / CASE COMPARISON — RESEARCH PREVIEW",
+    "Status: UNAPPROVED LOCAL DEMO, NOT AN INSTITUTIONAL ASSESSMENT",
+    ...[a,b].flatMap(c=>["","CASE "+c.id+" — "+c.title,"Ledgers: "+c.ledgers,"Risk: "+c.risk_transition,
+    "Classification: "+c.classification,"Evidence completeness: "+c.evidence_status,
+    "Events: "+(c.events.join("; ")||"No material event in observed window"),
+    "Source: "+c.evidence_file,"Limitations: "+c.caveat]),
+    "","No bank settlement, reserves, wallet screening or investment performance established.",
+    "No live XRPL query performed to create this comparison."].join("\n");
+  download(text,"xrpl-evidence-case-comparison.txt","text/plain");notice("Local comparison exported");
+}
+const triageLabels={NOT_TRIAGED:"Unassigned",INVESTIGATE:"Investigate",MONITOR:"Monitor",ESCALATE:"Request senior review",NEEDS_SOURCE:"Needs source revalidation"};
+function renderTriage(){
+  if(!S.cases.length)return;
+  const items=S.cases.filter(c=>S.triageFilter==="all"||
+    (S.triageFilter==="material"&&c.classification==="MATERIAL_CHANGE")||
+    (S.triageFilter==="needs"&&(c.evidence_status!=="COMPLETE"||S.triage[c.id]==="NEEDS_SOURCE")));
+  $("triageItems").innerHTML=items.map(c=>'<article class="card triage-item" aria-label="Historical case '+safe(c.id)+'">'+
+    '<span class="span-label">ARCHIVED / '+safe(c.id)+'</span><h3>'+safe(c.title)+'</h3>'+
+    '<span class="pill '+(c.classification==="MATERIAL_CHANGE"?"material":"stable")+'">'+safe(c.classification)+'</span>'+
+    '<p class="sub">'+safe(c.headline)+'</p>'+
+    '<label class="flabel" for="triage-'+safe(c.id)+'">Local review disposition</label>'+
+    '<select class="select" id="triage-'+safe(c.id)+'" data-triage-id="'+safe(c.id)+'">'+
+    Object.keys(triageLabels).map(k=>'<option value="'+safe(k)+'" '+((S.triage[c.id]||"NOT_TRIAGED")===k?"selected":"")+'>'+safe(triageLabels[k])+'</option>').join("")+
+    '</select><span class="triage-status">EVIDENCE: '+safe(c.evidence_status)+'</span></article>').join("")||'<div class="card">No archived cases match this filter.</div>';
+  $("triageItems").querySelectorAll("[data-triage-id]").forEach(el=>el.onchange=()=>{
+    S.triage[el.dataset.triageId]=el.value;
+    if(S.triageFilter!=="all")renderTriage();
+    notice("Local review disposition updated");
+  });
+  document.querySelectorAll("[data-triage-filter]").forEach(b=>b.classList.toggle("active",b.dataset.triageFilter===S.triageFilter));
+}
+function exportTriage(){
+  if(!S.cases.length)return notice("No historical cases loaded");
+  const body=["XRPL EVIDENCE OS / TRIAGE WORKSHOP BRIEFING",
+    "Synthetic workflow labels applied to real archived case records.",
+    "LOCAL ONLY; NO ACTUAL CASE MANAGEMENT, ALERT OR CLIENT ACTION.",
+    ...S.cases.flatMap(c=>["",c.id+" — "+c.title,"Evidence: "+c.evidence_status,
+      "Case classification: "+c.classification,"Local disposition: "+triageLabels[S.triage[c.id]||"NOT_TRIAGED"],
+      "Research limitation: "+c.caveat]),
+    "","No external approval, customer demand, financial outcome or investigation confirmed."].join("\n");
+  download(body,"xrpl-evidence-triage-workshop.txt","text/plain");notice("Triage workshop exported");
+}
+const experienceTour=[
+  {view:"overview",title:"Mission Control",body:"Start with three real archived XRPL records and a visual count of their deterministic events. These are not a live alert stream."},
+  {view:"case",title:"Trace the evidence",body:"Select RLUSD-002 and replay its AccountSet transition. Its policy shift is an archived deterministic result, not proof of harm."},
+  {view:"compare",title:"Compare without false certainty",body:"Place two cases side-by-side. Read differences in controls, completeness and limitations before any institutional decision."},
+  {view:"evidence",title:"Inspect provenance",body:"Retrieve the canonical SHA-256 and recorded transaction references. Malformed archival hashes are withheld, not guessed."},
+  {view:"decision",title:"Draft an analyst review",body:"Use Decision Lab to create a local-only research memo. Nothing is submitted, signed or approved through this preview."},
+  {view:"triage",title:"Try a workflow",body:"Assign temporary sandbox dispositions to historic cases and export a workshop briefing. This is not a live customer incident queue."}
+];
+function showTour(){
+  const step=experienceTour[S.tourIndex];if(!step)return closeTour();
+  go(step.view);$("tourLayer").hidden=false;
+  $("tourProgress").textContent=(S.tourIndex+1)+" / "+experienceTour.length;
+  $("tourTitle").textContent=step.title;$("tourBody").textContent=step.body;
+  $("tourNext").textContent=S.tourIndex===experienceTour.length-1?"Finish tour ✓":"Next step →";
+}
+function closeTour(){$("tourLayer").hidden=true;S.tourIndex=-1}
+function nextTour(){S.tourIndex++;if(S.tourIndex>=experienceTour.length){closeTour();notice("Tour complete — explore the workspace");return}showTour()}
+
+async function init(){try{var r=await fetch("/api/demo-cases",{cache:"no-store"});if(!r.ok)throw Error("HTTP "+r.status);var data=await r.json();if(!Array.isArray(data.cases)||data.cases.length===0)throw Error("Case catalogue unavailable");S.cases=data.cases.filter(x=>["RLUSD-001","RLUSD-002","RLUSD-003"].includes(x.id));if(S.cases.length!==3)throw Error("Incomplete evidence catalogue");$("kpiCases").textContent=S.cases.length;$("kpiMaterial").textContent=S.cases.filter(x=>x.classification==="MATERIAL_CHANGE").length;$("kpiPartial").textContent=S.cases.filter(x=>x.evidence_status==="PARTIAL").length;$("kpiUnknown").textContent=S.cases.filter(x=>x.evidence_status==="UNKNOWN").length;selectCase(S.cases.find(x=>x.id==="RLUSD-002")?.id||S.cases[0].id);
+renderPulse();renderCompare();renderTriage();var asked=new URL(location.href).searchParams.get("case");if(asked&&S.cases.some(x=>x.id===asked)){selectCase(asked);go("case")}}catch(e){$("overviewCases").textContent="Case API unavailable: "+String(e.message||e);$("caseTitle").textContent="Unable to load evidence. Please retry.";$("auditOutput").textContent="Cannot perform an audit while the case catalogue is unavailable.";notice("Evidence service unavailable")}}
 document.querySelectorAll("[data-view]").forEach(b=>b.onclick=()=>go(b.dataset.view));
 document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
 document.querySelectorAll("[data-lens]").forEach(b=>b.onclick=()=>{S.lens=b.dataset.lens;renderLens()});
 $("auditRun").onclick=runAudit;$("vaultDownload").onclick=exportAudit;$("vaultCopy").onclick=()=>copyText(S.pack?.audit?.canonical_sha256);
 $("memoGenerate").onclick=createMemo;$("memoCopy").onclick=()=>copyText(S.memo);$("memoDownload").onclick=()=>S.memo?(download(S.memo,(S.selected?.id||"xrpl")+"-decision-research.txt","text/plain"),notice("Memo exported")):notice("Generate a memo first");
+$("pulseVerify").onclick=()=>{go("evidence");runAudit()};
+$("compareLeft").onchange=renderCompare;$("compareRight").onchange=renderCompare;
+$("compareExport").onclick=exportCompare;
+$("compareGoCase").onclick=()=>{selectCase($("compareLeft").value);go("case")};
+document.querySelectorAll("[data-triage-filter]").forEach(b=>b.onclick=()=>{S.triageFilter=b.dataset.triageFilter;renderTriage()});
+$("triageExport").onclick=exportTriage;
+$("startTour").onclick=()=>{S.tourIndex=0;showTour()};
+$("tourNext").onclick=nextTour;$("tourClose").onclick=closeTour;
+$("tourLayer").onclick=e=>{if(e.target===$("tourLayer"))closeTour()};
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("tourLayer").hidden)closeTour()});
 renderLens();init();
 </script>
 </body>
