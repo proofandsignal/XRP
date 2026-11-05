@@ -11,8 +11,11 @@ for (const id of ["RLUSD-001", "RLUSD-002", "RLUSD-003"]) {
     assert.equal(pack.audit.status, id === "RLUSD-003"
       ? "REPOSITORY_ARTIFACT_PARTIAL_CONSISTENCY"
       : "REPOSITORY_ARTIFACT_CONSISTENCY_PASS")
-    assert.deepEqual(pack.audit.unverified_fields, id === "RLUSD-003" ? ["case.evidence_status"] : [])
+    assert.deepEqual(pack.audit.unverified_fields, id === "RLUSD-003" ? ["case.evidence_status","audit.historical_transaction_references"] : [])
     if (id === "RLUSD-003") {
+      assert.equal(pack.audit.historical_reference_issues.length,1)
+      assert.equal(pack.audit.historical_reference_issues[0].issue,"INVALID_CANONICAL_TRANSACTION_REFERENCE")
+      assert.equal(pack.audit.historical_transaction_references.length,1)
       assert.equal(pack.case.evidence_status, "UNKNOWN")
       assert.equal(pack.audit.demo_reported_evidence_status, "UNKNOWN")
     }
