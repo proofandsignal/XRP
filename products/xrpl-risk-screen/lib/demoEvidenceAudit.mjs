@@ -73,13 +73,23 @@ export async function buildAuditedDemoPack(id, options = {}) {
   const triggers = canonical.trigger_transaction
     ? [canonical.trigger_transaction]
     : [canonical.stage_a?.trigger,canonical.stage_b?.trigger].filter(Boolean)
-  const historicalReferences = triggers.map(t=>({
+  const referenceRows = triggers.map(t=>({
     transaction_type: t.transaction_type,
     ledger_index: t.ledger_index,
     hash: t.hash,
     source: "CHECKED_IN_CANONICAL_ARTIFACT"
-  })).filter(t=>typeof t.hash==="string" && /^[A-Fa-f0-9]{64}$/.test(t.hash) &&
-    Number.isSafeInteger(t.ledger_index))
+  }))
+  const isValidReference=t=>typeof t.hash==="string" && /^[A-Fa-f0-9]{64}$/.test(t.hash) &&
+    Number.isSafeInteger(t.ledger_index)
+  const historicalReferences = referenceRows.filter(isValidReference)
+  const invalidReferences = referenceRows.filter(t=>!isValidReference(t)).map(t=>({
+    transaction_type: t.transaction_type,
+    ledger_index: t.ledger_index,
+    issue: "INVALID_CANONICAL_TRANSACTION_REFERENCE",
+    detail: "Source record does not contain a valid 64-character hexadecimal hash with a safe ledger index. Transaction link deliberately withheld."
+  }))
+  const unverifiedFields = [...checks.unverified_fields]
+  if(invalidReferences.length)unverifiedFields.push("audit.historical_transaction_references")
   const anchors = (canonical.stage_a && canonical.stage_b)
     ? {from:canonical.stage_a.before?.ledger_index, to:canonical.stage_b.after?.ledger_index}
     : {from:canonical.before?.ledger_index,to:canonical.after?.ledger_index}
@@ -88,13 +98,14 @@ export async function buildAuditedDemoPack(id, options = {}) {
   return {
     ...base,
     audit: {
-      status: checks.unverified_fields.length
+      status: unverifiedFields.length
         ? "REPOSITORY_ARTIFACT_PARTIAL_CONSISTENCY"
         : "REPOSITORY_ARTIFACT_CONSISTENCY_PASS",
       canonical_path: demoCase.evidence_file,
       canonical_sha256: createHash("sha256").update(bytes).digest("hex"),
       checked_fields: checks.checked_fields,
-      unverified_fields: checks.unverified_fields,
+      unverified_fields: unverifiedFields,
+      historical_reference_issues: invalidReferences,
       historical_ledger_anchors: anchors,
       historical_transaction_references: historicalReferences,
       issuer_address: canonical.subject?.issuer ?? null,
