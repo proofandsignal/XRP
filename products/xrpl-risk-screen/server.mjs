@@ -5,12 +5,22 @@ import { dirname, join } from "node:path"
 import { scanAccount, scanAmm, buildPassport } from "./lib/runtime.mjs"
 import { scanMptIssuance } from "./lib/mpt.mjs"
 import { buildTransitionSnapshot, compareTransitionSnapshots } from "./lib/transitions.mjs"
+import { DEMO_CASES, PUBLIC_RESEARCH_NOTE_URL } from "./lib/demoCases.mjs"
+import { buildAuditedDemoPack } from "./lib/demoEvidenceAudit.mjs"
 
 const here=dirname(fileURLToPath(import.meta.url))
 const port=Number(process.env.PORT??8787)
 
 function send(res,status,body,type="application/json; charset=utf-8"){
-  res.writeHead(status,{"content-type":type,"cache-control":"no-store"})
+  res.writeHead(status,{
+    "content-type":type,
+    "cache-control":"no-store",
+    "x-content-type-options":"nosniff",
+    "x-frame-options":"DENY",
+    "referrer-policy":"no-referrer",
+    "permissions-policy":"camera=(), microphone=(), geolocation=()",
+    "content-security-policy":"default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'"
+  })
   res.end(body)
 }
 async function readJson(req,maxBytes=262144){
@@ -25,8 +35,17 @@ async function readJson(req,maxBytes=262144){
 
 const server=http.createServer(async(req,res)=>{
   try{
-    const u=new URL(req.url,`http://${req.headers.host??"localhost"}`)
-    if(u.pathname==="/api/health") return send(res,200,JSON.stringify({ok:true,version:"0.8.2",build:"BUILD-008"}))
+    const u=new URL(req.url,"http://localhost")
+    if(req.method!=="GET"&&!(req.method==="POST"&&u.pathname==="/api/transition")) {
+      return send(res,405,JSON.stringify({error:"Method not allowed"}))
+    }
+    if(u.pathname==="/api/health") return send(res,200,JSON.stringify({ok:true,version:"0.9.0",build:"BUILD-009"}))
+    if(u.pathname==="/api/demo-cases") return send(res,200,JSON.stringify({cases:DEMO_CASES,public_research_note:PUBLIC_RESEARCH_NOTE_URL}))
+    if(u.pathname.startsWith("/api/demo-cases/")){
+      const id=decodeURIComponent(u.pathname.slice("/api/demo-cases/".length))
+      const pack=await buildAuditedDemoPack(id)
+      return pack?send(res,200,JSON.stringify(pack)):send(res,404,JSON.stringify({error:"Demo case not found"}))
+    }
 
     if(u.pathname==="/api/account"){
       const account=u.searchParams.get("account")
@@ -57,10 +76,12 @@ const server=http.createServer(async(req,res)=>{
       return send(res,200,JSON.stringify({transition:compareTransitionSnapshots(body.before,body.after)}))
     }
 
+    if(u.pathname==="/brand.svg") return send(res,200,await readFile(join(here,"public","brand.svg"),"utf8"),"image/svg+xml; charset=utf-8")
+    if(u.pathname==="/workspace") return send(res,200,await readFile(join(here,"public","workspace.html"),"utf8"),"text/html; charset=utf-8")
     if(u.pathname==="/"||u.pathname==="/index.html") return send(res,200,await readFile(join(here,"public","index.html"),"utf8"),"text/html; charset=utf-8")
     return send(res,404,JSON.stringify({error:"Not found"}))
   }catch(e){
     return send(res,500,JSON.stringify({error:e?.message??String(e),name:e?.name??"Error"}))
   }
 })
-server.listen(port,()=>console.log(`XRPL Intelligence Screen v0.8.2 http://localhost:${port}`))
+server.listen(port,()=>console.log(`XRPL Intelligence Screen v0.9.0 http://localhost:${port}`))

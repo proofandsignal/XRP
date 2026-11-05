@@ -129,3 +129,54 @@ First email batch sent from Proof Of Signal <proofandsignal@gmail.com>:
 Current response count: 0.
 
 This changes the gate from `DRAFTED` to `SENT / RESPONSE PENDING` for these three organizations only. Other leads remain at their previously recorded status.
+
+
+## Batch 004 — signing authority / custody infrastructure
+
+Gmail deduplication on 2026-10-21:
+- Securosys: 0 prior messages found.
+
+| Lead | Operational fit | Verified workflow | Official contact | Status |
+|---|---|---|---|---|
+| Securosys | HSM, key management and institutional custody infrastructure; direct fit for RLUSD-003 signing-authority change intelligence | Ripple Custody collaboration adds institutional key-security / cryptographic infrastructure | sales@securosys.com | SENT — RESPONSE PENDING |
+
+Sources:
+- https://ripple.com/ripple-press/ripple-accelerates-institutional-custody-adoption-with-security-compliance-and-staking-capabilities/
+- https://www.securosys.com/en/contact
+
+Updated qualified-lead total: **12**.
+Updated direct email outreach sent: **5**.
+
+
+## Batch 005 — institutional infrastructure
+
+Gmail deduplication on 2026-10-21:
+- Figment: 0 prior messages found.
+
+| Lead | Operational fit | Verified workflow | Official contact | Status |
+|---|---|---|---|---|
+| Figment | Institutional infrastructure in Ripple Custody ecosystem; fit for independent XRPL authorization/change evidence | Ripple announced Figment integration as part of institutional custody capability expansion | sales@figment.io | SENT — RESPONSE PENDING |
+
+Sources:
+- https://ripple.com/ripple-press/ripple-accelerates-institutional-custody-adoption-with-security-compliance-and-staking-capabilities/
+- https://www.figment.io/insights/figment-white-label/
+
+Updated qualified-lead total: **13**.
+Updated direct-email outreach sent: **6**.
+
+
+## Batch 006 — bank-grade digital custody
+
+Gmail deduplication on 2026-10-21:
+- DZ BANK: 0 prior messages found.
+
+| Lead | Operational fit | Verified workflow | Official contact | Status |
+|---|---|---|---|---|
+| DZ BANK | Institutional crypto custody and transfer services; strong fit for XRPL signing-authority, issuer-control and audit evidence | Ripple Custody institutional client context; DZ BANK operates institutional crypto custody services | digital-custody@dzbank.de | SENT — RESPONSE PENDING |
+
+Sources:
+- https://www.dzbank.de/content/dzbank/de/home/institutionelle-kunden/produkt-serviceangebot.html
+- https://ripple.com/products/custody/
+
+Updated qualified-lead total: **14**.
+Updated direct-email outreach sent: **7**.

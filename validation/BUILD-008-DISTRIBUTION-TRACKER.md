@@ -56,3 +56,93 @@ A sent email is distribution activity, not validation.
 Validation begins when there is a real response, introduction, meeting, workflow confirmation, pilot request, or other attributable action.
 
 `PUBLICATION → OUTREACH → RESPONSE → WORKFLOW VALIDATION → PILOT → PAYMENT`
+
+
+## Batch 002 delta — 2026-10-21
+
+Aviva Investors:
+- route: official institutional-sales email
+- recipient: distribution.ukirelandinstitutional@avivainvestors.com
+- Gmail message id: 1a15cfb90b4f7020
+- thread id: 1a15ca3e5a31fb58
+- status: SENT
+- response: PENDING
+
+Bitso Business:
+- official route: Contact Sales form
+- status: FORM READY / NOT SUBMITTED
+- no verified direct sales email used
+
+Komainu:
+- official route: institutional Contact form
+- status: FORM READY / NOT SUBMITTED
+- published email addresses are press routes and are intentionally not used for sales outreach
+
+Cumulative email outreach:
+- SENT: 4
+- replies: 0
+- bounces: 0
+
+
+## Batch 003 direct-email extension — 2026-10-21
+
+Securosys:
+- workflow fit: Ripple Custody / institutional cryptographic infrastructure
+- official sales route: sales@securosys.com
+- Gmail dedupe: 0 prior messages
+- Gmail message id: 1a15cfd3794c3465
+- thread id: 1a15cfd234a8da12
+- status: SENT
+- response: PENDING
+- outreach proof point: RLUSD-003 signing-authority / key-management transition
+
+Official sources:
+- Ripple / Securosys custody collaboration: https://ripple.com/ripple-press/ripple-accelerates-institutional-custody-adoption-with-security-compliance-and-staking-capabilities/
+- Securosys sales contact: https://www.securosys.com/en/contact
+
+Cumulative email outreach:
+- SENT: 5
+- replies: 0
+- bounces: 0
+
+
+## Batch 004 direct-email extension — Figment
+
+Figment:
+- workflow fit: institutional digital-asset infrastructure / Ripple Custody ecosystem
+- official sales route: sales@figment.io
+- Gmail dedupe: 0 prior messages
+- Gmail message id: 1a15cfec27606766
+- thread id: 1a15cfeaa8247134
+- status: SENT
+- response: PENDING
+
+Official sources:
+- Ripple custody integration context: https://ripple.com/ripple-press/ripple-accelerates-institutional-custody-adoption-with-security-compliance-and-staking-capabilities/
+- Figment published sales route: https://www.figment.io/insights/figment-white-label/
+
+Cumulative direct email outreach:
+- SENT: 6
+- replies: 0
+- bounces: 0
+
+
+## Batch 006 — DZ BANK institutional custody
+
+DZ BANK:
+- workflow fit: institutional crypto custody / Ripple Custody client context
+- official custody contact: digital-custody@dzbank.de
+- Gmail dedupe: 0 prior messages
+- Gmail message id: 1a15d144d12015af
+- thread id: 1a15d143f3d3012b
+- status: SENT
+- response: PENDING
+
+Official sources:
+- DZ BANK institutional crypto custody contact: https://www.dzbank.de/content/dzbank/de/home/institutionelle-kunden/produkt-serviceangebot.html
+- Ripple institutional custody page citing DZ BANK: https://ripple.com/products/custody/
+
+Cumulative direct email outreach:
+- SENT: 7
+- replies: 0
+- bounces: 0
