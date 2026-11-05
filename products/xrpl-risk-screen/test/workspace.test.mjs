@@ -42,6 +42,21 @@ test("small-screen layout and accessibility support are built in",async()=>{
   assert.match(html,/:focus-visible/)
 })
 
+test("v3 has brand asset, product tour, comparison and triage controls",async()=>{
+  const html=await readFile(page,"utf8")
+  for(const id of ["startTour","tourLayer","tourNext","tourClose","view-compare","compareLeft","compareRight","compareExport","compareA","compareB","pulseBars","pulseVerify","triageItems","triageExport","kpiCases"]){
+    assert.match(html,new RegExp('id="'+id+'"'))
+  }
+  assert.match(html,/src="\/brand\.svg"/)
+  assert.match(html,/href="\/brand\.svg"/)
+  assert.match(html,/function renderCompare\(/)
+  assert.match(html,/function renderPulse\(/)
+  assert.match(html,/function exportTriage\(/)
+  assert.match(html,/function nextTour\(/)
+  assert.match(html,/No external approval|NOT LIVE MONITORING/)
+  assert.doesNotMatch(html,/<form\b/i)
+})
+
 test("original preview visibly links new workspace",async()=>{
   const html=await readFile(new URL("../public/index.html",import.meta.url),"utf8")
   assert.match(html,/href="\/workspace"/)
