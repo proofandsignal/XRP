@@ -71,6 +71,12 @@ test("isolated preview serves audited evidence with response security headers",a
     assert.equal(workspace.status,200)
     assert.match(workspace.headers.get("content-type")??"",/text\/html/)
     assert.match(await workspace.text(),/XRPL Evidence & Decision Workspace/)
+    const logo=await fetch(base+"/brand.svg")
+    assert.equal(logo.status,200)
+    assert.match(logo.headers.get("content-type")??"",/image\/svg\+xml/)
+    const svg=await logo.text()
+    assert.match(svg,/XRPL Evidence by Proof and Signal/)
+    assert.doesNotMatch(svg,/<script\b/i)
     assert.equal((await fetch(base+"/workspace",{method:"POST"})).status,405)
   } finally {
     proc.kill("SIGTERM")
