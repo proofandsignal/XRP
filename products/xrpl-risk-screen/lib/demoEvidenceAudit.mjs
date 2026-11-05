@@ -68,6 +68,21 @@ export async function buildAuditedDemoPack(id, options = {}) {
   const canonical = JSON.parse(bytes.toString("utf8"))
   const checks = validateCanonicalDemoCase(demoCase, canonical)
   const base = buildDemoEvidencePack(id)
+  // Public historical references are extracted from the checked-in canonical artifact,
+  // not from a newly queried XRPL node. They are not independently re-attested here.
+  const triggers = canonical.trigger_transaction
+    ? [canonical.trigger_transaction]
+    : [canonical.stage_a?.trigger,canonical.stage_b?.trigger].filter(Boolean)
+  const historicalReferences = triggers.map(t=>({
+    transaction_type: t.transaction_type,
+    ledger_index: t.ledger_index,
+    hash: t.hash,
+    source: "CHECKED_IN_CANONICAL_ARTIFACT"
+  })).filter(t=>typeof t.hash==="string" && /^[A-Fa-f0-9]{64}$/.test(t.hash) &&
+    Number.isSafeInteger(t.ledger_index))
+  const anchors = (canonical.stage_a && canonical.stage_b)
+    ? {from:canonical.stage_a.before?.ledger_index, to:canonical.stage_b.after?.ledger_index}
+    : {from:canonical.before?.ledger_index,to:canonical.after?.ledger_index}
   // A canonical artifact with no completeness field cannot support a COMPLETE claim.
   if (checks.unverified_fields.includes("case.evidence_status")) base.case.evidence_status = "UNKNOWN"
   return {
@@ -80,6 +95,9 @@ export async function buildAuditedDemoPack(id, options = {}) {
       canonical_sha256: createHash("sha256").update(bytes).digest("hex"),
       checked_fields: checks.checked_fields,
       unverified_fields: checks.unverified_fields,
+      historical_ledger_anchors: anchors,
+      historical_transaction_references: historicalReferences,
+      issuer_address: canonical.subject?.issuer ?? null,
       demo_reported_evidence_status: demoCase.evidence_status,
       method: "Compare the curated demo fields with the checked-in canonical case artifact; hash its exact UTF-8 bytes.",
       limitations: "This does not re-query XRPL, verify unrecorded completeness, validate external/issuer records, prove off-ledger settlement or establish the artifact's authenticity beyond the source repository. Compare this digest to independently obtained bytes from a pinned repository revision."
