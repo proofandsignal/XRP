@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#080e18">
 <meta name="description" content="Proof & Signal XRPL Institutional Evidence & Decision Workspace — audited historical research cases and operational decision workflow.">
-<title>XRPL Evidence & Decision Workspace | Proof & Signal</title>
+<title>XRPL Evidence OS — Institutional Case Intelligence | Proof & Signal</title>
+<link rel="icon" href="/brand.svg" type="image/svg+xml">
 <style>
 :root{color-scheme:dark;--bg:#080e18;--panel:#101927;--panel2:#142033;--line:#2a3c54;--soft:#97aabe;--text:#ecf3fa;--gold:#e7c997;--gold2:#b99a65;--mint:#72d8c6;--red:#ff9b9b;--orange:#f0bb83;--font:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 75% -15%,#263e5a 0%,transparent 48%),var(--bg);color:var(--text);font-family:var(--font);line-height:1.45}
@@ -93,42 +94,134 @@ label.flabel{display:block;font-size:11px;color:#afc1d5;font-weight:800;margin:1
 @media(max-width:760px){.shell{display:block}.side{position:sticky;top:0;height:auto;padding:9px 12px;border-right:0;border-bottom:1px solid #2b3d54}.brand{padding:0 3px 8px}.brand-symbol{width:31px;height:31px}.brand-symbol svg{width:20px;height:20px}.brand strong{font-size:12px}.brand small{font-size:9px}.side-label,.side-bottom{display:none}.navwrap{display:flex;gap:5px;overflow-x:auto;scrollbar-width:thin}.navbtn{white-space:nowrap;width:auto;flex:none;margin:0;padding:10px 11px;font-size:11px}.main{padding:17px 14px 48px}.top{margin-bottom:15px}.hero{padding:25px 21px;min-height:240px}.hero:before{right:-230px}.metrics{grid-template-columns:1fr 1fr}.metric strong{font-size:25px}.case-list,.three{grid-template-columns:1fr}.case-button{min-height:100px}.factline{grid-template-columns:1fr 1fr}.lensbuttons{grid-template-columns:1fr 1fr}.formrow{grid-template-columns:1fr}.card{padding:16px}.kv{grid-template-columns:1fr}.top-actions{width:100%}.top-actions .btn-outline{flex:1}}
 @media(max-width:385px){h1{font-size:30px}.top-actions{flex-wrap:wrap}.hero-tools .btn,.hero-tools .btn-primary{width:100%}.factline{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+/* V3 brand & high-fidelity institutional experience */
+:root{--bg:#060b13;--panel:#0c1624;--panel2:#102034;--line:#2c435b;--soft:#9bacc0;--text:#eff6fc;--gold:#efd19d;--gold2:#b99556}
+body{background:radial-gradient(ellipse 70% 42% at 74% -12%,#213953 0%,transparent 65%),radial-gradient(ellipse 40% 35% at -15% 50%,#12233b 0%,transparent 70%),#070e18}
+.side{background:linear-gradient(172deg,#0f1b2c,#08101c);border-right:1px solid #354b63}
+.brand{padding:6px 8px 12px;gap:12px}.brand .product-logo{width:54px;height:54px;filter:drop-shadow(0 3px 12px #b795503d);border:1px solid #64553a;border-radius:13px}
+.brand strong{letter-spacing:.015em;font-size:15px}.brand em{color:#e9c789;font-style:normal}
+.brand small{letter-spacing:.125em;font-size:9px}.brand-author{color:#748ba4;font-size:10px;padding:0 12px 21px;line-height:1.6}.brand-author strong{color:#e7c997;font-weight:700}
+.navbtn{min-height:46px;margin:3px 0}.navbtn.active{border:1px solid #8e7956;background:linear-gradient(100deg,#2e3844,#1a2a3a);box-shadow:inset 3px 0 0 #e2c48b}
+.side-rail-status{color:#d9bc85}.side-bottom strong{color:#c8a974;font-size:10px;letter-spacing:.04em}
+.live-bullet{display:inline-block;width:6px;height:6px;background:#70e1cb;border-radius:50%;margin-right:8px;box-shadow:0 0 11px #6ed3cda5}
+.top{margin-bottom:23px}.top-actions .btn-outline{border-color:#53657a}
+.hero.immersive{isolation:isolate;min-height:382px;padding:42px 38px;background:linear-gradient(105deg,#1c3145 0%,#111e31 47%,#0b1626 100%);border:1px solid #6d624d;box-shadow:0 25px 90px #0009,inset 0 0 68px #41597822}
+.hero.immersive:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,#bac9da08 0px,#bac9da08 1px,transparent 1px,transparent 22px);opacity:.35;pointer-events:none;z-index:-1}
+.hero.immersive .hero-content{max-width:660px;flex:1;z-index:2}
+.hero.immersive h1{font-size:clamp(38px,4.5vw,64px);line-height:1.035;letter-spacing:-.055em;margin:16px 0 19px}
+.hero.immersive p{max-width:550px;line-height:1.76;font-size:14px}
+.hero-diamond{color:#f4d6a2;margin-right:6px}.hero-proof{display:flex;gap:9px;flex-wrap:wrap;margin-top:28px}
+.hero-proof span{font-size:9px;font-weight:850;letter-spacing:.09em;color:#bdcde1;border-top:1px solid #667080;padding:11px 6px 0}
+.hero-scene{width:clamp(250px,38%,530px);height:360px;position:relative;z-index:1;flex:none;margin-right:-32px}
+.hero-scene svg{height:100%;width:100%;filter:drop-shadow(0 0 25px #cda97340)}
+.scene-caption{position:absolute;bottom:-1px;right:46px;color:#abc0d2;font:10px ui-monospace,monospace;letter-spacing:.13em}
+.mini-led{display:inline-block;width:5px;height:5px;border-radius:50%;background:#75dec4;margin-right:6px}
+.hero.immersive:before{display:none}
+.metric{background:linear-gradient(145deg,#152336,#0a1421);border:1px solid #41536d;box-shadow:inset 0 1px 0 #abc5df0b}
+.metric strong{color:#f3d8a4}.card{background:linear-gradient(148deg,#12243a 0%,#0c1725 83%);border-color:#3b5169}
+.section-title{margin-top:31px}.section-title h2{font-size:23px;margin:4px 0}
+.pulse-layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(270px,1fr);gap:13px}
+.pulse-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}.pulse-header h3{font-size:18px}
+.pulse-bars{display:grid;grid-template-columns:repeat(3,1fr);min-height:183px;align-items:end;gap:17px;padding:14px 5px 5px;margin:12px 0}
+.pulse-bar{display:flex;flex-direction:column;justify-content:end;gap:7px;text-align:left;background:transparent;color:#ecf4fc;border:0;min-width:0}
+.pulse-bar-track{height:123px;width:100%;display:flex;align-items:end;border-bottom:1px solid #7990a7;padding:0 10px;background:linear-gradient(180deg,#9bc3eb05,#e4c58e0a);border-radius:8px}
+.pulse-bar-fill{display:block;width:100%;min-height:5px;background:linear-gradient(180deg,#ead19d,#8c754e);border-radius:6px 6px 0 0;box-shadow:0 0 17px #dbb77c35;transition:height .2s}
+.pulse-bar:hover .pulse-bar-fill{background:linear-gradient(180deg,#8bedd2,#3a978d)}
+.pulse-bar-name{font:11px ui-monospace,monospace;color:#becbd9}.pulse-count{font-size:23px;font-weight:800;color:#f3dbb0}
+.pulse-side h3{font-size:22px;margin-bottom:12px}.pulse-detail{min-height:100px}.pulse-foot{color:#8da4ba;font-size:10px;margin-top:21px}
+.product-bento{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.bento-tile{text-align:left;position:relative;min-height:192px;display:flex;flex-direction:column;gap:7px;padding:20px;border:1px solid #405970;border-radius:16px;background:linear-gradient(140deg,#162a41,#0f1c2a);color:#eaf1fa}
+.bento-tile:hover{border-color:#d6ba89;transform:translateY(-2px);background:linear-gradient(130deg,#2a3646,#102238)}
+.bento-glyph{font-size:30px;color:#e4c286}.bento-tile strong{font-size:17px;line-height:1.2}.bento-tile small{color:#aabdd0;font-size:12px;line-height:1.55}
+.tile-arrow{position:absolute;right:16px;top:18px;color:#b7c8d8}
+.compare-banner,.triage-hero{display:flex;gap:15px;justify-content:space-between;align-items:center;background:linear-gradient(110deg,#24364a,#0c1b2e);border:1px solid #645a49;border-radius:14px;padding:19px 22px;margin:14px 0}
+.compare-banner>span{font-size:35px;color:#e7c58a}.compare-banner strong,.triage-hero strong{display:block}.compare-banner small{color:#a8bfd3;font-size:12px;display:block;margin-top:6px}
+.compare-toolbar{display:grid;grid-template-columns:1fr 50px 1fr;gap:12px;align-items:end;margin:16px 0}
+.compare-toolbar label{margin:0}.compare-toolbar select{display:block;margin-top:8px}.compare-glyph{text-align:center;font-size:29px;color:#d9bf91;padding-bottom:5px}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.compare-column h3{font-size:20px;margin:6px 0 15px}
+.compare-details .signalrow{align-items:flex-start}.compare-details .signalrow strong{overflow-wrap:anywhere;text-align:right;max-width:65%}
+.compare-takeaway h3{color:#ebd1a1;margin-bottom:8px}.compare-takeaway p{max-width:950px}
+.triage-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.triage-filter{background:#142436;color:#b2c7dc;border:1px solid #45576c;border-radius:8px;padding:9px 13px;font-size:12px}
+.triage-filter.active{background:#e4c48e;color:#172337;border-color:#e4c48e;font-weight:800}
+.triage-items{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.triage-item h3{margin:7px 0 10px;font-size:18px}.triage-item p{font-size:12px;min-height:61px}
+.triage-item select{margin-top:7px}.triage-status{display:inline-block;font-size:10px;border:1px solid #677484;border-radius:9px;padding:5px 8px;color:#d5dfec;margin-top:10px}
+.tour-layer:not([hidden]){display:flex;position:fixed;inset:0;z-index:15;background:#020811bb;align-items:center;justify-content:center;padding:22px;backdrop-filter:blur(4px)}
+.tour-modal{width:min(560px,100%);padding:30px;border:1px solid #cbb17d;background:radial-gradient(ellipse at 75% 0%,#26405a,#111f32 70%);border-radius:20px;box-shadow:0 20px 100px #000b}
+.tour-modal h3{font-size:29px;margin:14px 0}.tour-modal p{font-size:14px;line-height:1.8}.footer-logo{vertical-align:middle;margin-right:8px}
+.navbtn,.bento-tile,.case-button,.triage-filter,.pulse-bar{transition:transform .15s,border-color .15s,background .15s}
+@media(max-width:1330px){.hero-scene{width:34%;height:315px;margin-right:-25px}.hero.immersive h1{font-size:47px}.product-bento{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:1040px){.hero-scene{opacity:.36;position:absolute;right:0;top:0;width:350px;height:100%}.hero.immersive .hero-content{max-width:750px}.pulse-layout{grid-template-columns:1fr}.triage-items{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.brand{padding-bottom:4px}.brand .product-logo{width:38px;height:38px}.brand-author{display:none}.hero.immersive{min-height:325px;padding:29px 21px}.hero.immersive h1{font-size:43px}.hero-scene{right:-180px;opacity:.22}.hero-proof{gap:7px}.hero-proof span{font-size:8px}.product-bento{grid-template-columns:1fr 1fr}.bento-tile{min-height:173px;padding:14px}.compare-grid,.triage-items{grid-template-columns:1fr}.compare-banner,.triage-hero{align-items:flex-start}.compare-toolbar{grid-template-columns:1fr 30px 1fr}.triage-hero{flex-wrap:wrap}}
+@media(max-width:440px){.hero.immersive h1{font-size:34px}.hero-proof span{font-size:8px}.pulse-bars{gap:5px}.pulse-bar-track{padding:0 5px}.bento-tile{min-height:171px}.bento-tile strong{font-size:14px}.bento-tile small{font-size:11px}.compare-toolbar{grid-template-columns:1fr}.compare-glyph{display:none}.product-bento{gap:8px}}
+
 </style>
 </head>
 <body>
 <div class="shell">
   <aside class="side" aria-label="Main navigation">
     <div class="brand">
-      <span class="brand-symbol" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M9 28L19 8 30 28M13 22h14M27 8l4 5-4 5" fill="none" stroke="#e7c997" stroke-width="3" stroke-linecap="round"/></svg></span>
-      <span><strong>XRPL EVIDENCE</strong><small>BY PROOF &amp; SIGNAL</small></span>
+      <img class="product-logo" src="/brand.svg" alt="XRPL Evidence OS original gold trace logo" width="56" height="56">
+      <span><strong>XRPL EVIDENCE <em>OS</em></strong><small>INTELLIGENCE WORKSPACE</small></span>
     </div>
+    <div class="brand-author">An independent product by <strong>Proof &amp; Signal</strong></div>
     <div class="side-label">Research Workspace</div>
     <div class="navwrap">
-      <button class="navbtn active" type="button" data-view="overview"><span class="num">01</span> Overview</button>
+      <button class="navbtn active" type="button" data-view="overview"><span class="num">01</span> Mission Control</button>
       <button class="navbtn" type="button" data-view="case"><span class="num">02</span> Case Explorer</button>
-      <button class="navbtn" type="button" data-view="decision"><span class="num">03</span> Decision Lab</button>
-      <button class="navbtn" type="button" data-view="evidence"><span class="num">04</span> Evidence Vault</button>
-      <button class="navbtn" type="button" data-view="roadmap"><span class="num">05</span> What's Next</button>
+      <button class="navbtn" type="button" data-view="compare"><span class="num">03</span> Compare Lab</button>
+      <button class="navbtn" type="button" data-view="decision"><span class="num">04</span> Decision Lab</button>
+      <button class="navbtn" type="button" data-view="evidence"><span class="num">05</span> Evidence Vault</button>
+      <button class="navbtn" type="button" data-view="triage"><span class="num">06</span> Triage Desk</button>
+      <button class="navbtn" type="button" data-view="roadmap"><span class="num">07</span> What's Next</button>
     </div>
-    <div class="side-bottom"><span class="side-dot"></span> Public research preview<br>Non-custodial · Read-only cases<br>NO CUSTOMER DATA · NO PRODUCTION<br>© Proof &amp; Signal</div>
+    <div class="side-bottom"><span class="side-dot"></span> V3 · INTERACTIVE RESEARCH PREVIEW<br><span class="side-rail-status">03 historical cases · 0 live alerts</span><br>No wallets · No production<br><strong>CREATED BY PROOF &amp; SIGNAL</strong></div>
   </aside>
   <main class="main">
     <header class="top">
-      <div class="kicker">Institutional evidence · decision intelligence <span style="color:#d9c194">/ v2 preview</span></div>
+      <div class="kicker"><span class="live-bullet"></span> EVIDENCE OPERATIONS / INSTITUTIONAL WORKSPACE <span style="color:#d9c194">/ v3 research</span></div>
       <div class="top-actions">
-        <span class="status"><i></i> Historic XRPL Case Library</span>
+        <span class="status"><i></i> Historical evidence · Replay mode</span>
+        <button id="startTour" type="button" class="btn-outline">Take the 90-sec tour</button>
         <a class="btn-outline" href="/" title="Legacy read-only scanner">Research Scanner ↗</a>
         <a class="btn-primary" href="mailto:partners@proofandsignal.xyz?subject=XRPL%20Evidence%20Review%20Discovery" title="Open email to discuss a scoped pilot">Discuss a Pilot ↗</a>
       </div>
     </header>
 
     <section class="view active" id="view-overview">
-      <div class="hero">
+      <div class="hero immersive">
         <div class="hero-content">
-          <div class="goldtext">XRPL / Institutional Assurance / Evidence Research</div>
-          <h1>Know what changed.<br><em>Prove what matters.</em></h1>
-          <p>Turn recorded XRPL issuer and authorization changes into a traceable research dossier. Explore why a signal matters, what remains unknown, and what an institutional team might review next.</p>
-          <div class="hero-tools"><button type="button" class="btn-primary" data-go="case">Explore the Case Library →</button><button type="button" class="btn-outline" data-go="decision">Open Decision Lab</button></div>
+          <div class="goldtext"><span class="hero-diamond">◆</span> XRPL EVIDENCE OS · PROOF & SIGNAL</div>
+          <h1>Every ledger change<br>has a <em>story.</em><br>Make it <em>verifiable.</em></h1>
+          <p>An institutional research workspace for XRPL issuer controls, signing authority and auditable historical evidence. Experience a real traceable workflow — not a generic token dashboard.</p>
+          <div class="hero-tools"><button type="button" class="btn-primary" data-go="case">Explore real XRPL cases <span aria-hidden="true">↗</span></button><button type="button" class="btn-outline" data-go="compare">Compare two cases</button></div>
+          <div class="hero-proof"><span>03 CURATED MAINNET CASES</span><span>SHA-256 EVIDENCE AUDIT</span><span>ZERO WALLET CONNECTIONS</span></div>
+        </div>
+        <div class="hero-scene" aria-hidden="true">
+          <svg viewBox="0 0 560 460" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <radialGradient id="coreLight"><stop stop-color="#f8e2b1" stop-opacity=".95"/><stop offset=".38" stop-color="#b9955c" stop-opacity=".35"/><stop offset="1" stop-color="#94713f" stop-opacity="0"/></radialGradient>
+              <linearGradient id="ringLight"><stop stop-color="#a9c3d4" stop-opacity=".3"/><stop offset=".5" stop-color="#e8c88d" stop-opacity=".9"/><stop offset="1" stop-color="#789caf" stop-opacity=".35"/></linearGradient>
+            </defs>
+            <circle cx="289" cy="225" r="188" fill="none" stroke="#8da8bb" stroke-opacity=".12" stroke-width="1" stroke-dasharray="4 8"/>
+            <circle cx="289" cy="225" r="145" fill="none" stroke="url(#ringLight)" stroke-width="2" stroke-opacity=".7"/>
+            <circle cx="289" cy="225" r="108" fill="none" stroke="#99b4c7" stroke-opacity=".16" stroke-width="1"/>
+            <path d="M290 24V428M83 225H496" stroke="#b8d2e2" stroke-opacity=".07"/>
+            <circle cx="289" cy="225" r="93" fill="url(#coreLight)"/>
+            <path d="M289 137 376 225 289 313 202 225Z" fill="#112337" stroke="#e6c58b" stroke-width="3"/>
+            <path d="M225 242 260 207 290 238 320 206 352 240" stroke="#f7dfac" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" fill="none"/>
+            <circle cx="260" cy="207" r="9" fill="#f0d297"/><circle cx="320" cy="206" r="9" fill="#f0d297"/>
+            <path d="M258 265H324" stroke="#76dccd" stroke-width="6" stroke-linecap="round"/>
+            <g fill="#d7b883"><circle cx="144" cy="225" r="7"/><circle cx="434" cy="225" r="7"/><circle cx="289" cy="80" r="7"/><circle cx="289" cy="370" r="7"/></g>
+            <g font-family="system-ui,sans-serif" font-size="13" fill="#c4d2db">
+              <text x="20" y="209">ISSUER CONTROLS</text><text x="391" y="211">SIGNING</text><text x="304" y="67">LEDGER</text><text x="308" y="389">EVIDENCE</text>
+            </g>
+            <path d="M135 220 116 164 49 164M438 231 476 290 534 290" stroke="#e6c58b" stroke-width="1.4" stroke-opacity=".7" fill="none"/>
+            <circle cx="49" cy="164" r="4" fill="#7ad8ca"/><circle cx="534" cy="290" r="4" fill="#7ad8ca"/>
+            <g font-family="ui-monospace,monospace" font-size="10" fill="#7897ac"><text x="40" y="147">ACCOUNTSET</text><text x="433" y="307">SIGNERLISTSET</text></g>
+          </svg>
+          <div class="scene-caption"><span class="mini-led"></span> EVIDENCE NETWORK · HISTORICAL REPLAY</div>
         </div>
       </div>
       <div class="metrics" aria-label="Historical data metrics">
@@ -136,6 +229,28 @@ label.flabel{display:block;font-size:11px;color:#afc1d5;font-weight:800;margin:1
         <div class="metric"><div class="span-label">Material changes</div><strong id="kpiMaterial">—</strong><small>Within deterministic rule set</small></div>
         <div class="metric"><div class="span-label">Bounded comparisons</div><strong id="kpiPartial">—</strong><small>Partial evidence cases</small></div>
         <div class="metric"><div class="span-label">Unknown completeness</div><strong id="kpiUnknown">—</strong><small>Not promoted to COMPLETE</small></div>
+      </div>
+      <div class="section-title"><div><div class="goldtext">INTELLIGENCE / INTERACTIVE SNAPSHOT</div><h2>Mission Control — Evidence Pulse</h2><div class="sub">Deterministic events in the three archived case records. This is not a live risk feed.</div></div><button class="btn-outline" type="button" data-go="triage">Open triage desk →</button></div>
+      <div class="pulse-layout">
+        <div class="card pulse-card">
+          <div class="pulse-header"><div><div class="span-label">Historical event density</div><h3>Not every ledger movement is material.</h3></div><span class="pill">REAL ARCHIVED EVENTS</span></div>
+          <div id="pulseBars" class="pulse-bars" role="group" aria-label="Historical event counts by case">Loading archived cases…</div>
+          <p class="sub">Click any case to inspect its exact change history. Event count measures recorded deterministic changes — not financial risk or severity.</p>
+        </div>
+        <div class="card pulse-side">
+          <div class="span-label">Instant Investigation</div><h3 id="pulseTitle">Select a case to investigate</h3>
+          <div id="pulseDetails" class="pulse-detail sub">Loading evidence snapshot…</div>
+          <div class="separator"></div>
+          <div class="toolsline"><button id="pulseVerify" class="btn-primary" type="button">Open evidence audit ↗</button><button type="button" class="btn-outline" data-go="decision">Draft a review</button></div>
+          <div class="pulse-foot">No price projections · No invented loss estimates · No signing</div>
+        </div>
+      </div>
+      <div class="section-title"><div><h2>Experience the full workflow</h2><div class="sub">Interactive research tools now · Permissioned enterprise modules after validation</div></div></div>
+      <div class="product-bento">
+        <button type="button" data-go="case" class="bento-tile"><span class="bento-glyph">◇</span><span class="span-label">EXPLORE</span><strong>Recorded changes</strong><small>Compare states, open the historical replay and understand each alert.</small><span class="tile-arrow">↗</span></button>
+        <button type="button" data-go="compare" class="bento-tile"><span class="bento-glyph">⇄</span><span class="span-label">COMPARE</span><strong>Evidence side-by-side</strong><small>Find the differences between two issuer-control case records.</small><span class="tile-arrow">↗</span></button>
+        <button type="button" data-go="evidence" class="bento-tile"><span class="bento-glyph">⌁</span><span class="span-label">VERIFY</span><strong>Source-bound dossier</strong><small>Read SHA-256 provenance, unknowns and transaction references.</small><span class="tile-arrow">↗</span></button>
+        <button type="button" data-go="decision" class="bento-tile"><span class="bento-glyph">▣</span><span class="span-label">DECIDE</span><strong>Review memo studio</strong><small>Write a scoped operational review and export a local memo.</small><span class="tile-arrow">↗</span></button>
       </div>
       <div class="section-title"><div><h2>Evidence Operations Console</h2><div class="sub">From observation to operational judgment, not another price dashboard</div></div><span class="pill">HISTORICAL DATA / NOT LIVE ALERTS</span></div>
       <div class="two">
@@ -182,6 +297,23 @@ label.flabel{display:block;font-size:11px;color:#afc1d5;font-weight:800;margin:1
       </div>
     </section>
 
+    <section class="view" id="view-compare">
+      <div class="section-title"><div><div class="goldtext">03 / ANALYST COMPARISON TOOL</div><h2>Compare Lab</h2><div class="sub">Put two archived XRPL evidence cases side by side. This compares recorded case fields, not financial performance.</div></div></div>
+      <div class="compare-banner"><span>↔</span><div><strong>From raw ledger events to operational context.</strong><small>Change the cases below and inspect differences in controls, evidence completeness and next review actions.</small></div></div>
+      <div class="compare-toolbar">
+        <label class="flabel" for="compareLeft">CASE A<select id="compareLeft" class="select"></select></label>
+        <div class="compare-glyph" aria-hidden="true">⇄</div>
+        <label class="flabel" for="compareRight">CASE B<select id="compareRight" class="select"></select></label>
+      </div>
+      <div class="compare-grid">
+        <article class="card compare-column"><div class="span-label">SOURCE A</div><h3 id="compareATitle">Loading…</h3><div id="compareA" class="compare-details"></div></article>
+        <article class="card compare-column"><div class="span-label">SOURCE B</div><h3 id="compareBTitle">Loading…</h3><div id="compareB" class="compare-details"></div></article>
+      </div>
+      <div class="card compare-takeaway" style="margin-top:14px"><div class="span-label">Differential interpretation</div><h3 id="compareHeadline">Select two cases</h3><p id="compareSummary" class="sub"></p>
+        <div class="toolsline"><button id="compareExport" class="btn-primary" type="button">Export comparison TXT</button><button id="compareGoCase" class="btn-outline" type="button">Inspect case A →</button></div>
+        <p class="sub">Differences are descriptive, not a ranking or a forecast. No external request is made beyond fetching the historical case catalogue.</p>
+      </div>
+    </section>
     <section class="view" id="view-decision">
       <div class="section-title"><div><div class="goldtext">02 / Analyst workflow</div><h2>Decision Lab</h2><div class="sub">Draft a scenario-specific review memo. Nothing is submitted to the server or saved to an account.</div></div></div>
       <div class="two">
@@ -225,6 +357,17 @@ label.flabel{display:block;font-size:11px;color:#afc1d5;font-weight:800;margin:1
       </div>
     </section>
 
+    <section class="view" id="view-triage">
+      <div class="section-title"><div><div class="goldtext">06 / INTERACTIVE OPERATIONS SANDBOX</div><h2>Triage Desk</h2><div class="sub">Explore how a team might organize historical evidence into review actions. Local session state only; no customer incidents are created.</div></div></div>
+      <div class="triage-hero"><div><div class="span-label">Operations sandbox · NOT LIVE MONITORING</div><h3>From detection to disciplined review.</h3><p class="sub">Assign a disposition to the three archived cases, then export a simulated triage summary for an institutional discovery discussion.</p></div><button id="triageExport" type="button" class="btn-primary">Export triage briefing ↗</button></div>
+      <div class="triage-filters" role="group" aria-label="Triage filter">
+        <button type="button" class="triage-filter active" data-triage-filter="all">All archived cases</button>
+        <button type="button" class="triage-filter" data-triage-filter="material">Material changes</button>
+        <button type="button" class="triage-filter" data-triage-filter="needs">Needs source review</button>
+      </div>
+      <div id="triageItems" class="triage-items" aria-live="polite">Loading sandbox records…</div>
+      <div class="alert">These are not live risk alerts or customer tickets. Changes are held in the open browser tab only and are not stored, sent or shared.</div>
+    </section>
     <section class="view" id="view-roadmap">
       <div class="section-title"><div><div class="goldtext">04 / Product direction</div><h2>A more useful institutional workflow</h2><div class="sub">Features are explicitly separated into delivered research tools and future development candidates.</div></div></div>
       <div class="two">
@@ -246,10 +389,13 @@ label.flabel{display:block;font-size:11px;color:#afc1d5;font-weight:800;margin:1
       </div>
     </section>
 
-    <footer class="footer"><span>Proof &amp; Signal · XRPL Evidence &amp; Decision Workspace · Research Preview</span><span>Public historical cases · No wallet access · No sensitive data · Production and client release NOT approved</span></footer>
+    <footer class="footer"><span><img src="/brand.svg" alt="" width="25" height="25" class="footer-logo"> XRPL Evidence OS · <strong>CREATED BY PROOF &amp; SIGNAL</strong> · Research Preview</span><span>Public historical cases · No wallet access · No sensitive data · Production and client release NOT approved</span></footer>
   </main>
 </div>
 <div id="toast" class="toast" aria-live="polite"></div>
+<div id="tourLayer" class="tour-layer" hidden aria-live="polite" role="dialog" aria-label="Product experience tour">
+  <div class="tour-modal"><div class="span-label">GUIDED PRODUCT EXPERIENCE · <span id="tourProgress">1 / 5</span></div><h3 id="tourTitle">Explore institutional evidence</h3><p id="tourBody" class="sub"></p><div class="toolsline"><button id="tourNext" type="button" class="btn-primary">Next step →</button><button id="tourClose" type="button" class="btn-outline">Close tour</button></div></div>
+</div>
 <script>
 "use strict";
 var S={cases:[],selected:null,pack:null,lens:"treasury",step:0,memo:""};
