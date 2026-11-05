@@ -70,7 +70,7 @@ test("isolated preview serves audited evidence with response security headers",a
     const workspace=await fetch(base+"/workspace")
     assert.equal(workspace.status,200)
     assert.match(workspace.headers.get("content-type")??"",/text\/html/)
-    assert.match(await workspace.text(),/XRPL Evidence & Decision Workspace/)
+    assert.match(await workspace.text(),/XRPL Evidence OS/)
     const logo=await fetch(base+"/brand.svg")
     assert.equal(logo.status,200)
     assert.match(logo.headers.get("content-type")??"",/image\/svg\+xml/)
