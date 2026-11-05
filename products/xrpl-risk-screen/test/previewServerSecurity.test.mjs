@@ -49,12 +49,25 @@ test("isolated preview serves audited evidence with response security headers",a
       assert.match(body.audit.canonical_sha256,/^[0-9a-f]{64}$/)
       assert.equal(body.audit.status,id==="RLUSD-003"?"REPOSITORY_ARTIFACT_PARTIAL_CONSISTENCY":"REPOSITORY_ARTIFACT_CONSISTENCY_PASS")
       if(id==="RLUSD-003")assert.equal(body.case.evidence_status,"UNKNOWN")
+      assert.ok(Array.isArray(body.audit.historical_transaction_references))
+      assert.ok(body.audit.historical_ledger_anchors)
+      assert.equal(body.audit.historical_transaction_references.length,
+        id==="RLUSD-001"?0:id==="RLUSD-002"?1:2)
+      for(const tx of body.audit.historical_transaction_references){
+        assert.match(tx.hash,/^[A-Fa-f0-9]{64}$/)
+        assert.equal(tx.source,"CHECKED_IN_CANONICAL_ARTIFACT")
+      }
     }
     assert.equal((await fetch(base+"/api/demo-cases/UNKNOWN")).status,404)
     assert.equal((await fetch(base+"/api/health",{method:"POST"})).status,405)
     const index=await fetch(base+"/")
     assert.equal(index.status,200)
     assert.match(await index.text(),/Institutional clarity/)
+    const workspace=await fetch(base+"/workspace")
+    assert.equal(workspace.status,200)
+    assert.match(workspace.headers.get("content-type")??"",/text\/html/)
+    assert.match(await workspace.text(),/XRPL Evidence & Decision Workspace/)
+    assert.equal((await fetch(base+"/workspace",{method:"POST"})).status,405)
   } finally {
     proc.kill("SIGTERM")
   }
