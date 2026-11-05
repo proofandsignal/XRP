@@ -52,7 +52,11 @@ test("isolated preview serves audited evidence with response security headers",a
       assert.ok(Array.isArray(body.audit.historical_transaction_references))
       assert.ok(body.audit.historical_ledger_anchors)
       assert.equal(body.audit.historical_transaction_references.length,
-        id==="RLUSD-001"?0:id==="RLUSD-002"?1:2)
+        id==="RLUSD-001"?0:1)
+      assert.equal(body.audit.historical_reference_issues.length,id==="RLUSD-003"?1:0)
+      if(id==="RLUSD-003"){
+        assert.ok(body.audit.unverified_fields.includes("audit.historical_transaction_references"))
+      }
       for(const tx of body.audit.historical_transaction_references){
         assert.match(tx.hash,/^[A-Fa-f0-9]{64}$/)
         assert.equal(tx.source,"CHECKED_IN_CANONICAL_ARTIFACT")
