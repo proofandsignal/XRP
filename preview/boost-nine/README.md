@@ -34,3 +34,24 @@ The test does not establish browser QA, security review, live content correctnes
 `BUILD CANDIDATE → STATIC TESTS PENDING → BROWSER QA → SECURITY QA → PRIVATE HTTPS → SAMSUNG QA → HUMAN APPROVAL`
 
 No new paid APIs, autonomous trading, signing, wallet connection or real funds.
+
+
+## Protected HTTPS deployment preparation (NOT authorized for deployment yet)
+Prerequisite: recorded independent Security / Legal / IP review acceptance on
+[RELEASE-009](https://github.com/proofandsignal/XRP/issues/31).
+Do not deploy or share publicly before that acceptance.
+
+After review, provision ONE isolated Render **Free** Node web service in `My Workspace`:
+- repo: `proofandsignal/XRP`
+- branch: `demo/boost-nine-20261113`
+- Auto-Deploy: `OFF`
+- build command: `node --test preview/boost-nine/test.mjs preview/boost-nine/protected-preview.test.mjs`
+- start command: `node preview/boost-nine/server.mjs`
+- environment: `PREVIEW_USER` and a unique randomly generated `PREVIEW_PASSWORD` at least 24 characters long as Render secrets; never commit or log credentials.
+- route names: `/`, `/rlusd.html`, `/rwa.html`, `/defi-guard.html`.
+- all paths (including index) require HTTP Basic authentication; no web-hosted credential sharing in the public repository.
+- the six previous Render URL links remain external and **are not** covered by this protected service; review their separate exposure and product gates.
+
+The HTTPS hostname itself is not confidential; protection is enforced by server-side authentication.
+After deployment, verify unauthorized 401, authenticated 200, CSP response headers, desktop browser interactions, 390px viewport and actual physical Samsung device.
+**Do not mark Full Demo PASS automatically.**
