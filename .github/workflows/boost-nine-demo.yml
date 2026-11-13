@@ -1,0 +1,30 @@
+name: Project Boost 9 Demo static checks
+on:
+  pull_request:
+    paths:
+      - 'preview/boost-nine/**'
+      - '.github/workflows/boost-nine-demo.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Parse and verify demo contract
+        run: node --test preview/boost-nine/test.mjs preview/boost-nine/protected-preview.test.mjs
+  browser-review:
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.58.0-noble
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install matching Playwright Node client
+        run: npm install --no-save --package-lock=false playwright@1.58.0
+      - name: Execute Chromium desktop and mobile viewport checks
+        run: node --test preview/boost-nine/browser-qa.mjs preview/boost-nine/auth-browser-qa.mjs

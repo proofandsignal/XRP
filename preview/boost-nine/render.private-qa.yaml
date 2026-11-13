@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: proofandsignal-boost-nine-private-qa
+    runtime: node
+    repo: https://github.com/proofandsignal/XRP
+    branch: demo/boost-nine-20261113
+    plan: free
+    region: frankfurt
+    autoDeploy: false
+    buildCommand: node --test preview/boost-nine/test.mjs preview/boost-nine/protected-preview.test.mjs
+    startCommand: node preview/boost-nine/server.mjs
+    envVars:
+      - key: PREVIEW_USER
+        sync: false
+      - key: PREVIEW_PASSWORD
+        sync: false
