@@ -27,4 +27,4 @@ jobs:
       - name: Install matching Playwright Node client
         run: npm install --no-save --package-lock=false playwright@1.58.0
       - name: Execute Chromium desktop and mobile viewport checks
-        run: node --test preview/boost-nine/browser-qa.mjs
+        run: node --test preview/boost-nine/browser-qa.mjs preview/boost-nine/auth-browser-qa.mjs
