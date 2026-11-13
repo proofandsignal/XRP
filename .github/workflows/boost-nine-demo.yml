@@ -1,0 +1,20 @@
+name: Project Boost 9 Demo static checks
+on:
+  pull_request:
+    paths:
+      - 'preview/boost-nine/**'
+      - '.github/workflows/boost-nine-demo.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Parse and verify demo contract
+        run: node --test preview/boost-nine/test.mjs
