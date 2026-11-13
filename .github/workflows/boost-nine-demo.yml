@@ -18,3 +18,17 @@ jobs:
           node-version: '22'
       - name: Parse and verify demo contract
         run: node --test preview/boost-nine/test.mjs
+  browser-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser QA dependencies
+        run: |
+          npm install --no-save --package-lock=false playwright@1.58.0
+          npx playwright install --with-deps chromium
+      - name: Execute Chromium desktop and mobile viewport checks
+        run: node --test preview/boost-nine/browser-qa.mjs
