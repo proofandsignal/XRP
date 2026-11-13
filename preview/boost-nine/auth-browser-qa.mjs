@@ -38,5 +38,18 @@ test('authorized Chromium runs interactive RLUSD, RWA and Guard scripts behind C
       assert.deepEqual(errors,[],path+' script error');
       await page.close();
     }
+    // Confirm authenticated JSON export is allowed by the protected CSP.
+    const exported=await context.newPage({acceptDownloads:true});
+    const errors=[];
+    exported.on('console',msg=>{if(msg.type()==='error')errors.push(msg.text())});
+    exported.on('pageerror',err=>errors.push(err.message));
+    await exported.goto(url+'/rlusd.html');
+    const [download]=await Promise.all([
+      exported.waitForEvent('download',{timeout:15000}),
+      exported.locator('#export').click()
+    ]);
+    assert.match(download.suggestedFilename(),/rlusd-intelligence.*\.json/);
+    assert.deepEqual(errors,[],'protected export must not violate CSP');
+    await exported.close();
   }finally{await context.close();await browser.close();}
 });
