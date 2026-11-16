@@ -42,7 +42,11 @@ test('protected premium synthetic preview: auth, controls, no financial executio
   await t.test('authorized page is premium, clearly synthetic, no external scripts', async () => {
     const r=await get('/'); assert.equal(r.status,200); const text=await r.text();
     assert.match(text,/PROOF/); assert.match(text,/Fictional fixtures only/);
-    assert.match(text,/Explore scenarios/); assert.match(text,/Created by Proof & Signal/);
+    assert.match(text,/Explore the demo/); assert.match(text,/Created by/);
+    assert.match(text,/Proof &amp; Signal/);
+    assert.match(text,/settlement-cover\.svg/);
+    assert.match(text,/brand-mark\.svg/);
+    assert.match(text,/fictional fixtures|Fictional fixtures/i);
     assert.doesNotMatch(text,/https:\/\/[^" ]+\.js/);
     assert.ok((r.headers.get('content-security-policy')||'').includes("default-src 'none'"));
     assert.match(r.headers.get('cache-control')||'',/no-store/);
@@ -52,6 +56,9 @@ test('protected premium synthetic preview: auth, controls, no financial executio
     const js=await get('/assets/app.js'); assert.equal(js.status,200); assert.match(js.headers.get('content-type')||'',/javascript/);
     const css=await get('/assets/style.css'); assert.equal(css.status,200); assert.match(css.headers.get('content-type')||'',/css/);
     const icon=await get('/favicon.svg'); assert.equal(icon.status,200); assert.match(icon.headers.get('content-type')||'',/svg/);
+    const logo=await get('/assets/brand-mark.svg'); assert.equal(logo.status,200); assert.match(await logo.text(),/Proof and Signal original symbol/);
+    const cover=await get('/assets/settlement-cover.svg'); assert.equal(cover.status,200);
+    assert.match(await cover.text(),/ILLUSTRATIVE EVIDENCE/);
   });
   await t.test('predefined scenario catalog is synthetic and read only', async () => {
     const x=await (await get('/api/scenarios')).json();
