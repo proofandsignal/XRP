@@ -80,6 +80,9 @@ export function reconcilePayment(intent, evidence) {
   const observedAmount = typeof delivered === 'string' ? delivered : delivered.value;
   const diff = compareDecimal(observedAmount, expectedAmount);
   if (diff == null) return result('REVIEW', 'AMOUNT_INVALID_OR_UNKNOWN');
+  // A zero-value intent is not a successful commercial payment, even if it matches
+  // the supplied metadata. Do not let 0 XRP drops or 0 RLUSD become PAYMENT_MATCHED.
+  if (compareDecimal(expectedAmount, '0') === 0) return result('REVIEW', 'NON_POSITIVE_INTENT_AMOUNT');
   if (diff < 0) return result('BLOCK', 'UNDERDELIVERED', { observed_amount: observedAmount, expected_amount: expectedAmount });
   if (diff > 0) return result('REVIEW', 'OVERDELIVERED_REQUIRES_REVIEW', { observed_amount: observedAmount, expected_amount: expectedAmount });
   return result('PASS', 'PAYMENT_MATCHED', {
