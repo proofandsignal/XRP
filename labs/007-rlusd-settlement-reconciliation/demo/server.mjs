@@ -95,7 +95,9 @@ const scenarios = {
 };
 const routeFiles = Object.freeze({
   '/':'index.html', '/assets/style.css':'assets/style.css',
-  '/assets/app.js':'assets/app.js', '/favicon.svg':'favicon.svg'
+  '/assets/app.js':'assets/app.js', '/favicon.svg':'favicon.svg',
+  '/assets/brand-mark.svg':'assets/brand-mark.svg',
+  '/assets/settlement-cover.svg':'assets/settlement-cover.svg'
 });
 const mime = { '.html':'text/html; charset=utf-8', '.css':'text/css; charset=utf-8',
   '.js':'text/javascript; charset=utf-8', '.svg':'image/svg+xml' };
