@@ -34,3 +34,5 @@ test('reject unsupported asset without treating as good', () => check('ASSET_UNS
 test('decimal parser rejects exponent to avoid ambiguous precision', () => check('AMOUNT_INVALID_OR_UNKNOWN', i => { i.amount = '1.05e1'; }));
 test('enormous decimal amounts compared exactly without floating point', () => check('PAYMENT_MATCHED', i => { i.amount = '123456789123456789123456789.123456789123456789'; }, e => { e.meta.delivered_amount.value = '123456789123456789123456789.1234567891234567890'; }));
 test('no issuer pin = REVIEW', () => check('ISSUER_NOT_PINNED', i => { delete i.asset.issuer; }));
+test('zero RLUSD intent cannot be marked paid', () => check('NON_POSITIVE_INTENT_AMOUNT', i => { i.amount = '0.000'; }, e => { e.meta.delivered_amount.value = '0'; }));
+test('zero XRP drops cannot be marked paid', () => check('NON_POSITIVE_INTENT_AMOUNT', i => { i.asset = { currency: 'XRP' }; i.amount = '0'; }, e => { e.meta.delivered_amount = '0'; }));
