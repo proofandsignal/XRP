@@ -41,7 +41,7 @@ test('protected premium synthetic preview: auth, controls, no financial executio
   });
   await t.test('authorized page is premium, clearly synthetic, no external scripts', async () => {
     const r=await get('/'); assert.equal(r.status,200); const text=await r.text();
-    assert.match(text,/PROOF/); assert.match(text,/Fictional fixtures only/);
+    assert.match(text,/PROOF/); assert.match(text,/Demonstration only: fictional fixtures/i);
     assert.match(text,/Explore the demo/); assert.match(text,/Created by/);
     assert.match(text,/Proof &amp; Signal/);
     assert.match(text,/settlement-cover\.svg/);
