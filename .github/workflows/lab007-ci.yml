@@ -1,0 +1,24 @@
+name: LAB-007 RLUSD Settlement Read-only Tests
+on:
+  pull_request:
+    paths:
+      - 'labs/007-rlusd-settlement-reconciliation/**'
+      - '.github/workflows/lab007-ci.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: lab007-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  deterministic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run deterministic read-only tests (no network, no secrets)
+        working-directory: labs/007-rlusd-settlement-reconciliation
+        run: npm test
