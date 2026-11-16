@@ -1,6 +1,6 @@
 # LAB-007 — XRPL XRP/RLUSD Settlement Reconciliation (read-only)
 
-**Status: isolated BUILD candidate; 20 deterministic local tests PASS; NOT independently audited or live-verified.**
+**Status: isolated BUILD candidate; 22 deterministic CI tests PASS (including zero-value regression tests); NOT independently audited or live-verified.**
 
 The module matches a payment intent against caller-supplied XRPL ledger evidence. No network access, signing, custody, facilitator integration, transactions or funds movement.
 
