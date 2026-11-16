@@ -19,6 +19,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Run deterministic read-only tests (no network, no secrets)
+      - name: Static syntax checks (no external dependencies)
+        working-directory: labs/007-rlusd-settlement-reconciliation
+        run: npm run demo:check
+      - name: Run deterministic and protected-preview integration tests (localhost only)
         working-directory: labs/007-rlusd-settlement-reconciliation
         run: npm test
