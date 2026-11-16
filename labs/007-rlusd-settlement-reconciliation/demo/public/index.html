@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="description" content="Proof & Signal synthetic read-only XRPL XRP/RLUSD payment evidence demo. No real funds or verified transactions.">
+<title>RLUSD Settlement Intelligence | Proof & Signal</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script src="/assets/app.js" defer></script>
+</head>
+<body>
+<div class="noise"></div>
+<header class="topbar">
+  <a class="identity" href="/" aria-label="Proof and Signal home">
+    <span class="emblem" aria-hidden="true"><span></span></span>
+    <span class="brandname">PROOF <i>&</i> SIGNAL<span class="brand-sub">XRPL INTELLIGENCE</span></span>
+  </a>
+  <div class="top-right"><span class="dot"></span><span>LAB-007 / PRIVATE PREVIEW</span><span class="top-pill">SYNTHETIC ONLY</span></div>
+</header>
+<main>
+  <section class="hero">
+    <div class="eyebrow"><span class="tiny-line"></span> PAYMENT ASSURANCE / XRP LEDGER</div>
+    <h1>Every settlement<br><em>needs evidence.</em></h1>
+    <p class="subhead">A read-only experimental screen that checks whether supplied XRP/RLUSD payment evidence matches a pinned intent — and refuses to invent certainty.</p>
+    <div class="hero-actions"><button type="button" id="explore" class="btn-primary">Explore scenarios <span aria-hidden="true">↗</span></button><a href="#method" class="btn-secondary">How it works <span aria-hidden="true">↓</span></a></div>
+    <p class="disclosure"><span class="diamond"></span> Fictional fixtures only. Not live XRPL data, a payment processor, a custody service or investment advice.</p>
+  </section>
+  <section class="metrics" aria-label="Research boundaries">
+    <div><span>ENVIRONMENT</span><strong>SIMULATED TESTNET</strong></div>
+    <div><span>PAYMENT EXECUTION</span><strong>DISABLED</strong></div>
+    <div><span>CLAIMED LEDGER PROOF</span><strong>NONE</strong></div>
+    <div><span>DECISION TYPES</span><strong>PASS / REVIEW / BLOCK</strong></div>
+  </section>
+  <section class="workspace" id="workspace">
+    <div class="section-title">
+      <div><span class="overline">01 / INTERACTIVE WORKSPACE</span><h2>Settlement evidence explorer</h2><p>Choose an illustrative failure mode. The server runs the deterministic LAB-007 reconciliation engine on predefined fictional values.</p></div>
+      <span class="server-status"><span class="dot"></span> READ-ONLY ENGINE</span>
+    </div>
+    <div class="scenario-section">
+      <div class="scenario-head"><span>SELECT A SCENARIO</span><span>07 CONTROLLED CASES</span></div>
+      <div id="scenario-buttons" class="scenarios" role="group" aria-label="Select synthetic reconciliation scenario"><span class="loading">Loading scenarios…</span></div>
+    </div>
+    <div class="content-grid">
+      <div class="main-panel">
+        <div class="panel-top"><span>02 / DETERMINISTIC RESULT</span><span id="scenario-id">CASE —</span></div>
+        <div class="decision-row"><div><span class="minor-label">RECONCILIATION STATE</span><h3 id="decision" class="decision">—</h3></div><span id="code-badge" class="code-badge">NOT EVALUATED</span></div>
+        <p id="decision-description" class="decision-description">Select a scenario to see a deterministic outcome. All evidence is fictional.</p>
+        <div class="rule"></div>
+        <dl class="fact-grid">
+          <div><dt>Expected asset</dt><dd id="asset">—</dd></div>
+          <div><dt>Expected amount</dt><dd id="expected">—</dd></div>
+          <div><dt>Delivered amount</dt><dd id="delivered">—</dd></div>
+          <div><dt>Verification source</dt><dd class="unknown">SYNTHETIC</dd></div>
+          <div><dt>Replay protection</dt><dd class="unknown">NOT PERFORMED</dd></div>
+          <div><dt>Financial completion</dt><dd class="unknown">NOT VERIFIED</dd></div>
+        </dl>
+        <div class="warn"><span aria-hidden="true">!</span><p><strong>Interpretation boundary:</strong> A synthetic <b>PASS</b> means only that the supplied fields match. It is <b>not</b> proof of an authentic XRPL transaction, payment receipt, invoice discharge or cleared funds.</p></div>
+      </div>
+      <aside class="evidence-panel">
+        <div class="panel-top"><span>03 / EVIDENCE TRACE</span><span>JSON / REPRODUCIBLE</span></div>
+        <p class="evidence-intro">Inspect the exact fictional payment intent, fixture and deterministic result used in this case.</p>
+        <div class="evidence-controls"><span class="trace-label"><span class="dot"></span> SIMULATED INPUT</span><button id="copy-evidence" type="button" class="copy-btn">Copy JSON <span aria-hidden="true">⧉</span></button></div>
+        <pre id="trace" tabindex="0" aria-label="Synthetic evidence JSON">Select a scenario…</pre>
+      </aside>
+    </div>
+  </section>
+  <section id="method" class="method">
+    <div><span class="overline">04 / OUR METHOD</span><h2>Don't turn uncertainty<br>into a green check.</h2></div>
+    <div class="steps">
+      <div><b>01</b><h3>Bind the intent</h3><p>Pin expected network, currency, issuer, payer, destination, tag, amount and transaction hash.</p></div>
+      <div><b>02</b><h3>Inspect delivered value</h3><p>Use the delivered amount, not the requested amount. Zero and partial deliveries must not become paid invoices.</p></div>
+      <div><b>03</b><h3>Preserve evidence limits</h3><p>Missing validation, unsigned fixtures, replay state and external financial claims remain UNKNOWN or REVIEW.</p></div>
+    </div>
+  </section>
+</main>
+<footer><span class="identity-foot">PROOF & SIGNAL</span><span>Research demonstration • © 2026 Proof & Signal</span><span>Created by Proof & Signal · No live payments · No production assurance</span></footer>
+</body></html>
