@@ -46,8 +46,11 @@ export function protectedPreview({ username, password }){
     }
     let pathname;
     try{pathname=new URL(request.url||'/', 'http://preview.local').pathname;}catch{response.writeHead(400);response.end();return;}
+    // Require a canonical, literal allowlisted route. URL() normalizes dot segments,
+    // so check the raw target before trusting its normalized pathname.
+    const rawPath=(request.url||'/').split(/[?#]/,1)[0];
     const name=pathname==='/'?'index.html':pathname.slice(1);
-    if(!allowed.has(name)||name.includes('/')||name.includes('\\')){
+    if(rawPath!==pathname||!rawPath.startsWith('/')||!allowed.has(name)||name.includes('/')||name.includes('\\')){
       response.writeHead(404,{'Content-Type':'text/plain; charset=utf-8'});response.end('Not found');return;
     }
     try{
