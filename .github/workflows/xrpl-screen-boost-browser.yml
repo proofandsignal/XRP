@@ -34,7 +34,7 @@ jobs:
           npm test
       - name: Install pinned Chromium QA runner (CI only)
         run: |
-          npm install --no-save --no-package-lock playwright@1.55.0
+          npm install --no-save --no-package-lock playwright@1.65.1
           npx playwright install --with-deps chromium
       - name: Exercise premium XRPL explorer and decision workspace
         run: node qa/browser-smoke.mjs
