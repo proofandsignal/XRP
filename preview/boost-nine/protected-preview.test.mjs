@@ -1,6 +1,7 @@
 import test,{after} from 'node:test';
 import assert from 'node:assert/strict';
 import { protectedPreview } from './server.mjs';
+import { request as httpRequest } from 'node:http';
 
 const username='qa-reviewer';
 const password='LOCAL_TEST_ONLY_NEVER_USE_IN_RENDER_012345';
@@ -55,4 +56,23 @@ test('HEAD responses contain no page body',async()=>{
 test('never start a preview without strong credentials',()=>{
   assert.throws(()=>protectedPreview({username:'x',password:''}),/credentials/);
   assert.throws(()=>protectedPreview({username:'x',password:'short'}),/credentials/);
+});
+
+const rawStatus=(path)=>new Promise((resolve,reject)=>{
+ const req=httpRequest({hostname:'127.0.0.1',port:server.address().port,path,headers:{Authorization:auth}},res=>{
+   res.resume();res.on('end',()=>resolve(res.statusCode));res.on('error',reject);
+ });req.on('error',reject);req.end();
+});
+test('SEC-01: reject noncanonical request targets even if URL parser normalizes them',async()=>{
+ for(const path of ['/rwa.html/../index.html','/%2e%2e/rwa.html','//rwa.html','/%72wa.html','/rwa.html%2f','/rwa.html%5c..']){
+   assert.equal(await rawStatus(path),404,path);
+ }
+ assert.equal(await rawStatus('/rwa.html?case=historical'),200);
+});
+test('SEC-01: bad and malformed authorization never expose preview',async()=>{
+ for(const candidate of ['Bearer secret','Basic !!!!','Basic '+('A'.repeat(1600)),'Basic YQ==!','Basic '+Buffer.from('qa-reviewer:bad').toString('base64')]){
+   const response=await page('/rwa.html',{Authorization:candidate});
+   assert.equal(response.status,401,candidate.slice(0,24));
+   assert.doesNotMatch(await response.text(),/MPT-001/);
+ }
 });

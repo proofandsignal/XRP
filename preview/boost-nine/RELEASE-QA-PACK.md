@@ -47,3 +47,6 @@ Silence or the request to start QA is **not approval**. Production merge, real f
 
 ## Release state
 `AUTHOR PRECHECK PASS [only if latest CI completed] → INDEPENDENT SECURITY/LEGAL/IP PENDING → PROTECTED HTTPS HOLD → PHYSICAL SAMSUNG PENDING → HUMAN APPROVAL PENDING`.
+
+## E. External review findings received 2026-11-17
+See `REVIEW-FINDINGS-2026-11-17.md`. FIN-01 receives prominent legal/evidence limitations in UI and JSON. SEC-01 receives stricter canonical-path handling and malformed-auth / route fuzz tests. These are author remediations, NOT independent sign-off. QA-01 physical Samsung and LEG-01 qualified legal review remain blockers. An AI pre-review, including Google Gem, cannot fulfill independent human Security/Legal/IP sign-off. No hosted HTTPS is authorized.

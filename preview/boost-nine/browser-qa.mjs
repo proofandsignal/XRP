@@ -41,11 +41,16 @@ test('RLUSD scenarios honor UNKNOWN and JSON export',async()=>{
 test('RWA passport isolates synthetic cases from historical provenance and exports correct evidence',async()=>{
   const {page,errors}=await pageFor('rwa.html');
   assert.equal(await page.locator('#state').innerText(),'REVIEW');
+  const warning=page.locator('#rwaLegalWarning');
+  assert.equal(await warning.isVisible(),true);
+  assert.match(await warning.innerText(),/Validated XRPL ledger fields are not independent verification/i);
   assert.equal(await page.locator('#ledger').innerText(),'107775551');
   assert.match(await page.locator('#issuance').innerText(),/^05EECEBE/);
   assert.equal(await page.locator('#sourceLink').isVisible(),true);
   await page.locator('#case').selectOption('issuer');
   assert.equal(await page.locator('#state').innerText(),'VERIFY');
+  assert.equal(await warning.isVisible(),true);
+  assert.match(await warning.innerText(),/other scenarios are synthetic/i);
   assert.match(await page.locator('#ledger').innerText(),/synthetic/i);
   assert.match(await page.locator('#issuance').innerText(),/no real issuance/i);
   assert.match(await page.locator('#issuerAccount').innerText(),/no real account/i);
@@ -77,6 +82,8 @@ test('RWA passport isolates synthetic cases from historical provenance and expor
   assert.equal(historical.on_chain_evidence.validated_ledger,'107775551');
   assert.equal(historical.on_chain_evidence.captured_date,'2026-10-20');
   assert.equal(historical.independently_verified_off_chain.legal_identity,'UNKNOWN');
+  assert.match(historical.legal_disclaimer,/On-chain evidence does not establish legal issuer identity/i);
+  assert.equal(historical.external_proof_status,'NOT_INDEPENDENTLY_VERIFIED');
   assert.equal(historical.pass_allowed,false);
   assert.deepEqual(errors,[]);
   await page.close();

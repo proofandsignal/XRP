@@ -55,3 +55,13 @@ test('external links using new tabs disallow opener access',()=>{
     assert.ok(!/target="_blank"(?!\s+rel="noopener noreferrer")/.test(h),name+' must protect external tabs');
   }
 });
+
+test('FIN-01: RWA prominent legal warning plus JSON disclaimer',()=>{
+ const h=load('rwa.html');
+ assert.match(h,/<aside id="rwaLegalWarning"[^>]*role="note"/);
+ assert.match(h,/Validated XRPL ledger fields are not independent verification/i);
+ assert.match(h,/NOT been independently verified/);
+ assert.match(h,/legal_disclaimer:/);
+ assert.match(h,/external_proof_status:'NOT_INDEPENDENTLY_VERIFIED'/);
+ assert.match(h,/pass_allowed:false/);
+});
