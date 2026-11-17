@@ -106,7 +106,8 @@ test('all nine-panel pages fit mobile viewport without horizontal scrolling',asy
   for(const name of ['index.html','rlusd.html','rwa.html','defi-guard.html']){
     const {page,errors}=await pageFor(name,{width:390,height:844});
     const widths=await page.evaluate(()=>({viewport:window.innerWidth,scroll:document.documentElement.scrollWidth}));
-    assert.ok(widths.scroll<=widths.viewport+1,name+' overflows '+JSON.stringify(widths));
+    const overflow=widths.scroll>widths.viewport+1?await page.evaluate(()=>[...document.querySelectorAll('*')].map(el=>({tag:el.tagName,id:el.id,cls:typeof el.className==='string'?el.className:'',right:Math.round(el.getBoundingClientRect().right),left:Math.round(el.getBoundingClientRect().left),width:Math.round(el.getBoundingClientRect().width)})).filter(el=>el.right>window.innerWidth+1||el.left< -1).slice(0,25)):[];
+    assert.ok(widths.scroll<=widths.viewport+1,name+' overflows '+JSON.stringify({widths,overflow}));
     assert.deepEqual(errors,[],name+' JS exceptions');
     await page.close();
   }
