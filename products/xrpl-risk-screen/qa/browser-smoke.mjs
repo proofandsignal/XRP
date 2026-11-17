@@ -55,7 +55,7 @@ try {
       assert.match(await page.title(),/XRPL Intelligence Screen/)
       const logo=await page.request.get(base+"/brand.svg")
       assert.equal(logo.status(),200)
-      await page.locator('#premiumCasePicker option[value="RLUSD-001"]').waitFor({timeout:15000})
+      await page.locator('#premiumCasePicker option[value="RLUSD-001"]').waitFor({state:"attached",timeout:15000})
       await page.locator("#premiumExplore").click()
       assert.equal(await page.locator("#premiumCasePicker option").count(),3)
       await page.locator("#premiumCasePicker").selectOption("RLUSD-002")
