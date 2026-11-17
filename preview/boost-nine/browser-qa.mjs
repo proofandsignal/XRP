@@ -53,7 +53,7 @@ test('RWA passport isolates synthetic cases from historical provenance and expor
   assert.equal(await page.locator('#syntheticNotice').isVisible(),true);
   assert.match(await page.locator('#decision').innerText(),/Require real issuer identity documents/);
   const [syntheticDownload]=await Promise.all([page.waitForEvent('download'),page.locator('#export').click()]);
-  assert.match(syntheticDownload.suggestedFilename(),/xrpl-rwa-risk-passport.*\\.json/);
+  assert.match(syntheticDownload.suggestedFilename(),/xrpl-rwa-risk-passport.*\.json/);
   const synthetic=JSON.parse(await (await import('node:fs/promises')).readFile(await syntheticDownload.path(),'utf8'));
   assert.equal(synthetic.on_chain_evidence.issuance_id,null);
   assert.equal(synthetic.on_chain_evidence.issuer_account,null);
