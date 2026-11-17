@@ -1,0 +1,48 @@
+name: XRPL Screen BOOST Browser Gate
+
+on:
+  pull_request:
+    paths:
+      - "products/xrpl-risk-screen/**"
+      - ".github/workflows/xrpl-screen-boost-browser.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: xrpl-screen-browser-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  desktop-mobile-chromium:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    defaults:
+      run:
+        working-directory: products/xrpl-risk-screen
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Verify source and standalone protected-preview tests
+        run: |
+          node --check server.mjs
+          node --check lib/previewAccess.mjs
+          node --check qa/browser-smoke.mjs
+          npm test
+      - name: Install pinned Chromium QA runner (CI only)
+        run: |
+          npm install --no-save --no-package-lock playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Exercise premium XRPL explorer and decision workspace
+        run: node qa/browser-smoke.mjs
+      - name: Preserve desktop and mobile QA screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xrpl-screen-boost-browser-screenshots
+          path: products/xrpl-risk-screen/qa/screenshots/
+          if-no-files-found: warn
+          retention-days: 3
