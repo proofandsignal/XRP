@@ -13,7 +13,12 @@
 .brand{display:flex;gap:12px;align-items:center;text-decoration:none;color:var(--text);font-weight:760}
 .mark{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#2cdbcc,#315fe1);color:#061629;font-weight:900;letter-spacing:-1px}
 .flag{border:1px solid var(--edge);background:#14243b;padding:6px 11px;border-radius:100px;font-size:12px;letter-spacing:.4px;color:var(--muted)}
-.hero{padding:28px 0}.eyebrow{text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-size:12px;font-weight:750}
+.hero{padding:28px 0}
+.rwa-warning{margin:22px 0 0;padding:18px 20px;background:#352a1c;border:2px solid #ffd08d;border-radius:14px;color:#fff3de;overflow-wrap:anywhere}
+.rwa-warning h2{margin:0 0 8px;font-size:18px;letter-spacing:0;color:#ffe3ae}
+.rwa-warning p{margin:6px 0 0;font-size:15px;line-height:1.6}
+.rwa-warning strong{color:#fff}
+.eyebrow{text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-size:12px;font-weight:750}
 h1{font-size:clamp(32px,5.2vw,58px);line-height:1.08;margin:12px 0 16px;max-width:850px;letter-spacing:-1.7px}
 h2{font-size:20px;letter-spacing:-.3px;margin:0 0 13px}.lede{color:var(--muted);max-width:750px;font-size:18px;margin:0}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{background:linear-gradient(165deg,#182941,#101a2b);border:1px solid var(--edge);border-radius:18px;padding:24px;min-width:0}.wide{grid-column:1/-1}
@@ -39,6 +44,11 @@ code{overflow-wrap:anywhere;color:#b6e7f5;font-size:12px}.evidence{display:grid;
 <div class="eyebrow">RWA INTELLIGENCE / PRODUCT-002 / DEMO CANDIDATE</div>
 <h1>XRPL RWA Risk Passport</h1>
 <p class="lede">Know what the ledger proves, what an issuer claims, and what remains independently unverified. No safety score or automatic PASS.</p>
+<aside id="rwaLegalWarning" class="rwa-warning" role="note" aria-labelledby="rwaWarningHeading">
+<h2 id="rwaWarningHeading">Evidence limitation — not proof of asset backing or legal rights</h2>
+<p><strong>Validated XRPL ledger fields are not independent verification of real-world assets.</strong> The legal issuer identity, beneficial ownership, reserves or collateral backing, redemption rights, regulatory classification, liquidity and enforceability have <strong>NOT been independently verified</strong>.</p>
+<p>The MPT-001 example is a historical ledger snapshot dated 20 October 2026; the other scenarios are synthetic. This page does not provide live monitoring, financial or legal due diligence, an investment recommendation, or a compliance determination for any jurisdiction.</p>
+</aside>
 </div>
 <div class="grid">
 <section class="card">
@@ -126,6 +136,8 @@ function exportPassport(){
  issuer_declarations:{status:'NOT_INDEPENDENTLY_VERIFIED',claim:active.issuerClaim},
  independently_verified_off_chain:unknownExternal,source:active.source,
  evidence_boundary:'Ledger fields and issuer assertions cannot establish real-world backing or legal rights.',
+ legal_disclaimer:'On-chain evidence does not establish legal issuer identity, reserve backing, collateral, enforceable redemption rights, regulatory classification or liquidity. Historical snapshot and synthetic examples only; no legal or financial advice.',
+ external_proof_status:'NOT_INDEPENDENTLY_VERIFIED',
  investment_safety:'NOT_ASSESSED',pass_allowed:false,live_feed:false,real_funds:false};
  const blob=new Blob([JSON.stringify(passport,null,2)],{type:'application/json'});
  const url=URL.createObjectURL(blob);const link=document.createElement('a');
