@@ -75,6 +75,17 @@ try {
       await page.locator("#premiumVerifyEvidence").click()
       await page.waitForFunction(()=>document.querySelector("#premiumAuditResult")?.textContent?.includes("REPOSITORY_ARTIFACT_PARTIAL_CONSISTENCY"),undefined,{timeout:15000})
       const overflow=await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1)
+      if(overflow){
+        const offenders=await page.evaluate(()=>{
+          const vw=document.documentElement.clientWidth
+          return [...document.querySelectorAll("body *")].map(e=>{
+            const r=e.getBoundingClientRect()
+            return {tag:e.tagName,id:e.id,cls:String(e.className).slice(0,90),right:Math.round(r.right),width:Math.round(r.width)}
+          }).filter(x=>x.right>vw+1).slice(0,20)
+        })
+        console.error("MOBILE_OVERFLOW_DIAGNOSTIC",JSON.stringify({viewport,offenders}))
+        await page.screenshot({path:new URL(viewport.name+"-overflow-fail.png",qaDir).pathname,fullPage:true})
+      }
       assert.equal(overflow,false,viewport.name+" horizontal overflow on historical explorer")
       await page.screenshot({path:new URL(viewport.name+"-explore.png",qaDir).pathname,fullPage:true})
       const workspaceNav=await page.goto(base+"/workspace",{waitUntil:"networkidle"})
