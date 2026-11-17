@@ -7,6 +7,7 @@ import { scanMptIssuance } from "./lib/mpt.mjs"
 import { buildTransitionSnapshot, compareTransitionSnapshots } from "./lib/transitions.mjs"
 import { DEMO_CASES, PUBLIC_RESEARCH_NOTE_URL } from "./lib/demoCases.mjs"
 import { buildAuditedDemoPack } from "./lib/demoEvidenceAudit.mjs"
+import { authorizePreviewRequest } from "./lib/previewAccess.mjs"
 
 const here=dirname(fileURLToPath(import.meta.url))
 const port=Number(process.env.PORT??8787)
@@ -35,6 +36,7 @@ async function readJson(req,maxBytes=262144){
 
 const server=http.createServer(async(req,res)=>{
   try{
+    if(!authorizePreviewRequest(req,res)) return
     const u=new URL(req.url,"http://localhost")
     if(req.method!=="GET"&&!(req.method==="POST"&&u.pathname==="/api/transition")) {
       return send(res,405,JSON.stringify({error:"Method not allowed"}))
