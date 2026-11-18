@@ -124,3 +124,24 @@ test('SEC-01: protected HTTP 500 keeps deny-by-default CSP, no leaks, no caching
     await new Promise(resolve=>failing.close(resolve));
   }
 });
+
+test('RWA-only protected staging serves only the passport, not the nine-demo hub',async()=>{
+  const scoped=protectedPreview({username,password,rwaOnly:true});
+  await new Promise(resolve=>scoped.listen(0,'127.0.0.1',resolve));
+  const origin='http://127.0.0.1:'+scoped.address().port;
+  try{
+    const unauth=await fetch(origin+'/');
+    assert.equal(unauth.status,401);
+    assert.doesNotMatch(await unauth.text(),/MPT-001/);
+    for(const urlPath of ['/','/rwa.html']){
+      const response=await fetch(origin+urlPath,{headers:{Authorization:auth}});
+      assert.equal(response.status,200,urlPath);
+      assert.match(await response.text(),/XRPL RWA Risk Passport/);
+      assert.match(response.headers.get('content-security-policy'),/script-src 'sha256-/);
+    }
+    for(const urlPath of ['/index.html','/rlusd.html','/defi-guard.html','/server.mjs','/README.md']){
+      const response=await fetch(origin+urlPath,{headers:{Authorization:auth}});
+      assert.equal(response.status,404,urlPath);
+    }
+  }finally{await new Promise(resolve=>scoped.close(resolve));}
+});
