@@ -65,3 +65,15 @@ test('FIN-01: RWA prominent legal warning plus JSON disclaimer',()=>{
  assert.match(h,/external_proof_status:'NOT_INDEPENDENTLY_VERIFIED'/);
  assert.match(h,/pass_allowed:false/);
 });
+
+test('RWA standalone premium and source provenance remain explicit',()=>{
+  const h=load('rwa.html');
+  assert.match(h,/<svg class="brand-icon"/);
+  assert.match(h,/<svg class="hero-art"/);
+  assert.match(h,/href="#lab-explorer"/);
+  assert.match(h,/Created by Proof &amp; Signal/);
+  assert.match(h,/archive_rpc_independent_replay:'PENDING'/);
+  assert.match(h,/claim_source_type:/);
+  assert.match(h,/Independent archive RPC PENDING/);
+  assert.doesNotMatch(h,/href="index.html" class="brand"/);
+});
