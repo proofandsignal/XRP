@@ -11,6 +11,8 @@ concurrency:
   cancel-in-progress: true
 permissions:
   contents: read
+env:
+  RWA_SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
 jobs:
   static-review:
     runs-on: ubuntu-latest
