@@ -31,19 +31,65 @@ select{background:#0a1729;color:#fff;border:1px solid #6b829b;border-radius:12px
 .item{padding:11px 0;border-bottom:1px solid #29405c;min-width:0}.item:last-child{border:0}.item strong{display:block;font-size:15px;margin-top:3px;overflow-wrap:anywhere}
 code{overflow-wrap:anywhere;color:#b6e7f5;font-size:12px}.evidence{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.evidence article{background:#0b1a2b;border:1px solid var(--edge);padding:16px;border-radius:12px}.evidence strong{display:block;font-size:16px;margin:7px 0}.badge{font-size:11px;font-weight:800;letter-spacing:.6px;color:var(--accent)}.badge.unknown{color:var(--warn)}.footer{border-top:1px solid var(--edge);padding-top:18px;margin-top:30px;color:var(--muted);font-size:13px}
 @media(max-width:760px){.grid,.evidence{grid-template-columns:minmax(0,1fr)}.wrap{padding:16px;width:100%;max-width:100%}.card,.item,.evidence article{min-width:0;overflow-wrap:anywhere}.card{padding:17px}.head{flex-wrap:wrap}.hero{padding-top:14px}.lede{font-size:16px}.flag{max-width:100%}}
+
+.brand-name{display:flex;flex-direction:column;line-height:1.16;gap:5px}.brand-name strong{font-size:15px;letter-spacing:.1px}.brand-name small{font-size:12px;color:var(--muted);font-weight:500}
+.brand-icon{flex:none;filter:drop-shadow(0 0 15px rgba(72,211,207,.12))}
+.hero{padding:26px 0 8px}.hero-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);gap:22px;align-items:center}.hero-copy{min-width:0}
+.hero .title-accent{display:block;background:linear-gradient(110deg,#77F1E2,#BDE7FF);background-clip:text;-webkit-background-clip:text;color:transparent}
+.hero h1{max-width:680px}.hero .lede{max-width:630px}
+.hero-actions{display:flex;gap:13px;align-items:center;flex-wrap:wrap;margin:25px 0 22px}.hero-cta{background:linear-gradient(110deg,#75ECDD,#57BCCF);border-radius:12px;padding:12px 18px;display:inline-flex;align-items:center;gap:16px;font-weight:800;color:#071E2F;text-decoration:none;min-height:48px}.hero-secondary{padding:12px 7px;font-weight:650;font-size:14px;min-height:48px}
+.hero-micro{display:flex;gap:15px;flex-wrap:wrap;color:#A6CACD;font-size:12px;font-weight:680}
+.hero-visual{position:relative;min-width:0;overflow:hidden;border:1px solid #31516B;border-radius:22px;background:#0B1D30;box-shadow:0 22px 65px rgba(0,0,0,.2)}
+.hero-art{display:block;width:100%;height:auto}.visual-caption{position:absolute;bottom:13px;left:14px;font-size:10px;letter-spacing:1.1px;color:#AAC8D9;font-weight:780}
+#lab-explorer{scroll-margin-top:20px}#evidence-boundaries{scroll-margin-top:20px}
+@media(max-width:920px){.hero-layout{grid-template-columns:minmax(0,1fr)}.hero-visual{max-width:570px}.hero{padding-top:12px}}
+@media(max-width:480px){.brand-name strong{font-size:13px}.brand-name small{font-size:11px}.brand-icon{width:42px;height:42px}.hero-actions{align-items:stretch}.hero-cta{justify-content:center}.hero-secondary{padding-left:4px}.hero-micro{gap:8px}.hero-visual{border-radius:14px}.visual-caption{font-size:8px}}
+@media(prefers-reduced-motion:no-preference){.hero-cta{transition:filter .16s ease,transform .16s ease}.hero-cta:hover{filter:brightness(1.08);transform:translateY(-2px)}}
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="wrap" id="top">
 <header class="head">
-<a href="index.html" class="brand" aria-label="Back to Project Boost Demo Panel"><span class="mark" aria-hidden="true">P&S</span><span>Proof & Signal<br><small class="muted">Evidence-first intelligence</small></span></a>
-<span class="flag">HISTORICAL REPLAY + SYNTHETIC CASES</span>
+<a href="#top" class="brand" aria-label="XRPL RWA Risk Passport — home">
+<svg class="brand-icon" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<rect x="1" y="1" width="48" height="48" rx="13" fill="#123550" stroke="#55DED3" stroke-width="1.5"/>
+<path d="M13 14L25 9L37 14V25C37 33 31 38 25 41C19 38 13 33 13 25V14Z" stroke="#68F3E3" stroke-width="2" fill="#071A2D"/>
+<path d="M18 26L23 21L28 26L33 19M17 33H33" stroke="#68F3E3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="33" cy="19" r="2.5" fill="#FFD18B"/>
+</svg><span class="brand-name"><strong>XRPL RWA Risk Passport</strong><small>Created by Proof &amp; Signal</small></span></a>
+<span class="flag">READ-ONLY · DEMO CANDIDATE</span>
 </header>
 <main>
 <div class="hero">
-<div class="eyebrow">RWA INTELLIGENCE / PRODUCT-002 / DEMO CANDIDATE</div>
-<h1>XRPL RWA Risk Passport</h1>
-<p class="lede">Know what the ledger proves, what an issuer claims, and what remains independently unverified. No safety score or automatic PASS.</p>
+<div class="hero-layout">
+<div class="hero-copy">
+<div class="eyebrow">PROOF &amp; SIGNAL / RWA INTELLIGENCE / PRODUCT-002</div>
+<h1>See the evidence.<span class="title-accent"> Understand the risk.</span></h1>
+<p class="lede">A transparent XRPL risk passport for historical Multi-Purpose Token issuance evidence and clearly labeled synthetic scenarios. Know what the ledger shows—and what it cannot prove.</p>
+<div class="hero-actions">
+<a class="hero-cta" href="#lab-explorer">Explore the Passport <span aria-hidden="true">↗</span></a>
+<a class="hero-secondary" href="#evidence-boundaries">View evidence boundaries</a>
+</div>
+<div class="hero-micro"><span>◉ No wallet</span><span>◉ No transactions</span><span>◉ No live feed</span></div>
+</div>
+<div class="hero-visual" role="img" aria-label="Original illustration of a protected token record, evidence nodes and an independent verification boundary">
+<svg class="hero-art" viewBox="0 0 460 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs><linearGradient id="shieldGradient" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#65E3E3"/><stop offset="1" stop-color="#477BC9"/></linearGradient><radialGradient id="glow"><stop stop-color="#55D9D4" stop-opacity=".19"/><stop offset="1" stop-color="#55D9D4" stop-opacity="0"/></radialGradient></defs>
+<rect x="0" y="0" width="460" height="360" rx="26" fill="#0B1D30"/>
+<path d="M0 45H460M0 95H460M0 145H460M0 195H460M0 245H460M0 295H460M48 0V360M108 0V360M168 0V360M228 0V360M288 0V360M348 0V360M408 0V360" stroke="#23415A" stroke-width=".8" opacity=".45"/>
+<circle cx="230" cy="171" r="152" fill="url(#glow)"/>
+<circle cx="230" cy="171" r="127" stroke="#3E7086" stroke-dasharray="5 9" fill="none"/>
+<circle cx="230" cy="171" r="89" stroke="#4D8C9B" stroke-width="1" fill="none"/>
+<path d="M230 68L302 99V171C302 223 268 254 230 274C192 254 158 223 158 171V99L230 68Z" fill="#102B44" stroke="url(#shieldGradient)" stroke-width="3"/>
+<path d="M193 167L220 193L268 144" stroke="#6BF5DF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M75 93L143 124M316 137L392 87M312 223L387 260M146 222L79 270" stroke="#5BC9C5" stroke-width="2" opacity=".75"/>
+<circle cx="75" cy="93" r="8" fill="#0B1D30" stroke="#65E3E3" stroke-width="3"/><circle cx="392" cy="87" r="8" fill="#0B1D30" stroke="#65E3E3" stroke-width="3"/><circle cx="387" cy="260" r="8" fill="#0B1D30" stroke="#FFD08D" stroke-width="3"/><circle cx="79" cy="270" r="8" fill="#0B1D30" stroke="#FFD08D" stroke-width="3"/>
+<rect x="15" y="15" width="148" height="32" rx="16" fill="#123D4B" stroke="#285F67"/><text x="89" y="36" text-anchor="middle" fill="#9CE7E2" font-size="11" font-family="system-ui, sans-serif" font-weight="700" letter-spacing="1">EVIDENCE LAYER</text>
+<rect x="298" y="309" width="144" height="33" rx="16" fill="#372B20" stroke="#836944"/><text x="370" y="330" text-anchor="middle" fill="#FFD08D" font-size="11" font-family="system-ui, sans-serif" font-weight="700">OFF-CHAIN: UNKNOWN</text>
+</svg>
+<span class="visual-caption">HISTORICAL PROOF ≠ ASSET BACKING</span>
+</div>
+</div>
 <aside id="rwaLegalWarning" class="rwa-warning" role="note" aria-labelledby="rwaWarningHeading">
 <h2 id="rwaWarningHeading">Evidence limitation — not proof of asset backing or legal rights</h2>
 <p><strong>Validated XRPL ledger fields are not independent verification of real-world assets.</strong> The legal issuer identity, beneficial ownership, reserves or collateral backing, redemption rights, regulatory classification, liquidity and enforceability have <strong>NOT been independently verified</strong>.</p>
@@ -51,7 +97,8 @@ code{overflow-wrap:anywhere;color:#b6e7f5;font-size:12px}.evidence{display:grid;
 </aside>
 </div>
 <div class="grid">
-<section class="card">
+<section class="card" id="lab-explorer" tabindex="-1">
+<div class="eyebrow">INTERACTIVE READ-ONLY EXPLORER</div>
 <h2>Explore a passport</h2>
 <label class="field" for="case">Evidence scenario
 <select id="case">
@@ -85,7 +132,7 @@ code{overflow-wrap:anywhere;color:#b6e7f5;font-size:12px}.evidence{display:grid;
 <div class="item"><span class="muted">Issuer control / event</span><strong id="control">MPT clawback capability</strong></div>
 <div class="item"><span class="muted">Evidence source</span><strong id="sourceLabel">MPT-001 / 2026-10-20 snapshot</strong><a id="sourceLink" href="https://github.com/proofandsignal/XRP/blob/main/validation/cases/MPT-001.md" target="_blank" rel="noopener noreferrer">Read historical case record</a><span id="syntheticNotice" class="fine" hidden>Illustrative input only; no verified ledger event or real issuer was assigned.</span></div>
 </section>
-<section class="card wide">
+<section class="card wide" id="evidence-boundaries">
 <h2>Evidence boundaries</h2>
 <div class="evidence">
 <article><div class="badge" id="ledgerBadge">HISTORICAL ON-CHAIN</div><strong id="chainClaim">Validated snapshot + clawback capability</strong><span class="fine" id="chainDetails">Ledger index 107775551 · snapshot dated 2026-10-20. Completeness applies to the captured ledger fields, not to legal due diligence.</span></article>
