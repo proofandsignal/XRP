@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { readFile } from 'node:fs/promises';
+import { readFile, mkdir } from 'node:fs/promises';
 
 const browser=await chromium.launch({headless:true});
 after(async()=>browser.close());
@@ -37,6 +37,10 @@ test('standalone RWA output: original branding, CTA, synthetic decisions, JSON a
   await page.locator('#reset').click();
   assert.equal(await page.locator('#case').inputValue(),'mainnet');
   assert.deepEqual(errors,[],width+'px browser exceptions');
+  if(width===390||width===1440){
+    await mkdir('test-results/rwa',{recursive:true});
+    await page.screenshot({path:'test-results/rwa/rwa-'+width+'.png',fullPage:true});
+  }
   await page.close();
  }
 });
