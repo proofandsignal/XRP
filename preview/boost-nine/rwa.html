@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>XRPL RWA Risk Passport · Proof & Signal</title>
+<style>
+:root{color-scheme:dark;--bg:#080f1d;--panel:#101c31;--edge:#30465f;--text:#eaf5ff;--muted:#a8bbce;--accent:#65e3e3;--warn:#ffd08d}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 75% -10%,#244165 0%,transparent 42%),var(--bg);font:16px/1.55 system-ui,Segoe UI,sans-serif;color:var(--text)}a{color:var(--accent)}
+.wrap{max-width:1180px;margin:auto;padding:22px 22px 72px}
+.head{display:flex;align-items:center;gap:16px;justify-content:space-between;padding:8px 0 22px}
+.brand{display:flex;gap:12px;align-items:center;text-decoration:none;color:var(--text);font-weight:760}
+.mark{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#2cdbcc,#315fe1);color:#061629;font-weight:900;letter-spacing:-1px}
+.flag{border:1px solid var(--edge);background:#14243b;padding:6px 11px;border-radius:100px;font-size:12px;letter-spacing:.4px;color:var(--muted)}
+.hero{padding:28px 0}
+.rwa-warning{margin:22px 0 0;padding:18px 20px;background:#352a1c;border:2px solid #ffd08d;border-radius:14px;color:#fff3de;overflow-wrap:anywhere}
+.rwa-warning h2{margin:0 0 8px;font-size:18px;letter-spacing:0;color:#ffe3ae}
+.rwa-warning p{margin:6px 0 0;font-size:15px;line-height:1.6}
+.rwa-warning strong{color:#fff}
+.eyebrow{text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-size:12px;font-weight:750}
+h1{font-size:clamp(32px,5.2vw,58px);line-height:1.08;margin:12px 0 16px;max-width:850px;letter-spacing:-1.7px}
+h2{font-size:20px;letter-spacing:-.3px;margin:0 0 13px}.lede{color:var(--muted);max-width:750px;font-size:18px;margin:0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{background:linear-gradient(165deg,#182941,#101a2b);border:1px solid var(--edge);border-radius:18px;padding:24px;min-width:0}.wide{grid-column:1/-1}
+.muted,.fine{color:var(--muted)}.fine{font-size:13px}.stats{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}.stat{border:1px solid var(--edge);background:#0c1829;padding:12px 16px;border-radius:12px;min-width:130px;flex:1}.stat strong{display:block;font-size:19px;color:#fff;overflow-wrap:anywhere}.stat small{font-size:12px;color:var(--muted)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.btn{font:inherit;font-weight:700;border:1px solid var(--edge);border-radius:12px;background:#1b3049;color:#fff;padding:11px 16px;cursor:pointer}.btn.primary{background:var(--accent);color:#051527;border-color:var(--accent)}
+.btn:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid var(--warn);outline-offset:3px}
+select{background:#0a1729;color:#fff;border:1px solid #6b829b;border-radius:12px;font:inherit;padding:11px;width:100%}
+.field{display:grid;gap:6px;color:var(--muted);font-size:13px;font-weight:650}.field select{font-weight:400}
+.result{padding:16px;border-radius:12px;background:#0a1a2d;border-left:4px solid var(--accent);margin:15px 0}.result .state{font-size:27px;font-weight:800}.result[data-state="VERIFY"],.result[data-state="REVIEW"]{border-color:var(--warn)}
+.item{padding:11px 0;border-bottom:1px solid #29405c;min-width:0}.item:last-child{border:0}.item strong{display:block;font-size:15px;margin-top:3px;overflow-wrap:anywhere}
+code{overflow-wrap:anywhere;color:#b6e7f5;font-size:12px}.evidence{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.evidence article{background:#0b1a2b;border:1px solid var(--edge);padding:16px;border-radius:12px}.evidence strong{display:block;font-size:16px;margin:7px 0}.badge{font-size:11px;font-weight:800;letter-spacing:.6px;color:var(--accent)}.badge.unknown{color:var(--warn)}.footer{border-top:1px solid var(--edge);padding-top:18px;margin-top:30px;color:var(--muted);font-size:13px}
+@media(max-width:760px){.grid,.evidence{grid-template-columns:minmax(0,1fr)}.wrap{padding:16px;width:100%;max-width:100%}.card,.item,.evidence article{min-width:0;overflow-wrap:anywhere}.card{padding:17px}.head{flex-wrap:wrap}.hero{padding-top:14px}.lede{font-size:16px}.flag{max-width:100%}}
+
+.brand-name{display:flex;flex-direction:column;line-height:1.16;gap:5px}.brand-name strong{font-size:15px;letter-spacing:.1px}.brand-name small{font-size:12px;color:var(--muted);font-weight:500}
+.brand-icon{flex:none;filter:drop-shadow(0 0 15px rgba(72,211,207,.12))}
+.hero{padding:26px 0 8px}.hero-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);gap:22px;align-items:center}.hero-copy{min-width:0}
+.hero .title-accent{display:block;background:linear-gradient(110deg,#77F1E2,#BDE7FF);background-clip:text;-webkit-background-clip:text;color:transparent}
+.hero h1{max-width:680px}.hero .lede{max-width:630px}
+.hero-actions{display:flex;gap:13px;align-items:center;flex-wrap:wrap;margin:25px 0 22px}.hero-cta{background:linear-gradient(110deg,#75ECDD,#57BCCF);border-radius:12px;padding:12px 18px;display:inline-flex;align-items:center;gap:16px;font-weight:800;color:#071E2F;text-decoration:none;min-height:48px}.hero-secondary{padding:12px 7px;font-weight:650;font-size:14px;min-height:48px}
+.hero-micro{display:flex;gap:15px;flex-wrap:wrap;color:#A6CACD;font-size:12px;font-weight:680}
+.hero-visual{position:relative;min-width:0;overflow:hidden;border:1px solid #31516B;border-radius:22px;background:#0B1D30;box-shadow:0 22px 65px rgba(0,0,0,.2)}
+.hero-art{display:block;width:100%;height:auto}.visual-caption{position:absolute;bottom:13px;left:14px;font-size:10px;letter-spacing:1.1px;color:#AAC8D9;font-weight:780}
+#lab-explorer{scroll-margin-top:20px}#evidence-boundaries{scroll-margin-top:20px}
+@media(max-width:920px){.hero-layout{grid-template-columns:minmax(0,1fr)}.hero-visual{max-width:570px}.hero{padding-top:12px}}
+@media(max-width:480px){.brand-name strong{font-size:13px}.brand-name small{font-size:11px}.brand-icon{width:42px;height:42px}.hero-actions{align-items:stretch}.hero-cta{justify-content:center}.hero-secondary{padding-left:4px}.hero-micro{gap:8px}.hero-visual{border-radius:14px}.visual-caption{font-size:8px}}
+@media(prefers-reduced-motion:no-preference){.hero-cta{transition:filter .16s ease,transform .16s ease}.hero-cta:hover{filter:brightness(1.08);transform:translateY(-2px)}}
+</style>
+</head>
+<body>
+<div class="wrap" id="top">
+<header class="head">
+<a href="#top" class="brand" aria-label="XRPL RWA Risk Passport — home">
+<svg class="brand-icon" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<rect x="1" y="1" width="48" height="48" rx="13" fill="#123550" stroke="#55DED3" stroke-width="1.5"/>
+<path d="M13 14L25 9L37 14V25C37 33 31 38 25 41C19 38 13 33 13 25V14Z" stroke="#68F3E3" stroke-width="2" fill="#071A2D"/>
+<path d="M18 26L23 21L28 26L33 19M17 33H33" stroke="#68F3E3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="33" cy="19" r="2.5" fill="#FFD18B"/>
+</svg><span class="brand-name"><strong>XRPL RWA Risk Passport</strong><small>Created by Proof &amp; Signal</small></span></a>
+<span class="flag">READ-ONLY · DEMO CANDIDATE</span>
+</header>
+<main>
+<div class="hero">
+<div class="hero-layout">
+<div class="hero-copy">
+<div class="eyebrow">PROOF &amp; SIGNAL / RWA INTELLIGENCE / PRODUCT-002</div>
+<h1>See the evidence.<span class="title-accent"> Understand the risk.</span></h1>
+<p class="lede">A transparent XRPL risk passport for historical Multi-Purpose Token issuance evidence and clearly labeled synthetic scenarios. Know what the ledger shows—and what it cannot prove.</p>
+<div class="hero-actions">
+<a class="hero-cta" href="#lab-explorer">Explore the Passport <span aria-hidden="true">↗</span></a>
+<a class="hero-secondary" href="#evidence-boundaries">View evidence boundaries</a>
+</div>
+<div class="hero-micro"><span>◉ No wallet</span><span>◉ No transactions</span><span>◉ No live feed</span></div>
+</div>
+<div class="hero-visual" role="img" aria-label="Original illustration of a protected token record, evidence nodes and an independent verification boundary">
+<svg class="hero-art" viewBox="0 0 460 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs><linearGradient id="shieldGradient" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#65E3E3"/><stop offset="1" stop-color="#477BC9"/></linearGradient><radialGradient id="glow"><stop stop-color="#55D9D4" stop-opacity=".19"/><stop offset="1" stop-color="#55D9D4" stop-opacity="0"/></radialGradient></defs>
+<rect x="0" y="0" width="460" height="360" rx="26" fill="#0B1D30"/>
+<path d="M0 45H460M0 95H460M0 145H460M0 195H460M0 245H460M0 295H460M48 0V360M108 0V360M168 0V360M228 0V360M288 0V360M348 0V360M408 0V360" stroke="#23415A" stroke-width=".8" opacity=".45"/>
+<circle cx="230" cy="171" r="152" fill="url(#glow)"/>
+<circle cx="230" cy="171" r="127" stroke="#3E7086" stroke-dasharray="5 9" fill="none"/>
+<circle cx="230" cy="171" r="89" stroke="#4D8C9B" stroke-width="1" fill="none"/>
+<path d="M230 68L302 99V171C302 223 268 254 230 274C192 254 158 223 158 171V99L230 68Z" fill="#102B44" stroke="url(#shieldGradient)" stroke-width="3"/>
+<path d="M193 167L220 193L268 144" stroke="#6BF5DF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+<path d="M75 93L143 124M316 137L392 87M312 223L387 260M146 222L79 270" stroke="#5BC9C5" stroke-width="2" opacity=".75"/>
+<circle cx="75" cy="93" r="8" fill="#0B1D30" stroke="#65E3E3" stroke-width="3"/><circle cx="392" cy="87" r="8" fill="#0B1D30" stroke="#65E3E3" stroke-width="3"/><circle cx="387" cy="260" r="8" fill="#0B1D30" stroke="#FFD08D" stroke-width="3"/><circle cx="79" cy="270" r="8" fill="#0B1D30" stroke="#FFD08D" stroke-width="3"/>
+<rect x="15" y="15" width="148" height="32" rx="16" fill="#123D4B" stroke="#285F67"/><text x="89" y="36" text-anchor="middle" fill="#9CE7E2" font-size="11" font-family="system-ui, sans-serif" font-weight="700" letter-spacing="1">EVIDENCE LAYER</text>
+<rect x="298" y="309" width="144" height="33" rx="16" fill="#372B20" stroke="#836944"/><text x="370" y="330" text-anchor="middle" fill="#FFD08D" font-size="11" font-family="system-ui, sans-serif" font-weight="700">OFF-CHAIN: UNKNOWN</text>
+</svg>
+<span class="visual-caption">HISTORICAL PROOF ≠ ASSET BACKING</span>
+</div>
+</div>
+<aside id="rwaLegalWarning" class="rwa-warning" role="note" aria-labelledby="rwaWarningHeading">
+<h2 id="rwaWarningHeading">Evidence limitation — not proof of asset backing or legal rights</h2>
+<p><strong>Validated XRPL ledger fields are not independent verification of real-world assets.</strong> The legal issuer identity, beneficial ownership, reserves or collateral backing, redemption rights, regulatory classification, liquidity and enforceability have <strong>NOT been independently verified</strong>.</p>
+<p>The MPT-001 example is a historical ledger snapshot dated 20 October 2026; the other scenarios are synthetic. This page does not provide live monitoring, financial or legal due diligence, an investment recommendation, or a compliance determination for any jurisdiction.</p>
+</aside>
+</div>
+<div class="grid">
+<section class="card" id="lab-explorer" tabindex="-1">
+<div class="eyebrow">INTERACTIVE READ-ONLY EXPLORER</div>
+<h2>Explore a passport</h2>
+<label class="field" for="case">Evidence scenario
+<select id="case">
+<option value="mainnet">MPT-001 — historical author-captured Mainnet snapshot</option>
+<option value="issuer">Legal identity not evidenced — synthetic</option>
+<option value="lock">Global transfer lock — synthetic</option>
+<option value="metadata">Self-declared backing — synthetic</option>
+</select>
+</label>
+<div class="stats">
+<div class="stat"><strong id="ledger">107775551</strong><small>Claimed validated ledger · historical</small></div>
+<div class="stat"><strong id="quality">COMPLETE</strong><small>Captured fields only</small></div>
+</div>
+<div class="result" id="result" data-state="REVIEW" role="status" aria-live="polite">
+<div class="fine">PASSPORT DECISION</div>
+<div class="state" id="state">REVIEW</div>
+<p id="finding"></p>
+</div>
+<div class="actions">
+<button class="btn primary" type="button" id="evaluate">Evaluate selected case</button>
+<button class="btn" type="button" id="export">Export passport JSON</button>
+<button class="btn" type="button" id="reset">Reset example</button>
+</div>
+<p class="fine">Read-only demonstration. This is not a live scan, issuer endorsement, financial rating or investment recommendation.</p>
+</section>
+<section class="card">
+<h2>Identity & control provenance</h2>
+<div class="item"><span class="muted">Evidence classification</span><strong id="mode">Historical author-reported ledger snapshot</strong></div>
+<div class="item"><span class="muted">MPT issuance ID</span><div><code id="issuance">05EECEBE97A7D635DE2393068691A015FED5A89AD203F5AA</code></div></div>
+<div class="item"><span class="muted">Ledger issuer account — not a verified legal identity</span><div><code id="issuerAccount">rNFta7UKwcoiCpxEYbhH2v92numE3cceB6</code></div></div>
+<div class="item"><span class="muted">Issuer control / event</span><strong id="control">MPT clawback capability</strong></div>
+<div class="item"><span class="muted">Evidence source</span><strong id="sourceLabel">MPT-001 · author evidence · 2026-10-20</strong><a id="sourceLink" href="https://github.com/proofandsignal/XRP/blob/d9d9566d025b45696e1b93afffb5dd45706bbc16/validation/cases/MPT-001.md" target="_blank" rel="noopener noreferrer">Read historical case record</a><span id="syntheticNotice" class="fine" hidden>Illustrative input only; no verified ledger event or real issuer was assigned.</span></div>
+</section>
+<section class="card wide" id="evidence-boundaries">
+<h2>Evidence boundaries</h2>
+<div class="evidence">
+<article><div class="badge" id="ledgerBadge">HISTORICAL · AUTHOR CAPTURE</div><strong id="chainClaim">Source-reported snapshot + clawback capability</strong><span class="fine" id="chainDetails">Ledger index 107775551 · author-captured 2026-10-20. Independent archive RPC replay is PENDING. Completeness applies to the captured fields, not legal due diligence.</span></article>
+<article><div class="badge unknown">ISSUER-DECLARED ≠ VERIFIED</div><strong id="issuerClaim">No independently validated issuer disclosures</strong><span class="fine" id="issuerDetails">Issuer metadata, where present, cannot verify its own claims.</span></article>
+<article><div class="badge unknown">INDEPENDENT OFF-CHAIN</div><strong>UNKNOWN</strong><span class="fine">Legal identity, backing/reserves, redemption rights, regulatory status, and liquidity remain unverified in every scenario.</span></article>
+</div>
+</section>
+<section class="card wide">
+<h2>Why this decision matters</h2>
+<p id="decision">The ledger can establish issuance configuration and control capabilities, not whether the instrument has legal rights, backing or guaranteed redemption.</p>
+<p class="fine">Evidence methodology: <a href="https://xrpl.org/docs/references/protocol/ledger-data/ledger-entry-types/mptokenissuance" target="_blank" rel="noopener noreferrer">Official XRPL MPTokenIssuance fields and flags</a>. On-ledger metadata is issuer-provided, not independent verification.</p>
+<div class="fine">CLAIM SOURCE ≠ VERIFICATION SOURCE · RISK PASS / INVESTMENT SAFETY PASS LOCKED · NO LIVE FEED</div>
+</section>
+</div>
+</main>
+<footer class="footer">Created by Proof & Signal · Research-only isolated preview · No wallet, signing, transaction execution, current-issuer verification or financial advice. Functional, security, legal, IP, hosted desktop, physical Samsung and human-approval release gates remain separate.</footer>
+</div>
+<script>
+const verifiedIdentity={issuance:'05EECEBE97A7D635DE2393068691A015FED5A89AD203F5AA',issuer:'rNFta7UKwcoiCpxEYbhH2v92numE3cceB6',ledger:'107775551',hash:'ABB04B5374AA7A141AAA698D372F99BAB7224C07E0E59A7A60B6C4ABCEA1901F'};
+const scenarios={
+ mainnet:{scenario:'MPT-001 historical validated ledger',status:'REVIEW',quality:'COMPLETE',ledger:verifiedIdentity.ledger,issuance:verifiedIdentity.issuance,issuerAccount:verifiedIdentity.issuer,ledgerHash:verifiedIdentity.hash,sourceDate:'2026-10-20',finding:'Clawback capability observed; legal issuer identity and backing remain unverified.',control:'MPT clawback capability observed at captured ledger',decision:'Issuer account and issuance controls are evidenced at a historical ledger snapshot. The legal issuer, backing, redemption and liquidity remain UNKNOWN.',mode:'historical evidence replay',source:'validation/cases/MPT-001.md',chainClaim:'Source-reported snapshot + clawback capability',chainDetails:'Ledger 107775551 · author-captured 2026-10-20. Independent archive RPC PENDING. COMPLETE means captured fields only.',issuerClaim:'No independently verified issuer disclosures',issuerDetails:'On-ledger metadata is self-declared. Legal identity has not been established.'},
+ issuer:{scenario:'Missing legal identity — illustrative',status:'VERIFY',quality:'NOT VERIFIED',ledger:'N/A — synthetic',issuance:null,issuerAccount:null,ledgerHash:null,sourceDate:null,finding:'Illustrative documents do not establish the legal identity or reserve backing.',control:'Unknown — no issuance or validated controls supplied',decision:'Require real issuer identity documents and independent corroboration before making any trust conclusion.',mode:'synthetic',source:'illustrative scenario — no ledger source',chainClaim:'No real on-ledger asset is linked',chainDetails:'Synthetic input only. No account, issuance ID or validated ledger assigned.',issuerClaim:'Illustrative issuer identity missing',issuerDetails:'No independent legal or reserve document has been supplied.'},
+ lock:{scenario:'Hypothetical global lock',status:'REVIEW',quality:'SIMULATED',ledger:'N/A — synthetic',issuance:null,issuerAccount:null,ledgerHash:null,sourceDate:null,finding:'Hypothetical global lock needs before/after validated evidence and impact review.',control:'Hypothetical global-lock state — NOT observed in MPT-001',decision:'Check issuance lock flags, transaction history and validated before/after states; do not infer fraud, recoverability or safety.',mode:'synthetic',source:'illustrative scenario — no ledger source',chainClaim:'No verified lock event',chainDetails:'The XRPL supports lock controls, but this scenario is not a report of an observed event.',issuerClaim:'No verified external disclosures',issuerDetails:'A hypothetical technical restriction does not establish rights or redemption.'},
+ metadata:{scenario:'Self-declared reserve claim — illustrative',status:'VERIFY',quality:'NOT VERIFIED',ledger:'N/A — synthetic',issuance:null,issuerAccount:null,ledgerHash:null,sourceDate:null,finding:'A reserve assertion inside token metadata is not independently verified backing.',control:'No real control configuration linked',decision:'Compare claimed reserve assets and redemption conditions to independently sourced attestations or primary evidence; absent proof stays UNKNOWN.',mode:'synthetic',source:'illustrative scenario — no ledger source',chainClaim:'No validated asset linked to this claim',chainDetails:'This is an example of an issuer-provided assertion, not on-chain proof of reserves.',issuerClaim:'Synthetic metadata says “fully backed”',issuerDetails:'Issuer-authored text is a CLAIM, not proof. Independent verification is missing.'}
+};
+const unknownExternal={legal_identity:'UNKNOWN',backing:'UNKNOWN',redemption:'UNKNOWN',regulatory_status:'UNKNOWN',liquidity:'UNKNOWN'};
+function setText(id,value){document.getElementById(id).textContent=String(value);}
+let active;
+function refresh(){
+ const key=document.getElementById('case').value;
+ active=scenarios[key]||scenarios.mainnet;
+ setText('ledger',active.ledger);setText('quality',active.quality);setText('state',active.status);
+ setText('finding',active.finding);setText('mode',active.mode==='historical evidence replay'?'HISTORICAL · AUTHOR-REPORTED':'SYNTHETIC — NOT VERIFIED');
+ setText('issuance',active.issuance||'N/A — no real issuance linked');
+ setText('issuerAccount',active.issuerAccount||'N/A — no real account linked');
+ setText('control',active.control);setText('decision',active.decision);
+ setText('sourceLabel',active.mode==='historical evidence replay'?'MPT-001 · author evidence · 2026-10-20':'SYNTHETIC — no real source');
+ setText('chainClaim',active.chainClaim);setText('chainDetails',active.chainDetails);
+ setText('issuerClaim',active.issuerClaim);setText('issuerDetails',active.issuerDetails);
+ setText('ledgerBadge',active.mode==='historical evidence replay'?'HISTORICAL · AUTHOR CAPTURE':'SYNTHETIC — NOT EVIDENCE');
+ document.getElementById('sourceLink').hidden=active.mode!=='historical evidence replay';
+ document.getElementById('syntheticNotice').hidden=active.mode==='historical evidence replay';
+ document.getElementById('result').dataset.state=active.status;
+}
+function exportPassport(){
+ const passport={product:'XRPL RWA Risk Passport',scenario:active.scenario,mode:active.mode,decision:active.status,
+ on_chain_evidence:{quality:active.quality,issuance_id:active.issuance,issuer_account:active.issuerAccount,validated_ledger:active.mode==='historical evidence replay'?active.ledger:null,ledger_hash:active.ledgerHash,captured_date:active.sourceDate,control_finding:active.control},
+ issuer_declarations:{status:'NOT_INDEPENDENTLY_VERIFIED',claim:active.issuerClaim},
+ independently_verified_off_chain:unknownExternal,source:active.source,
+ evidence_boundary:'Ledger fields and issuer assertions cannot establish real-world backing or legal rights.',
+ legal_disclaimer:'On-chain evidence does not establish legal issuer identity, reserve backing, collateral, enforceable redemption rights, regulatory classification or liquidity. Historical snapshot and synthetic examples only; no legal or financial advice.',
+ external_proof_status:'NOT_INDEPENDENTLY_VERIFIED',
+ archive_rpc_independent_replay:'PENDING',
+ claim_source_type:active.mode==='historical evidence replay'?'AUTHOR-CAPTURED CASE RECORD':'SYNTHETIC EDUCATIONAL CASE',
+ investment_safety:'NOT_ASSESSED',pass_allowed:false,live_feed:false,real_funds:false};
+ const blob=new Blob([JSON.stringify(passport,null,2)],{type:'application/json'});
+ const url=URL.createObjectURL(blob);const link=document.createElement('a');
+ link.href=url;link.download='xrpl-rwa-risk-passport-demo.json';link.click();
+ setTimeout(()=>URL.revokeObjectURL(url),2000);
+}
+document.getElementById('case').addEventListener('change',refresh);
+document.getElementById('evaluate').addEventListener('click',refresh);
+document.getElementById('reset').addEventListener('click',()=>{document.getElementById('case').value='mainnet';refresh();});
+document.getElementById('export').addEventListener('click',exportPassport);
+refresh();
+</script>
+</body>
+</html>
