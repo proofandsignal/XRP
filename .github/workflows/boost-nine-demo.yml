@@ -3,8 +3,12 @@ on:
   pull_request:
     paths:
       - 'preview/boost-nine/**'
+      - 'preview/rwa-passport/**'
       - '.github/workflows/boost-nine-demo.yml'
   workflow_dispatch:
+concurrency:
+  group: boost-nine-rwa-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
@@ -17,7 +21,9 @@ jobs:
         with:
           node-version: '22'
       - name: Parse and verify demo contract
-        run: node --test preview/boost-nine/test.mjs preview/boost-nine/protected-preview.test.mjs
+        run: node --test preview/boost-nine/test.mjs preview/boost-nine/protected-preview.test.mjs preview/rwa-passport/build.test.mjs
+      - name: Produce isolated RWA static artifact (NOT deployed)
+        run: node preview/rwa-passport/build.mjs
   browser-review:
     runs-on: ubuntu-latest
     container: mcr.microsoft.com/playwright:v1.58.0-noble
@@ -26,5 +32,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install matching Playwright Node client
         run: npm install --no-save --package-lock=false playwright@1.58.0
+      - name: Produce isolated RWA static artifact (NOT deployed)
+        run: node preview/rwa-passport/build.mjs
       - name: Execute Chromium desktop and mobile viewport checks
-        run: node --test preview/boost-nine/browser-qa.mjs preview/boost-nine/auth-browser-qa.mjs
+        run: node --test preview/boost-nine/browser-qa.mjs preview/boost-nine/auth-browser-qa.mjs preview/rwa-passport/browser-qa.mjs
