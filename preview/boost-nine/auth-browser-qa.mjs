@@ -32,6 +32,11 @@ test('authorized Chromium runs interactive RLUSD, RWA and Guard scripts behind C
       page.on('pageerror',e=>errors.push(e.message));
       const response=await page.goto(url+path);
       assert.equal(response.status(),200,path);
+      const csp=response.headers()['content-security-policy'];
+      assert.match(csp,/style-src 'sha256-/);
+      assert.doesNotMatch(csp,/'unsafe-inline'/);
+      const background=await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundColor);
+      assert.notEqual(background,'rgba(0, 0, 0, 0)',path+' stylesheet must load under strict CSP');
       if(path==='/defi-guard.html')await page.locator('#preset').selectOption(selectOption);
       else await page.locator('#case').selectOption(selectOption);
       assert.equal(await page.locator('#state').innerText(),expectState,path);

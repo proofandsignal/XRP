@@ -6,11 +6,13 @@ import { dirname, join } from 'node:path';
 
 const directory=dirname(fileURLToPath(import.meta.url));
 const allowed=new Set(['index.html','rlusd.html','rwa.html','defi-guard.html']);
-const enc=new TextEncoder();
+
 
 function sameSecret(given,expected){
-  const a=enc.encode(given),b=enc.encode(expected);
-  return a.length===b.length && timingSafeEqual(a,b);
+  // Equal-length digests avoid exposing the length of a supplied credential.
+  const a=createHash('sha256').update(given).digest();
+  const b=createHash('sha256').update(expected).digest();
+  return timingSafeEqual(a,b);
 }
 function authorized(request,username,password){
   const raw=request.headers.authorization;
@@ -21,12 +23,40 @@ function authorized(request,username,password){
   return sameSecret(decoded,username+':'+password);
 }
 function contentPolicy(html){
-  const scripts=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];
-  const hashes=scripts.map(m=>"'sha256-"+createHash('sha256').update(m[1],'utf8').digest('base64')+"'");
-  return "default-src 'none'; script-src "+(hashes.join(' ')||"'none'")+"; style-src 'unsafe-inline'; img-src 'self'; font-src 'none'; connect-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; upgrade-insecure-requests";
+  const hash=content=>"'sha256-"+createHash('sha256').update(content,'utf8').digest('base64')+"'";
+  const scripts=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m=>hash(m[1]));
+  const styles=[...html.matchAll(/<style>([\s\S]*?)<\/style>/g)].map(m=>hash(m[1]));
+  return [
+    "default-src 'none'",
+    "script-src "+(scripts.join(' ')||"'none'"),
+    "style-src "+(styles.join(' ')||"'none'"),
+    "style-src-attr 'none'",
+    "img-src 'self'", "font-src 'none'", "connect-src 'none'",
+    "frame-ancestors 'none'", "object-src 'none'", "base-uri 'none'",
+    "form-action 'none'", "upgrade-insecure-requests"
+  ].join('; ');
 }
 export function protectedPreview({ username, password }){
   if(!username||!password||password.length<24)throw Error('Missing secure preview credentials');
+  // Bounded failed-attempt throttling; never trust spoofable X-Forwarded-For.
+  // Valid credentials are always accepted to avoid locking out reviewers
+  // who share a reverse-proxy socket with failed attempts.
+  const failed=new Map();
+  const windowMs=60_000;
+  const maxFailures=12;
+  function throttle(socketAddress){
+    const address=socketAddress||'unknown';
+    const now=Date.now();
+    let entry=failed.get(address);
+    if(!entry||now-entry.start>=windowMs)entry={start:now,count:0};
+    entry.count++;
+    failed.delete(address);failed.set(address,entry);
+    if(failed.size>256){
+      for(const [key,value] of failed)if(now-value.start>=windowMs)failed.delete(key);
+      while(failed.size>256)failed.delete(failed.keys().next().value);
+    }
+    return entry.count>maxFailures?Math.max(1,Math.ceil((windowMs-(now-entry.start))/1000)):0;
+  }
   return createServer(async(request,response)=>{
     response.setHeader('Cache-Control','private, no-store, max-age=0');
     response.setHeader('Pragma','no-cache');
@@ -36,7 +66,13 @@ export function protectedPreview({ username, password }){
     response.setHeader('Cross-Origin-Resource-Policy','same-origin');
     response.setHeader('Permissions-Policy','camera=(), microphone=(), geolocation=(), payment=()');
     response.setHeader('Strict-Transport-Security','max-age=31536000');
+    response.setHeader('Content-Security-Policy',"default-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'; object-src 'none'");
     if(!authorized(request,username,password)){
+      const retryAfter=throttle(request.socket.remoteAddress);
+      if(retryAfter){
+        response.writeHead(429,{'Content-Type':'text/plain; charset=utf-8','Retry-After':String(retryAfter)});
+        response.end('Too many attempts');return;
+      }
       response.writeHead(401,{'Content-Type':'text/plain; charset=utf-8','WWW-Authenticate':'Basic realm="Proof & Signal QA Preview", charset="UTF-8"'});
       response.end('Authentication required');return;
     }
