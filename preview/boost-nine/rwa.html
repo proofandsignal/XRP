@@ -102,15 +102,15 @@ code{overflow-wrap:anywhere;color:#b6e7f5;font-size:12px}.evidence{display:grid;
 <h2>Explore a passport</h2>
 <label class="field" for="case">Evidence scenario
 <select id="case">
-<option value="mainnet">MPT-001 — historical Mainnet evidence</option>
+<option value="mainnet">MPT-001 — historical author-captured Mainnet snapshot</option>
 <option value="issuer">Legal identity not evidenced — synthetic</option>
 <option value="lock">Global transfer lock — synthetic</option>
 <option value="metadata">Self-declared backing — synthetic</option>
 </select>
 </label>
 <div class="stats">
-<div class="stat"><strong id="ledger">107775551</strong><small>Validated ledger index / historical</small></div>
-<div class="stat"><strong id="quality">COMPLETE</strong><small>On-ledger evidence only</small></div>
+<div class="stat"><strong id="ledger">107775551</strong><small>Claimed validated ledger · historical</small></div>
+<div class="stat"><strong id="quality">COMPLETE</strong><small>Captured fields only</small></div>
 </div>
 <div class="result" id="result" data-state="REVIEW" role="status" aria-live="polite">
 <div class="fine">PASSPORT DECISION</div>
@@ -126,16 +126,16 @@ code{overflow-wrap:anywhere;color:#b6e7f5;font-size:12px}.evidence{display:grid;
 </section>
 <section class="card">
 <h2>Identity & control provenance</h2>
-<div class="item"><span class="muted">Evidence classification</span><strong id="mode">Historical validated-ledger snapshot</strong></div>
+<div class="item"><span class="muted">Evidence classification</span><strong id="mode">Historical author-reported ledger snapshot</strong></div>
 <div class="item"><span class="muted">MPT issuance ID</span><div><code id="issuance">05EECEBE97A7D635DE2393068691A015FED5A89AD203F5AA</code></div></div>
 <div class="item"><span class="muted">Ledger issuer account — not a verified legal identity</span><div><code id="issuerAccount">rNFta7UKwcoiCpxEYbhH2v92numE3cceB6</code></div></div>
 <div class="item"><span class="muted">Issuer control / event</span><strong id="control">MPT clawback capability</strong></div>
-<div class="item"><span class="muted">Evidence source</span><strong id="sourceLabel">MPT-001 / 2026-10-20 snapshot</strong><a id="sourceLink" href="https://github.com/proofandsignal/XRP/blob/main/validation/cases/MPT-001.md" target="_blank" rel="noopener noreferrer">Read historical case record</a><span id="syntheticNotice" class="fine" hidden>Illustrative input only; no verified ledger event or real issuer was assigned.</span></div>
+<div class="item"><span class="muted">Evidence source</span><strong id="sourceLabel">MPT-001 · author evidence · 2026-10-20</strong><a id="sourceLink" href="https://github.com/proofandsignal/XRP/blob/d9d9566d025b45696e1b93afffb5dd45706bbc16/validation/cases/MPT-001.md" target="_blank" rel="noopener noreferrer">Read historical case record</a><span id="syntheticNotice" class="fine" hidden>Illustrative input only; no verified ledger event or real issuer was assigned.</span></div>
 </section>
 <section class="card wide" id="evidence-boundaries">
 <h2>Evidence boundaries</h2>
 <div class="evidence">
-<article><div class="badge" id="ledgerBadge">HISTORICAL ON-CHAIN</div><strong id="chainClaim">Validated snapshot + clawback capability</strong><span class="fine" id="chainDetails">Ledger index 107775551 · snapshot dated 2026-10-20. Completeness applies to the captured ledger fields, not to legal due diligence.</span></article>
+<article><div class="badge" id="ledgerBadge">HISTORICAL · AUTHOR CAPTURE</div><strong id="chainClaim">Source-reported snapshot + clawback capability</strong><span class="fine" id="chainDetails">Ledger index 107775551 · author-captured 2026-10-20. Independent archive RPC replay is PENDING. Completeness applies to the captured fields, not legal due diligence.</span></article>
 <article><div class="badge unknown">ISSUER-DECLARED ≠ VERIFIED</div><strong id="issuerClaim">No independently validated issuer disclosures</strong><span class="fine" id="issuerDetails">Issuer metadata, where present, cannot verify its own claims.</span></article>
 <article><div class="badge unknown">INDEPENDENT OFF-CHAIN</div><strong>UNKNOWN</strong><span class="fine">Legal identity, backing/reserves, redemption rights, regulatory status, and liquidity remain unverified in every scenario.</span></article>
 </div>
@@ -153,7 +153,7 @@ code{overflow-wrap:anywhere;color:#b6e7f5;font-size:12px}.evidence{display:grid;
 <script>
 const verifiedIdentity={issuance:'05EECEBE97A7D635DE2393068691A015FED5A89AD203F5AA',issuer:'rNFta7UKwcoiCpxEYbhH2v92numE3cceB6',ledger:'107775551',hash:'ABB04B5374AA7A141AAA698D372F99BAB7224C07E0E59A7A60B6C4ABCEA1901F'};
 const scenarios={
- mainnet:{scenario:'MPT-001 historical validated ledger',status:'REVIEW',quality:'COMPLETE',ledger:verifiedIdentity.ledger,issuance:verifiedIdentity.issuance,issuerAccount:verifiedIdentity.issuer,ledgerHash:verifiedIdentity.hash,sourceDate:'2026-10-20',finding:'Clawback capability observed; legal issuer identity and backing remain unverified.',control:'MPT clawback capability observed at captured ledger',decision:'Issuer account and issuance controls are evidenced at a historical ledger snapshot. The legal issuer, backing, redemption and liquidity remain UNKNOWN.',mode:'historical evidence replay',source:'validation/cases/MPT-001.md',chainClaim:'Validated snapshot + clawback capability',chainDetails:'Ledger 107775551 · captured 2026-10-20. COMPLETE means captured on-ledger fields only.',issuerClaim:'No independently verified issuer disclosures',issuerDetails:'On-ledger metadata is self-declared. Legal identity has not been established.'},
+ mainnet:{scenario:'MPT-001 historical validated ledger',status:'REVIEW',quality:'COMPLETE',ledger:verifiedIdentity.ledger,issuance:verifiedIdentity.issuance,issuerAccount:verifiedIdentity.issuer,ledgerHash:verifiedIdentity.hash,sourceDate:'2026-10-20',finding:'Clawback capability observed; legal issuer identity and backing remain unverified.',control:'MPT clawback capability observed at captured ledger',decision:'Issuer account and issuance controls are evidenced at a historical ledger snapshot. The legal issuer, backing, redemption and liquidity remain UNKNOWN.',mode:'historical evidence replay',source:'validation/cases/MPT-001.md',chainClaim:'Source-reported snapshot + clawback capability',chainDetails:'Ledger 107775551 · author-captured 2026-10-20. Independent archive RPC PENDING. COMPLETE means captured fields only.',issuerClaim:'No independently verified issuer disclosures',issuerDetails:'On-ledger metadata is self-declared. Legal identity has not been established.'},
  issuer:{scenario:'Missing legal identity — illustrative',status:'VERIFY',quality:'NOT VERIFIED',ledger:'N/A — synthetic',issuance:null,issuerAccount:null,ledgerHash:null,sourceDate:null,finding:'Illustrative documents do not establish the legal identity or reserve backing.',control:'Unknown — no issuance or validated controls supplied',decision:'Require real issuer identity documents and independent corroboration before making any trust conclusion.',mode:'synthetic',source:'illustrative scenario — no ledger source',chainClaim:'No real on-ledger asset is linked',chainDetails:'Synthetic input only. No account, issuance ID or validated ledger assigned.',issuerClaim:'Illustrative issuer identity missing',issuerDetails:'No independent legal or reserve document has been supplied.'},
  lock:{scenario:'Hypothetical global lock',status:'REVIEW',quality:'SIMULATED',ledger:'N/A — synthetic',issuance:null,issuerAccount:null,ledgerHash:null,sourceDate:null,finding:'Hypothetical global lock needs before/after validated evidence and impact review.',control:'Hypothetical global-lock state — NOT observed in MPT-001',decision:'Check issuance lock flags, transaction history and validated before/after states; do not infer fraud, recoverability or safety.',mode:'synthetic',source:'illustrative scenario — no ledger source',chainClaim:'No verified lock event',chainDetails:'The XRPL supports lock controls, but this scenario is not a report of an observed event.',issuerClaim:'No verified external disclosures',issuerDetails:'A hypothetical technical restriction does not establish rights or redemption.'},
  metadata:{scenario:'Self-declared reserve claim — illustrative',status:'VERIFY',quality:'NOT VERIFIED',ledger:'N/A — synthetic',issuance:null,issuerAccount:null,ledgerHash:null,sourceDate:null,finding:'A reserve assertion inside token metadata is not independently verified backing.',control:'No real control configuration linked',decision:'Compare claimed reserve assets and redemption conditions to independently sourced attestations or primary evidence; absent proof stays UNKNOWN.',mode:'synthetic',source:'illustrative scenario — no ledger source',chainClaim:'No validated asset linked to this claim',chainDetails:'This is an example of an issuer-provided assertion, not on-chain proof of reserves.',issuerClaim:'Synthetic metadata says “fully backed”',issuerDetails:'Issuer-authored text is a CLAIM, not proof. Independent verification is missing.'}
@@ -165,14 +165,14 @@ function refresh(){
  const key=document.getElementById('case').value;
  active=scenarios[key]||scenarios.mainnet;
  setText('ledger',active.ledger);setText('quality',active.quality);setText('state',active.status);
- setText('finding',active.finding);setText('mode',active.mode==='historical evidence replay'?'HISTORICAL VALIDATED SNAPSHOT':'SYNTHETIC — NOT VERIFIED');
+ setText('finding',active.finding);setText('mode',active.mode==='historical evidence replay'?'HISTORICAL · AUTHOR-REPORTED':'SYNTHETIC — NOT VERIFIED');
  setText('issuance',active.issuance||'N/A — no real issuance linked');
  setText('issuerAccount',active.issuerAccount||'N/A — no real account linked');
  setText('control',active.control);setText('decision',active.decision);
- setText('sourceLabel',active.mode==='historical evidence replay'?'MPT-001 / 2026-10-20 snapshot':'SYNTHETIC — no real source');
+ setText('sourceLabel',active.mode==='historical evidence replay'?'MPT-001 · author evidence · 2026-10-20':'SYNTHETIC — no real source');
  setText('chainClaim',active.chainClaim);setText('chainDetails',active.chainDetails);
  setText('issuerClaim',active.issuerClaim);setText('issuerDetails',active.issuerDetails);
- setText('ledgerBadge',active.mode==='historical evidence replay'?'HISTORICAL ON-CHAIN':'SYNTHETIC — NOT EVIDENCE');
+ setText('ledgerBadge',active.mode==='historical evidence replay'?'HISTORICAL · AUTHOR CAPTURE':'SYNTHETIC — NOT EVIDENCE');
  document.getElementById('sourceLink').hidden=active.mode!=='historical evidence replay';
  document.getElementById('syntheticNotice').hidden=active.mode==='historical evidence replay';
  document.getElementById('result').dataset.state=active.status;
@@ -185,6 +185,8 @@ function exportPassport(){
  evidence_boundary:'Ledger fields and issuer assertions cannot establish real-world backing or legal rights.',
  legal_disclaimer:'On-chain evidence does not establish legal issuer identity, reserve backing, collateral, enforceable redemption rights, regulatory classification or liquidity. Historical snapshot and synthetic examples only; no legal or financial advice.',
  external_proof_status:'NOT_INDEPENDENTLY_VERIFIED',
+ archive_rpc_independent_replay:'PENDING',
+ claim_source_type:active.mode==='historical evidence replay'?'AUTHOR-CAPTURED CASE RECORD':'SYNTHETIC EDUCATIONAL CASE',
  investment_safety:'NOT_ASSESSED',pass_allowed:false,live_feed:false,real_funds:false};
  const blob=new Blob([JSON.stringify(passport,null,2)],{type:'application/json'});
  const url=URL.createObjectURL(blob);const link=document.createElement('a');
