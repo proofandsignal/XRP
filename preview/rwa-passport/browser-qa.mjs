@@ -31,6 +31,8 @@ test('standalone RWA output: original branding, CTA, synthetic decisions, JSON a
   assert.equal(payload.on_chain_evidence.issuance_id,null);
   assert.equal(payload.independently_verified_off_chain.backing,'UNKNOWN');
   assert.equal(payload.pass_allowed,false);
+  assert.equal(payload.archive_rpc_independent_replay,'PENDING');
+  assert.equal(payload.claim_source_type,'SYNTHETIC EDUCATIONAL CASE');
   assert.equal(payload.real_funds,false);
   await page.locator('#reset').click();
   assert.equal(await page.locator('#case').inputValue(),'mainnet');
