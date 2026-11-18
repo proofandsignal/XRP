@@ -119,3 +119,29 @@ test('all nine-panel pages fit mobile viewport without horizontal scrolling',asy
     await page.close();
   }
 });
+
+test('RWA premium standalone identity, Explore CTA and responsive touch layout',async()=>{
+  for(const width of [360,390,412,768,1440]){
+    const {page,errors}=await pageFor('rwa.html',{width,height:900});
+    assert.equal(await page.locator('.brand-name strong').innerText(),'XRPL RWA Risk Passport');
+    assert.match(await page.locator('.brand').innerText(),/Created by Proof & Signal/);
+    assert.equal(await page.locator('.brand-icon svg').count(),0,'original SVG logo is direct branded SVG');
+    assert.equal(await page.locator('svg.brand-icon').count(),1);
+    assert.equal(await page.locator('svg.hero-art').count(),1);
+    const overflow=await page.evaluate(()=>({screen:innerWidth,doc:document.documentElement.scrollWidth}));
+    assert.ok(overflow.doc<=overflow.screen+1,'RWA overflow at '+width+': '+JSON.stringify(overflow));
+    const explore=page.getByRole('link',{name:/Explore the Passport/i});
+    assert.equal(await explore.isVisible(),true,'CTA visible '+width);
+    await explore.click();
+    assert.equal(new URL(page.url()).hash,'#lab-explorer');
+    assert.equal(await page.locator('#lab-explorer').isVisible(),true);
+    for(const key of ['issuer','lock','metadata','mainnet']){
+      await page.locator('#case').selectOption(key);
+      const status=await page.locator('#state').innerText();
+      assert.ok(['VERIFY','REVIEW'].includes(status),key+' unexpected '+status);
+      assert.equal(await page.locator('#rwaLegalWarning').isVisible(),true);
+    }
+    assert.deepEqual(errors,[],width+' page errors');
+    await page.close();
+  }
+});
