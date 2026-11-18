@@ -3,7 +3,7 @@ import assert from "node:assert/strict"
 import { spawn } from "node:child_process"
 import { createServer } from "node:net"
 import { setTimeout as delay } from "node:timers/promises"
-import { previewProtectionRequired, authorizePreviewRequest } from "../lib/previewAccess.mjs"
+import { previewProtectionRequired, authorizePreviewRequest, createFailureLimiter } from "../lib/previewAccess.mjs"
 
 function responseStub() {
   return {
@@ -77,7 +77,56 @@ test("hosted preview rejects unauthenticated access to every real endpoint",asyn
     assert.equal(response.status,200)
     const data=await response.json()
     assert.deepEqual(data.cases.map(c=>c.id),["RLUSD-001","RLUSD-002","RLUSD-003"])
+    // Offline/local integration regression: >100 failed attempts; no hosted stress traffic.
+    let hitLimit=false
+    for(let i=0;i<105;i++){
+      const bad=await fetch(base+"/api/demo-cases",{
+        headers:{Authorization:"Basic "+Buffer.from("qa-reviewer:wrong-"+i).toString("base64")}
+      })
+      assert.ok([401,429].includes(bad.status),"Unexpected failure status "+bad.status)
+      if(bad.status===429){
+        hitLimit=true
+        assert.equal(bad.headers.get("cache-control"),"no-store")
+        assert.ok(Number(bad.headers.get("retry-after"))>=1)
+      }
+    }
+    assert.equal(hitLimit,true,"Brute-force throttle must activate")
+    // Successful credentials must remain usable; attackers cannot lock out the owner.
+    const afterAttack=await fetch(base+"/api/demo-cases",{headers:{Authorization:authorized}})
+    assert.equal(afterAttack.status,200)
+
   }finally{
     proc.kill("SIGTERM")
   }
+})
+
+test("failure limiter is bounded, ignores spoofed forwarding headers, and expires",()=>{
+  let now=1_000
+  const limiter=createFailureLimiter({limit:3,windowMs:1_000,lockMs:2_000,maxPeers:2,clock:()=>now})
+  const env={PREVIEW_REQUIRE_AUTH:"1",DEMO_USER:"qa-reviewer",DEMO_PASSWORD:"synthetic-secret"}
+  const attempt=(peer,spoof)=>{
+    const res=responseStub()
+    const allowed=authorizePreviewRequest({
+      socket:{remoteAddress:peer},
+      headers:{authorization:"Basic bad", "x-forwarded-for":spoof}
+    },res,env,limiter)
+    assert.equal(allowed,false)
+    return res
+  }
+  assert.equal(attempt("10.0.0.1","198.51.100.1").status,401)
+  assert.equal(attempt("10.0.0.1","198.51.100.2").status,401)
+  let res=attempt("10.0.0.1","198.51.100.3")
+  assert.equal(res.status,429)
+  assert.equal(res.headers["retry-after"],"2")
+  assert.equal(attempt("10.0.0.1","198.51.100.4").status,429)
+  assert.equal(attempt("10.0.0.2","198.51.100.4").status,401)
+  assert.equal(attempt("10.0.0.3","198.51.100.4").status,429,"peer table must be bounded")
+  const valid="Basic "+Buffer.from("qa-reviewer:synthetic-secret").toString("base64")
+  res=responseStub()
+  assert.equal(authorizePreviewRequest({
+    socket:{remoteAddress:"10.0.0.1"},headers:{authorization:valid}
+  },res,env,limiter),true,"valid credentials should not be locked out")
+  now+=2_001
+  assert.equal(attempt("10.0.0.1","203.0.113.10").status,401)
+  assert.equal(attempt("10.0.0.3","203.0.113.10").status,401,"expired buckets may be pruned")
 })
