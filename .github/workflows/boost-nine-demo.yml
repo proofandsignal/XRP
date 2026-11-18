@@ -36,3 +36,11 @@ jobs:
         run: node preview/rwa-passport/build.mjs
       - name: Execute Chromium desktop and mobile viewport checks
         run: node --test preview/boost-nine/browser-qa.mjs preview/boost-nine/auth-browser-qa.mjs preview/rwa-passport/browser-qa.mjs
+      - name: Save RWA desktop/mobile Chromium screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rwa-chromium-visual-evidence
+          path: test-results/rwa/*.png
+          if-no-files-found: warn
+          retention-days: 7
