@@ -1,0 +1,11 @@
+# NOT APPLIED. PUBLIC STATIC SITE - only after qualified reviews, HTTPS QA,
+# physical Samsung QA and specific owner's external-sharing approval.
+services:
+  - type: static
+    name: xrpl-rwa-risk-passport
+    repo: https://github.com/proofandsignal/XRP
+    branch: demo/boost-nine-20261113
+    plan: free
+    autoDeploy: false
+    buildCommand: node --test preview/boost-nine/test.mjs preview/rwa-passport/build.test.mjs && node preview/rwa-passport/build.mjs
+    staticPublishPath: dist/rwa-passport
