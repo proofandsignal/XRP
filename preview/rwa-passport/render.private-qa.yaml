@@ -1,0 +1,17 @@
+# NOT APPLIED. Requires independent pre-staging clearance and owner authorization.
+services:
+  - type: web
+    name: xrpl-rwa-risk-passport-private-qa
+    runtime: node
+    repo: https://github.com/proofandsignal/XRP
+    branch: demo/boost-nine-20261113
+    plan: free
+    region: frankfurt
+    autoDeploy: false
+    buildCommand: node --test preview/boost-nine/test.mjs preview/boost-nine/protected-preview.test.mjs preview/rwa-passport/build.test.mjs
+    startCommand: node preview/rwa-passport/private-server.mjs
+    envVars:
+      - key: PREVIEW_USER
+        sync: false
+      - key: PREVIEW_PASSWORD
+        sync: false
