@@ -36,3 +36,11 @@ Purpose: release hardening of the **existing** premium XRPL historical-evidence 
 **Status:** BUILD BOOST IN REVIEW / RELEASE HOLD. No gate change without new independent evidence.
 
 `BUILD → MEASURE → VERIFY → CREATE VALUE → PAID REPEAT`
+
+## Independent source-review F-003: brute-force mitigation candidate (2026-11-18)
+
+- Preview auth now limits **failed** Basic-auth attempts per immediate TCP peer: 20 in 60 seconds, then HTTP **429** with `Retry-After` for 60 seconds. Correct credentials continue to work after attacker failures, to avoid a trivial owner lockout.
+- The in-memory peer table is bounded (1,024 entries). Untrusted `X-Forwarded-For` is **never** used as the peer key; this avoids simple header-spoof bypass. Reverse proxies may pool clients behind a single peer, and process restarts clear in-memory state.
+- The HTTP regression runs 105 bad-password attempts **against a locally spawned server only**, plus fake-clock tests for lock expiry, spoofing and bounded memory. It does NOT test or authorize brute-force traffic against hosted Render or any third-party service.
+- These measures are **internal private-QA safeguards**, not a production/Internet-scale rate-limit architecture. An externally accessible preview still requires HTTPS, strong credentials, verified `PREVIEW_REQUIRE_AUTH=1` in Render, a source-based independent Security reviewer, and authorization for exact-head deployment. Authenticated live RPC handlers still need independent resource-exhaustion review.
+- **F-001 Samsung and F-002 hosted SHA drift remain open**; **F-004 Legal/IP remains HOLD** while rights notice PR #29 and independent rights clearance are pending. No independent pass, deploy or share is implied.
