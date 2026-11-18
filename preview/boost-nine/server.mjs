@@ -36,7 +36,7 @@ function contentPolicy(html){
     "form-action 'none'", "upgrade-insecure-requests"
   ].join('; ');
 }
-export function protectedPreview({ username, password, readPage=readFile }){
+export function protectedPreview({ username, password, readPage=readFile, rwaOnly=false }){
   if(!username||!password||password.length<24)throw Error('Missing secure preview credentials');
   // Injectable read-only loader lets the test deterministically exercise HTTP 500.
   if(typeof readPage!=='function')throw TypeError('Invalid preview page loader');
@@ -87,8 +87,8 @@ export function protectedPreview({ username, password, readPage=readFile }){
     // Require a canonical, literal allowlisted route. URL() normalizes dot segments,
     // so check the raw target before trusting its normalized pathname.
     const rawPath=(request.url||'/').split(/[?#]/,1)[0];
-    const name=pathname==='/'?'index.html':pathname.slice(1);
-    if(rawPath!==pathname||!rawPath.startsWith('/')||!allowed.has(name)||name.includes('/')||name.includes('\\')){
+    const name=pathname==='/'?(rwaOnly?'rwa.html':'index.html'):pathname.slice(1);
+    if(rawPath!==pathname||!rawPath.startsWith('/')||!allowed.has(name)||name.includes('/')||name.includes('\\')||(rwaOnly&&name!=='rwa.html')){
       response.writeHead(404,{'Content-Type':'text/plain; charset=utf-8'});response.end('Not found');return;
     }
     try{
