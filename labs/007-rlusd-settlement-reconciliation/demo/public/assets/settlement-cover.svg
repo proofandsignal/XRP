@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="920" viewBox="0 0 920 920" role="img" aria-label="Original synthetic XRPL settlement evidence illustration">
+<defs>
+  <radialGradient id="a" cx=".54" cy=".43" r=".67"><stop stop-color="#145078" stop-opacity=".62"/><stop offset=".56" stop-color="#102638" stop-opacity=".28"/><stop offset="1" stop-color="#071323" stop-opacity="0"/></radialGradient>
+  <linearGradient id="b" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#162e49"/><stop offset="1" stop-color="#081a2d"/></linearGradient>
+  <linearGradient id="c" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#79e8d4"/><stop offset="1" stop-color="#75b3fd"/></linearGradient>
+  <filter id="glow" x="-75%" y="-75%" width="250%" height="250%"><feGaussianBlur stdDeviation="15"/></filter>
+  <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="28" stdDeviation="34" flood-color="#010812" flood-opacity=".65"/></filter>
+  <pattern id="grid" width="52" height="52" patternUnits="userSpaceOnUse"><path d="M 52 0 L 0 0 0 52" fill="none" stroke="#4f8db6" stroke-opacity=".1" stroke-width="1"/></pattern>
+</defs>
+<rect width="920" height="920" fill="url(#a)"/>
+<rect x="0" y="0" width="920" height="920" fill="url(#grid)"/>
+<circle cx="453" cy="434" r="274" fill="none" stroke="#5cbae7" stroke-opacity=".13" stroke-width="2"/>
+<circle cx="453" cy="434" r="212" fill="none" stroke="#5cbae7" stroke-opacity=".16" stroke-width="2"/>
+<circle cx="453" cy="434" r="149" fill="none" stroke="#79e8d4" stroke-opacity=".14" stroke-width="2" stroke-dasharray="5 11"/>
+<path d="M77 624 270 523 405 621 663 448 837 536" fill="none" stroke="#56bfe6" stroke-opacity=".27" stroke-width="2"/>
+<path d="M87 300 250 418 420 293 626 374 854 243" fill="none" stroke="#79e8d4" stroke-opacity=".18" stroke-width="2"/>
+<g fill="#79e8d4"><circle cx="77" cy="624" r="6"/><circle cx="270" cy="523" r="6"/><circle cx="663" cy="448" r="6"/><circle cx="837" cy="536" r="6"/></g>
+<g opacity=".5" fill="#63bbfb"><circle cx="87" cy="300" r="5"/><circle cx="420" cy="293" r="5"/><circle cx="854" cy="243" r="5"/></g>
+<circle cx="456" cy="431" r="132" fill="#2df2b8" opacity=".16" filter="url(#glow)"/>
+<g filter="url(#shadow)">
+<rect x="120" y="124" width="676" height="650" rx="26" fill="url(#b)" stroke="#49718f" stroke-width="2"/>
+<path d="M146 184 H770" stroke="#3c5b76" stroke-opacity=".85"/>
+<circle cx="160" cy="155" r="6" fill="#63e4c4"/><circle cx="185" cy="155" r="6" fill="#3d7392"/><circle cx="210" cy="155" r="6" fill="#3d7392"/>
+<text x="742" y="161" font-family="Arial,sans-serif" fill="#90acc1" font-size="16" text-anchor="end" letter-spacing="3">LAB / 007</text>
+<text x="166" y="239" font-family="Arial,sans-serif" fill="#78b6d9" font-size="17" font-weight="700" letter-spacing="4">SETTLEMENT INTELLIGENCE</text>
+<text x="166" y="291" font-family="Arial,sans-serif" fill="#f4f9ff" font-size="34" font-weight="700">Is the evidence enough?</text>
+<rect x="166" y="335" width="573" height="93" rx="13" fill="#0b2137" stroke="#32546d"/>
+<text x="189" y="367" font-family="Arial,sans-serif" fill="#91aec2" font-size="16" letter-spacing="2">EXPECTED PAYMENT / TESTNET FIXTURE</text>
+<text x="189" y="404" font-family="Arial,sans-serif" fill="#f1faff" font-size="27" font-weight="700">10.50 RLUSD</text>
+<text x="702" y="402" font-family="Arial,sans-serif" fill="#6ce0c2" font-size="17" text-anchor="end">SYNTHETIC</text>
+<path d="M166 468 H739" stroke="#2c536d"/>
+<text x="185" y="506" font-family="Arial,sans-serif" fill="#d7e9f4" font-size="20">Transaction / amount</text>
+<text x="715" y="506" font-family="Arial,sans-serif" fill="#76eccd" font-size="20" font-weight="700" text-anchor="end">MATCHED</text>
+<circle cx="176" cy="500" r="5" fill="#76eccd"/>
+<text x="185" y="561" font-family="Arial,sans-serif" fill="#d7e9f4" font-size="20">Issuer / destination</text>
+<text x="715" y="561" font-family="Arial,sans-serif" fill="#76eccd" font-size="20" font-weight="700" text-anchor="end">MATCHED</text>
+<circle cx="176" cy="555" r="5" fill="#76eccd"/>
+<text x="185" y="616" font-family="Arial,sans-serif" fill="#d7e9f4" font-size="20">Authenticated ledger</text>
+<text x="715" y="616" font-family="Arial,sans-serif" fill="#f2c887" font-size="20" font-weight="700" text-anchor="end">UNKNOWN</text>
+<circle cx="176" cy="610" r="5" fill="#f2c887"/>
+<rect x="166" y="663" width="573" height="66" rx="13" fill="#322c29" fill-opacity=".85" stroke="#8e6b4c"/>
+<path d="M193 684 179 708 H207 Z" fill="none" stroke="#ffc885" stroke-width="3" stroke-linejoin="round"/>
+<path d="M193 691 V700" stroke="#ffc885" stroke-width="2.7" stroke-linecap="round"/>
+<circle cx="193" cy="704" r="1.5" fill="#ffc885"/>
+<text x="223" y="690" font-family="Arial,sans-serif" fill="#ffe0b0" font-weight="700" font-size="18">NOT A VERIFIED PAYMENT</text>
+<text x="223" y="712" font-family="Arial,sans-serif" fill="#ddc9ac" font-size="15">Synthetic data • no real funds • no custody</text>
+</g>
+<g transform="translate(701 102)">
+<circle cx="36" cy="36" r="36" fill="#143a4b" stroke="#6ce7cf" stroke-width="2"/>
+<path d="m20 37 11 11 21-24" fill="none" stroke="url(#c)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<text x="460" y="857" text-anchor="middle" font-family="Arial,sans-serif" fill="#7296b1" font-size="14" letter-spacing="5">ILLUSTRATIVE EVIDENCE · NO LIVE LEDGER DATA</text>
+</svg>

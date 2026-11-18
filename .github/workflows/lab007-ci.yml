@@ -13,12 +13,29 @@ concurrency:
 jobs:
   deterministic:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Run deterministic read-only tests (no network, no secrets)
+      - name: Static syntax checks (no external dependencies)
+        working-directory: labs/007-rlusd-settlement-reconciliation
+        run: npm run demo:check
+      - name: Run deterministic and protected-preview integration tests (localhost only)
         working-directory: labs/007-rlusd-settlement-reconciliation
         run: npm test
+      - name: Real Chromium Desktop and Mobile Viewport QA
+        working-directory: labs/007-rlusd-settlement-reconciliation
+        run: |
+          which google-chrome || which google-chrome-stable
+          npm install --no-save --no-package-lock playwright-core@1.55.1
+          node demo/test/browser-qa.mjs
+      - name: Upload QA screenshots (synthetic assets only)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lab007-demo-browser-qa
+          path: labs/007-rlusd-settlement-reconciliation/demo/qa-artifacts/*.png
+          if-no-files-found: ignore
+          retention-days: 3
