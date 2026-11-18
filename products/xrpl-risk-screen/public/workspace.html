@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#080e18">
+<meta name="description" content="Proof & Signal XRPL Institutional Evidence & Decision Workspace — audited historical research cases and operational decision workflow.">
+<title>XRPL Evidence OS — Institutional Case Intelligence | Proof & Signal</title>
+<link rel="icon" href="/brand.svg" type="image/svg+xml">
+<style>
+:root{color-scheme:dark;--bg:#080e18;--panel:#101927;--panel2:#142033;--line:#2a3c54;--soft:#97aabe;--text:#ecf3fa;--gold:#e7c997;--gold2:#b99a65;--mint:#72d8c6;--red:#ff9b9b;--orange:#f0bb83;--font:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 75% -15%,#263e5a 0%,transparent 48%),var(--bg);color:var(--text);font-family:var(--font);line-height:1.45}
+button,input,textarea,select{font:inherit}button{cursor:pointer}a{color:var(--gold);text-decoration:none}a:hover{text-decoration:underline}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.shell{max-width:1660px;margin:auto;display:grid;grid-template-columns:244px minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:0;align-self:start;height:100vh;display:flex;flex-direction:column;background:#0b1421ee;border-right:1px solid #21334c;padding:27px 17px;z-index:3}
+.brand{display:flex;align-items:center;gap:12px;padding:0 10px 24px}.brand-symbol{width:42px;height:42px;display:grid;place-items:center;border:1px solid #caaa76;border-radius:11px;background:linear-gradient(135deg,#182639,#111926);flex:none}.brand-symbol svg{width:26px;height:26px}.brand strong{display:block;font-size:15px;letter-spacing:.04em}.brand small{display:block;color:#94a6bc;font-size:10px;letter-spacing:.12em;font-weight:700}
+.side-label{font-size:10px;letter-spacing:.18em;color:#728aa4;margin:21px 11px 9px;text-transform:uppercase;font-weight:800}
+.navbtn{width:100%;background:transparent;color:#9eb2ca;border:1px solid transparent;border-radius:11px;text-align:left;padding:12px 14px;margin:2px 0;font-size:13px;font-weight:650;display:flex;gap:12px;align-items:center}
+.navbtn .num{font-size:10px;opacity:.65;letter-spacing:.09em}.navbtn.active,.navbtn:hover{color:#f5dfb8;background:linear-gradient(90deg,#273347,#142131);border-color:#41516a}
+.side-bottom{margin-top:auto;border-top:1px solid #25354b;padding:20px 10px 0;color:#829bb4;font-size:11px;line-height:1.8}
+.side-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#84e1c9;margin-right:5px}
+.main{padding:24px clamp(18px,3vw,46px) 70px;min-width:0}
+.top{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-bottom:30px;flex-wrap:wrap}
+.kicker{font-size:11px;letter-spacing:.15em;color:var(--soft);text-transform:uppercase;font-weight:800}
+.top-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.status{display:inline-flex;align-items:center;gap:7px;border:1px solid #3c5068;background:#152234;border-radius:40px;padding:8px 12px;color:#b5cbe0;font-size:11px}
+.status i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--mint)}
+.btn,.btn-primary,.btn-outline{display:inline-flex;justify-content:center;align-items:center;gap:9px;padding:11px 17px;min-height:44px;border-radius:10px;font-size:12px;font-weight:800;border:1px solid #465a74;color:#e6edf5;background:#1d2e43;text-decoration:none}
+.btn-primary{background:linear-gradient(125deg,#e9ce9d,#bf9c64);color:#172236;border-color:#e5c791}.btn-outline{background:transparent;color:#c9d9e8}
+.btn:hover,.btn-primary:hover,.btn-outline:hover{filter:brightness(1.13);text-decoration:none}
+.hero{position:relative;overflow:hidden;min-height:276px;display:flex;align-items:center;border:1px solid #3b506c;border-radius:22px;padding:35px clamp(22px,4vw,49px);background:linear-gradient(115deg,#19293e,#101b2c 68%,#192941);box-shadow:0 20px 60px #04091166}
+.hero:before{content:"";position:absolute;width:390px;height:390px;right:-80px;top:-80px;border:1px solid #7896be59;border-radius:50%;box-shadow:0 0 0 40px #7c9ec711,0 0 0 90px #7c9ec70e,0 0 0 150px #7c9ec708}
+.hero-content{position:relative;z-index:1;max-width:730px}
+.goldtext{color:var(--gold);font-size:11px;font-weight:850;letter-spacing:.16em;text-transform:uppercase}
+h1{font-size:clamp(31px,4.2vw,53px);line-height:1.07;letter-spacing:-.045em;margin:14px 0 15px;font-weight:810}
+h1 em{font-style:normal;color:var(--gold)}
+.hero p{color:#b3c5db;max-width:610px;margin:0;font-size:14px;line-height:1.7}
+.hero-tools{display:flex;gap:10px;flex-wrap:wrap;margin-top:21px}
+.section-title{display:flex;justify-content:space-between;align-items:end;gap:15px;margin:30px 0 14px;flex-wrap:wrap}
+h2{font-size:20px;letter-spacing:-.025em;margin:0}h3{font-size:16px;letter-spacing:-.018em;margin:0}
+.sub{color:var(--soft);font-size:12px;line-height:1.65}.muted{color:var(--soft)}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px}
+.metric{background:#101b29;border:1px solid #2a3c55;border-radius:14px;padding:17px;min-width:0}
+.metric strong{display:block;font-size:30px;line-height:1.1;letter-spacing:-.05em;margin:6px 0}.metric small{font-size:11px;color:#a2b6ca}
+.card{background:linear-gradient(155deg,#132034,#101926);border:1px solid #2c4059;border-radius:16px;padding:21px;min-width:0}
+.two{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(290px,1fr);gap:14px}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.case-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin-top:15px}
+.case-button{text-align:left;background:#111d2d;border:1px solid #324762;border-radius:13px;padding:17px;min-height:143px;color:#e9f0f9;transition:transform .15s,border-color .15s}
+.case-button:hover{transform:translateY(-2px);border-color:#caa96e}.case-button.selected{border-color:#d6b987;background:linear-gradient(140deg,#293448,#152235);box-shadow:inset 0 0 0 1px #d6b98734}
+.case-button .topline{display:flex;justify-content:space-between;gap:8px;color:#c8d8e9;font-size:11px;font-weight:800}
+.case-button strong{display:block;font-size:17px;line-height:1.2;margin-top:13px}
+.case-button small{display:block;font-size:11px;line-height:1.5;margin-top:9px;color:#99adc3}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:99px;border:1px solid #4a5a70;font-size:10px;font-weight:800;color:#b9cddd}
+.pill.material{color:#ffcfad;border-color:#8d654b;background:#3c2b27}
+.pill.stable{color:#a6e4c9;border-color:#44725f;background:#1c3937}
+.pill.unknown{color:#f5d6a3;border-color:#6a5437;background:#382b21}
+.toolsline{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}
+.legend{display:flex;gap:8px;flex-wrap:wrap}
+.span-label{display:block;font-size:10px;letter-spacing:.13em;color:#88a0ba;text-transform:uppercase;font-weight:800;margin-bottom:6px}
+.factline{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.fact{border-radius:12px;background:#0d1725;border:1px solid #2c3f56;padding:15px}.fact strong{font-size:23px;display:block;margin-top:7px}
+.timeline{display:flex;gap:8px;flex-wrap:wrap;margin:13px 0}
+.step{padding:9px 12px;border-radius:8px;border:1px solid #425572;background:#1a2940;color:#c1d1e2;font-size:11px;font-weight:800}
+.step.active{border-color:#d7b67e;background:#dfc18c;color:#1c2633}
+.timeline-detail{border-left:3px solid #dab781;border-radius:0 12px 12px 0;background:#172338;padding:15px;color:#bdcee0;font-size:12px;min-height:92px}
+.timeline-detail strong{color:#f4debb;display:block;font-size:13px;margin-bottom:7px}
+.tagline{display:flex;gap:7px;flex-wrap:wrap;margin:13px 0}.tag{font-size:10px;border:1px solid #46566e;background:#21304a;border-radius:7px;padding:6px 9px;color:#d2dfef;overflow-wrap:anywhere}
+.separator{height:1px;background:#2c405a;margin:20px 0}
+.input,.select,.textarea{background:#0b1726;border:1px solid #3a506a;border-radius:10px;min-height:43px;padding:11px 12px;color:#edf4fc;outline:none;width:100%;font-size:13px}.textarea{min-height:96px;resize:vertical}.input:focus,.select:focus,.textarea:focus{border-color:#d3b47a}
+.formrow{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:12px 0}
+label.flabel{display:block;font-size:11px;color:#afc1d5;font-weight:800;margin:12px 0 7px}
+.lensbuttons{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:13px 0}
+.lensbtn{border:1px solid #3a4d66;border-radius:9px;padding:10px 5px;background:#18263b;color:#aec1d6;font-size:11px;font-weight:750}
+.lensbtn.active{color:#e8cc9a;border-color:#c7a777;background:#2a3443}
+.lensdesc{padding:17px;border:1px solid #364962;background:#152335;border-radius:12px;color:#aec2d6;line-height:1.65;font-size:13px}
+.lensdesc strong{display:block;color:#e7cb98;margin-bottom:8px}
+.kv{display:grid;grid-template-columns:140px minmax(0,1fr);gap:8px;border-bottom:1px solid #283b53;padding:10px 0;font-size:12px;overflow-wrap:anywhere}
+.kv dt{color:#8ea5bd}.kv dd{margin:0;color:#e2eaf5;font-family:ui-monospace,Consolas,monospace;font-size:11px;word-break:break-all}
+.auditbox{padding:17px;background:#0b1725;border:1px solid #344b63;border-radius:12px;margin-top:14px;font-size:12px;line-height:1.75;color:#b5cadf;overflow-wrap:anywhere}
+.auditbox.good{border-color:#4c8978}.auditbox.warn{border-color:#a07855}
+.alert{font-size:12px;color:#d6c09b;background:#312a27;border:1px solid #665440;border-radius:10px;padding:12px 15px;margin:13px 0}
+.memo-preview{white-space:pre-wrap;overflow-wrap:anywhere;font-family:ui-monospace,Consolas,monospace;font-size:11px;max-height:290px;overflow:auto;color:#aec6dc;background:#091420;border:1px solid #30455b;padding:14px;border-radius:11px}
+.footer{border-top:1px solid #2b3c53;padding-top:18px;margin-top:40px;font-size:11px;color:#8399b1;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.view{display:none}.view.active{display:block;animation:rise .22s ease-out}@keyframes rise{from{opacity:.3;transform:translateY(5px)}to{opacity:1;transform:none}}
+.signalrow{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid #2c4059;padding:13px 0;font-size:12px}
+.signalrow:last-child{border:0}.signalrow small{color:#96aac0;display:block;margin-top:3px}
+.networkmesh{width:100%;height:155px;margin-top:9px}.networkmesh path{stroke:#d4b57d;stroke-width:1.7;fill:none;opacity:.8}
+.road{display:flex;gap:13px;align-items:start;padding:16px;border-bottom:1px solid #2d4058}.road:last-child{border:none}.road .stage{border:1px solid #536982;border-radius:8px;padding:7px 10px;font-size:10px;white-space:nowrap;color:#c4d3e4}.road strong{display:block;font-size:13px}.road p{font-size:12px;color:#9fb3ca;margin:5px 0 0}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);border-radius:12px;background:#dfc18c;color:#172034;font-size:12px;font-weight:800;padding:12px 17px;z-index:8;display:none;box-shadow:0 10px 40px #0006}
+.visible{display:block}
+@media(max-width:1120px){.shell{grid-template-columns:192px minmax(0,1fr)}.case-list{grid-template-columns:1fr 1fr}.two{grid-template-columns:1fr}.three{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.shell{display:block}.side{position:sticky;top:0;height:auto;padding:9px 12px;border-right:0;border-bottom:1px solid #2b3d54}.brand{padding:0 3px 8px}.brand-symbol{width:31px;height:31px}.brand-symbol svg{width:20px;height:20px}.brand strong{font-size:12px}.brand small{font-size:9px}.side-label,.side-bottom{display:none}.navwrap{display:flex;gap:5px;overflow-x:auto;scrollbar-width:thin}.navbtn{white-space:nowrap;width:auto;flex:none;margin:0;padding:10px 11px;font-size:11px}.main{padding:17px 14px 48px}.top{margin-bottom:15px}.hero{padding:25px 21px;min-height:240px}.hero:before{right:-230px}.metrics{grid-template-columns:1fr 1fr}.metric strong{font-size:25px}.case-list,.three{grid-template-columns:1fr}.case-button{min-height:100px}.factline{grid-template-columns:1fr 1fr}.lensbuttons{grid-template-columns:1fr 1fr}.formrow{grid-template-columns:1fr}.card{padding:16px}.kv{grid-template-columns:1fr}.top-actions{width:100%}.top-actions .btn-outline{flex:1}}
+@media(max-width:385px){h1{font-size:30px}.top-actions{flex-wrap:wrap}.hero-tools .btn,.hero-tools .btn-primary{width:100%}.factline{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+/* V3 brand & high-fidelity institutional experience */
+:root{--bg:#060b13;--panel:#0c1624;--panel2:#102034;--line:#2c435b;--soft:#9bacc0;--text:#eff6fc;--gold:#efd19d;--gold2:#b99556}
+body{background:radial-gradient(ellipse 70% 42% at 74% -12%,#213953 0%,transparent 65%),radial-gradient(ellipse 40% 35% at -15% 50%,#12233b 0%,transparent 70%),#070e18}
+.side{background:linear-gradient(172deg,#0f1b2c,#08101c);border-right:1px solid #354b63}
+.brand{padding:6px 8px 12px;gap:12px}.brand .product-logo{width:54px;height:54px;filter:drop-shadow(0 3px 12px #b795503d);border:1px solid #64553a;border-radius:13px}
+.brand strong{letter-spacing:.015em;font-size:15px}.brand em{color:#e9c789;font-style:normal}
+.brand small{letter-spacing:.125em;font-size:9px}.brand-author{color:#748ba4;font-size:10px;padding:0 12px 21px;line-height:1.6}.brand-author strong{color:#e7c997;font-weight:700}
+.navbtn{min-height:46px;margin:3px 0}.navbtn.active{border:1px solid #8e7956;background:linear-gradient(100deg,#2e3844,#1a2a3a);box-shadow:inset 3px 0 0 #e2c48b}
+.side-rail-status{color:#d9bc85}.side-bottom strong{color:#c8a974;font-size:10px;letter-spacing:.04em}
+.live-bullet{display:inline-block;width:6px;height:6px;background:#70e1cb;border-radius:50%;margin-right:8px;box-shadow:0 0 11px #6ed3cda5}
+.top{margin-bottom:23px}.top-actions .btn-outline{border-color:#53657a}
+.hero.immersive{isolation:isolate;min-height:382px;padding:42px 38px;background:linear-gradient(105deg,#1c3145 0%,#111e31 47%,#0b1626 100%);border:1px solid #6d624d;box-shadow:0 25px 90px #0009,inset 0 0 68px #41597822}
+.hero.immersive:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,#bac9da08 0px,#bac9da08 1px,transparent 1px,transparent 22px);opacity:.35;pointer-events:none;z-index:-1}
+.hero.immersive .hero-content{max-width:660px;flex:1;z-index:2}
+.hero.immersive h1{font-size:clamp(38px,4.5vw,64px);line-height:1.035;letter-spacing:-.055em;margin:16px 0 19px}
+.hero.immersive p{max-width:550px;line-height:1.76;font-size:14px}
+.hero-diamond{color:#f4d6a2;margin-right:6px}.hero-proof{display:flex;gap:9px;flex-wrap:wrap;margin-top:28px}
+.hero-proof span{font-size:9px;font-weight:850;letter-spacing:.09em;color:#bdcde1;border-top:1px solid #667080;padding:11px 6px 0}
+.hero-scene{width:clamp(250px,38%,530px);height:360px;position:relative;z-index:1;flex:none;margin-right:-32px}
+.hero-scene svg{height:100%;width:100%;filter:drop-shadow(0 0 25px #cda97340)}
+.scene-caption{position:absolute;bottom:-1px;right:46px;color:#abc0d2;font:10px ui-monospace,monospace;letter-spacing:.13em}
+.mini-led{display:inline-block;width:5px;height:5px;border-radius:50%;background:#75dec4;margin-right:6px}
+.hero.immersive:before{display:none}
+.metric{background:linear-gradient(145deg,#152336,#0a1421);border:1px solid #41536d;box-shadow:inset 0 1px 0 #abc5df0b}
+.metric strong{color:#f3d8a4}.card{background:linear-gradient(148deg,#12243a 0%,#0c1725 83%);border-color:#3b5169}
+.section-title{margin-top:31px}.section-title h2{font-size:23px;margin:4px 0}
+.pulse-layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(270px,1fr);gap:13px}
+.pulse-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}.pulse-header h3{font-size:18px}
+.pulse-bars{display:grid;grid-template-columns:repeat(3,1fr);min-height:183px;align-items:end;gap:17px;padding:14px 5px 5px;margin:12px 0}
+.pulse-bar{display:flex;flex-direction:column;justify-content:end;gap:7px;text-align:left;background:transparent;color:#ecf4fc;border:0;min-width:0}
+.pulse-bar-track{height:123px;width:100%;display:flex;align-items:end;border-bottom:1px solid #7990a7;padding:0 10px;background:linear-gradient(180deg,#9bc3eb05,#e4c58e0a);border-radius:8px}
+.pulse-bar-fill{display:block;width:100%;min-height:5px;background:linear-gradient(180deg,#ead19d,#8c754e);border-radius:6px 6px 0 0;box-shadow:0 0 17px #dbb77c35;transition:height .2s}
+.pulse-bar:hover .pulse-bar-fill{background:linear-gradient(180deg,#8bedd2,#3a978d)}
+.pulse-bar-name{font:11px ui-monospace,monospace;color:#becbd9}.pulse-count{font-size:23px;font-weight:800;color:#f3dbb0}
+.pulse-side h3{font-size:22px;margin-bottom:12px}.pulse-detail{min-height:100px}.pulse-foot{color:#8da4ba;font-size:10px;margin-top:21px}
+.product-bento{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.bento-tile{text-align:left;position:relative;min-height:192px;display:flex;flex-direction:column;gap:7px;padding:20px;border:1px solid #405970;border-radius:16px;background:linear-gradient(140deg,#162a41,#0f1c2a);color:#eaf1fa}
+.bento-tile:hover{border-color:#d6ba89;transform:translateY(-2px);background:linear-gradient(130deg,#2a3646,#102238)}
+.bento-glyph{font-size:30px;color:#e4c286}.bento-tile strong{font-size:17px;line-height:1.2}.bento-tile small{color:#aabdd0;font-size:12px;line-height:1.55}
+.tile-arrow{position:absolute;right:16px;top:18px;color:#b7c8d8}
+.compare-banner,.triage-hero{display:flex;gap:15px;justify-content:space-between;align-items:center;background:linear-gradient(110deg,#24364a,#0c1b2e);border:1px solid #645a49;border-radius:14px;padding:19px 22px;margin:14px 0}
+.compare-banner>span{font-size:35px;color:#e7c58a}.compare-banner strong,.triage-hero strong{display:block}.compare-banner small{color:#a8bfd3;font-size:12px;display:block;margin-top:6px}
+.compare-toolbar{display:grid;grid-template-columns:1fr 50px 1fr;gap:12px;align-items:end;margin:16px 0}
+.compare-toolbar label{margin:0}.compare-toolbar select{display:block;margin-top:8px}.compare-glyph{text-align:center;font-size:29px;color:#d9bf91;padding-bottom:5px}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.compare-column h3{font-size:20px;margin:6px 0 15px}
+.compare-details .signalrow{align-items:flex-start}.compare-details .signalrow strong{overflow-wrap:anywhere;text-align:right;max-width:65%}
+.compare-takeaway h3{color:#ebd1a1;margin-bottom:8px}.compare-takeaway p{max-width:950px}
+.triage-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.triage-filter{background:#142436;color:#b2c7dc;border:1px solid #45576c;border-radius:8px;padding:9px 13px;font-size:12px}
+.triage-filter.active{background:#e4c48e;color:#172337;border-color:#e4c48e;font-weight:800}
+.triage-items{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.triage-item h3{margin:7px 0 10px;font-size:18px}.triage-item p{font-size:12px;min-height:61px}
+.triage-item select{margin-top:7px}.triage-status{display:inline-block;font-size:10px;border:1px solid #677484;border-radius:9px;padding:5px 8px;color:#d5dfec;margin-top:10px}
+.tour-layer:not([hidden]){display:flex;position:fixed;inset:0;z-index:15;background:#020811bb;align-items:center;justify-content:center;padding:22px;backdrop-filter:blur(4px)}
+.tour-modal{width:min(560px,100%);padding:30px;border:1px solid #cbb17d;background:radial-gradient(ellipse at 75% 0%,#26405a,#111f32 70%);border-radius:20px;box-shadow:0 20px 100px #000b}
+.tour-modal h3{font-size:29px;margin:14px 0}.tour-modal p{font-size:14px;line-height:1.8}.footer-logo{vertical-align:middle;margin-right:8px}
+.navbtn,.bento-tile,.case-button,.triage-filter,.pulse-bar{transition:transform .15s,border-color .15s,background .15s}
+@media(max-width:1330px){.hero-scene{width:34%;height:315px;margin-right:-25px}.hero.immersive h1{font-size:47px}.product-bento{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:1040px){.hero-scene{opacity:.36;position:absolute;right:0;top:0;width:350px;height:100%}.hero.immersive .hero-content{max-width:750px}.pulse-layout{grid-template-columns:1fr}.triage-items{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.brand{padding-bottom:4px}.brand .product-logo{width:38px;height:38px}.brand-author{display:none}.hero.immersive{min-height:325px;padding:29px 21px}.hero.immersive h1{font-size:43px}.hero-scene{right:-180px;opacity:.22}.hero-proof{gap:7px}.hero-proof span{font-size:8px}.product-bento{grid-template-columns:1fr 1fr}.bento-tile{min-height:173px;padding:14px}.compare-grid,.triage-items{grid-template-columns:1fr}.compare-banner,.triage-hero{align-items:flex-start}.compare-toolbar{grid-template-columns:1fr 30px 1fr}.triage-hero{flex-wrap:wrap}}
+@media(max-width:440px){.hero.immersive h1{font-size:34px}.hero-proof span{font-size:8px}.pulse-bars{gap:5px}.pulse-bar-track{padding:0 5px}.bento-tile{min-height:171px}.bento-tile strong{font-size:14px}.bento-tile small{font-size:11px}.compare-toolbar{grid-template-columns:1fr}.compare-glyph{display:none}.product-bento{gap:8px}}
+
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="side" aria-label="Main navigation">
+    <div class="brand">
+      <img class="product-logo" src="/brand.svg" alt="XRPL Evidence OS original gold trace logo" width="56" height="56">
+      <span><strong>XRPL EVIDENCE <em>OS</em></strong><small>INTELLIGENCE WORKSPACE</small></span>
+    </div>
+    <div class="brand-author">An independent product by <strong>Proof &amp; Signal</strong></div>
+    <div class="side-label">Research Workspace</div>
+    <div class="navwrap">
+      <button class="navbtn active" type="button" data-view="overview"><span class="num">01</span> Mission Control</button>
+      <button class="navbtn" type="button" data-view="case"><span class="num">02</span> Case Explorer</button>
+      <button class="navbtn" type="button" data-view="compare"><span class="num">03</span> Compare Lab</button>
+      <button class="navbtn" type="button" data-view="decision"><span class="num">04</span> Decision Lab</button>
+      <button class="navbtn" type="button" data-view="evidence"><span class="num">05</span> Evidence Vault</button>
+      <button class="navbtn" type="button" data-view="triage"><span class="num">06</span> Triage Desk</button>
+      <button class="navbtn" type="button" data-view="roadmap"><span class="num">07</span> What's Next</button>
+    </div>
+    <div class="side-bottom"><span class="side-dot"></span> V3 · INTERACTIVE RESEARCH PREVIEW<br><span class="side-rail-status">03 historical cases · 0 live alerts</span><br>No wallets · No production<br><strong>CREATED BY PROOF &amp; SIGNAL</strong></div>
+  </aside>
+  <main class="main">
+    <header class="top">
+      <div class="kicker"><span class="live-bullet"></span> EVIDENCE OPERATIONS / INSTITUTIONAL WORKSPACE <span style="color:#d9c194">/ v3 research</span></div>
+      <div class="top-actions">
+        <span class="status"><i></i> Historical evidence · Replay mode</span>
+        <button id="startTour" type="button" class="btn-outline">Take the 90-sec tour</button>
+        <a class="btn-outline" href="/" title="Legacy read-only scanner">Research Scanner ↗</a>
+        <a class="btn-primary" href="mailto:partners@proofandsignal.xyz?subject=XRPL%20Evidence%20Review%20Discovery" title="Open email to discuss a scoped pilot">Discuss a Pilot ↗</a>
+      </div>
+    </header>
+
+    <section class="view active" id="view-overview">
+      <div class="hero immersive">
+        <div class="hero-content">
+          <div class="goldtext"><span class="hero-diamond">◆</span> XRPL EVIDENCE OS · PROOF & SIGNAL</div>
+          <h1>Every ledger change<br>has a <em>story.</em><br>Make it <em>verifiable.</em></h1>
+          <p>An institutional research workspace for XRPL issuer controls, signing authority and auditable historical evidence. Experience a real traceable workflow — not a generic token dashboard.</p>
+          <div class="hero-tools"><button type="button" class="btn-primary" data-go="case">Explore real XRPL cases <span aria-hidden="true">↗</span></button><button type="button" class="btn-outline" data-go="compare">Compare two cases</button></div>
+          <div class="hero-proof"><span>03 CURATED MAINNET CASES</span><span>SHA-256 EVIDENCE AUDIT</span><span>ZERO WALLET CONNECTIONS</span></div>
+        </div>
+        <div class="hero-scene" aria-hidden="true">
+          <svg viewBox="0 0 560 460" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <radialGradient id="coreLight"><stop stop-color="#f8e2b1" stop-opacity=".95"/><stop offset=".38" stop-color="#b9955c" stop-opacity=".35"/><stop offset="1" stop-color="#94713f" stop-opacity="0"/></radialGradient>
+              <linearGradient id="ringLight"><stop stop-color="#a9c3d4" stop-opacity=".3"/><stop offset=".5" stop-color="#e8c88d" stop-opacity=".9"/><stop offset="1" stop-color="#789caf" stop-opacity=".35"/></linearGradient>
+            </defs>
+            <circle cx="289" cy="225" r="188" fill="none" stroke="#8da8bb" stroke-opacity=".12" stroke-width="1" stroke-dasharray="4 8"/>
+            <circle cx="289" cy="225" r="145" fill="none" stroke="url(#ringLight)" stroke-width="2" stroke-opacity=".7"/>
+            <circle cx="289" cy="225" r="108" fill="none" stroke="#99b4c7" stroke-opacity=".16" stroke-width="1"/>
+            <path d="M290 24V428M83 225H496" stroke="#b8d2e2" stroke-opacity=".07"/>
+            <circle cx="289" cy="225" r="93" fill="url(#coreLight)"/>
+            <path d="M289 137 376 225 289 313 202 225Z" fill="#112337" stroke="#e6c58b" stroke-width="3"/>
+            <path d="M225 242 260 207 290 238 320 206 352 240" stroke="#f7dfac" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" fill="none"/>
+            <circle cx="260" cy="207" r="9" fill="#f0d297"/><circle cx="320" cy="206" r="9" fill="#f0d297"/>
+            <path d="M258 265H324" stroke="#76dccd" stroke-width="6" stroke-linecap="round"/>
+            <g fill="#d7b883"><circle cx="144" cy="225" r="7"/><circle cx="434" cy="225" r="7"/><circle cx="289" cy="80" r="7"/><circle cx="289" cy="370" r="7"/></g>
+            <g font-family="system-ui,sans-serif" font-size="13" fill="#c4d2db">
+              <text x="20" y="209">ISSUER CONTROLS</text><text x="391" y="211">SIGNING</text><text x="304" y="67">LEDGER</text><text x="308" y="389">EVIDENCE</text>
+            </g>
+            <path d="M135 220 116 164 49 164M438 231 476 290 534 290" stroke="#e6c58b" stroke-width="1.4" stroke-opacity=".7" fill="none"/>
+            <circle cx="49" cy="164" r="4" fill="#7ad8ca"/><circle cx="534" cy="290" r="4" fill="#7ad8ca"/>
+            <g font-family="ui-monospace,monospace" font-size="10" fill="#7897ac"><text x="40" y="147">ACCOUNTSET</text><text x="433" y="307">SIGNERLISTSET</text></g>
+          </svg>
+          <div class="scene-caption"><span class="mini-led"></span> EVIDENCE NETWORK · HISTORICAL REPLAY</div>
+        </div>
+      </div>
+      <div class="metrics" aria-label="Historical data metrics">
+        <div class="metric"><div class="span-label">Repository cases</div><strong id="kpiCases">—</strong><small>Audited historical references</small></div>
+        <div class="metric"><div class="span-label">Material changes</div><strong id="kpiMaterial">—</strong><small>Within deterministic rule set</small></div>
+        <div class="metric"><div class="span-label">Bounded comparisons</div><strong id="kpiPartial">—</strong><small>Partial evidence cases</small></div>
+        <div class="metric"><div class="span-label">Unknown completeness</div><strong id="kpiUnknown">—</strong><small>Not promoted to COMPLETE</small></div>
+      </div>
+      <div class="section-title"><div><div class="goldtext">INTELLIGENCE / INTERACTIVE SNAPSHOT</div><h2>Mission Control — Evidence Pulse</h2><div class="sub">Deterministic events in the three archived case records. This is not a live risk feed.</div></div><button class="btn-outline" type="button" data-go="triage">Open triage desk →</button></div>
+      <div class="pulse-layout">
+        <div class="card pulse-card">
+          <div class="pulse-header"><div><div class="span-label">Historical event density</div><h3>Not every ledger movement is material.</h3></div><span class="pill">REAL ARCHIVED EVENTS</span></div>
+          <div id="pulseBars" class="pulse-bars" role="group" aria-label="Historical event counts by case">Loading archived cases…</div>
+          <p class="sub">Click any case to inspect its exact change history. Event count measures recorded deterministic changes — not financial risk or severity.</p>
+        </div>
+        <div class="card pulse-side">
+          <div class="span-label">Instant Investigation</div><h3 id="pulseTitle">Select a case to investigate</h3>
+          <div id="pulseDetails" class="pulse-detail sub">Loading evidence snapshot…</div>
+          <div class="separator"></div>
+          <div class="toolsline"><button id="pulseVerify" class="btn-primary" type="button">Open evidence audit ↗</button><button type="button" class="btn-outline" data-go="decision">Draft a review</button></div>
+          <div class="pulse-foot">No price projections · No invented loss estimates · No signing</div>
+        </div>
+      </div>
+      <div class="section-title"><div><h2>Experience the full workflow</h2><div class="sub">Interactive research tools now · Permissioned enterprise modules after validation</div></div></div>
+      <div class="product-bento">
+        <button type="button" data-go="case" class="bento-tile"><span class="bento-glyph">◇</span><span class="span-label">EXPLORE</span><strong>Recorded changes</strong><small>Compare states, open the historical replay and understand each alert.</small><span class="tile-arrow">↗</span></button>
+        <button type="button" data-go="compare" class="bento-tile"><span class="bento-glyph">⇄</span><span class="span-label">COMPARE</span><strong>Evidence side-by-side</strong><small>Find the differences between two issuer-control case records.</small><span class="tile-arrow">↗</span></button>
+        <button type="button" data-go="evidence" class="bento-tile"><span class="bento-glyph">⌁</span><span class="span-label">VERIFY</span><strong>Source-bound dossier</strong><small>Read SHA-256 provenance, unknowns and transaction references.</small><span class="tile-arrow">↗</span></button>
+        <button type="button" data-go="decision" class="bento-tile"><span class="bento-glyph">▣</span><span class="span-label">DECIDE</span><strong>Review memo studio</strong><small>Write a scoped operational review and export a local memo.</small><span class="tile-arrow">↗</span></button>
+      </div>
+      <div class="section-title"><div><h2>Evidence Operations Console</h2><div class="sub">From observation to operational judgment, not another price dashboard</div></div><span class="pill">HISTORICAL DATA / NOT LIVE ALERTS</span></div>
+      <div class="two">
+        <div class="card"><div class="span-label">Verified case catalogue</div><div id="overviewCases" class="case-list" style="grid-template-columns:1fr"></div></div>
+        <div class="card">
+          <div class="span-label">Product workflow</div><h3>Trace it. Interpret it. Escalate thoughtfully.</h3>
+          <svg viewBox="0 0 480 150" class="networkmesh" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+            <defs><linearGradient id="flowGrad"><stop stop-color="#dcb980"/><stop offset="1" stop-color="#79c8c4"/></linearGradient></defs>
+            <path d="M50 75H420" stroke="url(#flowGrad)" stroke-dasharray="5 7"/><path d="M140 75L182 32 250 75 322 31 420 75" stroke="#88a8bf"/><path d="M140 75L182 116 250 75 322 116 420 75" stroke="#88a8bf"/>
+            <g fill="#21324a" stroke="#e2c38a" stroke-width="2"><circle cx="50" cy="75" r="20"/><circle cx="175" cy="75" r="20"/><circle cx="305" cy="75" r="20"/><circle cx="420" cy="75" r="20"/></g>
+            <g fill="#f2dfb9" font-family="sans-serif" font-size="13" font-weight="bold" text-anchor="middle"><text x="50" y="79">01</text><text x="175" y="79">02</text><text x="305" y="79">03</text><text x="420" y="79">04</text></g>
+          </svg>
+          <div class="signalrow"><div><strong>01 · Event</strong><small>Pin a recorded ledger transition</small></div><span class="pill">SOURCE</span></div>
+          <div class="signalrow"><div><strong>02 · Evidence</strong><small>Compare canonical case to demo pack</small></div><span class="pill">SHA-256</span></div>
+          <div class="signalrow"><div><strong>03 · Decision</strong><small>Document an analyst review hypothesis</small></div><span class="pill">LOCAL ONLY</span></div>
+          <div class="signalrow"><div><strong>04 · Share</strong><small>Export research dossier / review memo</small></div><span class="pill">JSON / TXT</span></div>
+        </div>
+      </div>
+      <div class="alert">Research preview: real historical references, no automatic current-state claims. This is not reserve verification, AML screening, financial advice or proof of off-ledger settlement.</div>
+    </section>
+
+    <section class="view" id="view-case">
+      <div class="section-title"><div><div class="goldtext">01 / Case intelligence</div><h2>Explore recorded XRPL changes</h2><div class="sub">Three real historical cases. A focused view of what the evidence does — and does not — establish.</div></div></div>
+      <div id="casePicker" class="case-list"></div>
+      <div class="two" style="margin-top:15px">
+        <div class="card">
+          <div class="span-label" id="caseCode">SELECT A CASE</div><h2 id="caseTitle" style="margin-bottom:9px">Loading historic evidence…</h2><p class="sub" id="caseHeadline"></p>
+          <div class="tagline" id="caseTags"></div>
+          <div class="factline"><div class="fact"><div class="span-label">Risk before</div><strong id="caseBefore">—</strong><small class="sub" id="ledgerBefore">—</small></div><div class="fact"><div class="span-label">Risk after</div><strong id="caseAfter">—</strong><small class="sub" id="ledgerAfter">—</small></div></div>
+          <div class="separator"></div>
+          <div class="span-label">Historical sequence · Click checkpoints</div><div class="timeline" id="caseTimeline"></div><div class="timeline-detail" id="caseStep"></div>
+          <div class="separator"></div>
+          <div class="span-label">Deterministic events</div><div class="tagline" id="caseEvents"></div><div class="alert" id="caseCaveat"></div>
+          <div class="toolsline"><button class="btn-primary" type="button" data-go="evidence">Inspect source evidence →</button><button class="btn-outline" type="button" data-go="decision">Investigate this case</button></div>
+        </div>
+        <div class="card">
+          <div class="span-label">Why this matters</div><h3>Four institutional lenses</h3>
+          <p class="sub">Select a workflow to see the next relevant operational question. These are examples, not verified customer requirements.</p>
+          <div class="lensbuttons"><button type="button" data-lens="treasury" class="lensbtn active">Treasury</button><button type="button" data-lens="custody" class="lensbtn">Custody</button><button type="button" data-lens="risk" class="lensbtn">Risk & Audit</button><button type="button" data-lens="rwa" class="lensbtn">RWA</button></div>
+          <div id="lensDescription" class="lensdesc"></div>
+          <div class="separator"></div>
+          <h3>Decision boundary</h3><p class="sub" style="margin-bottom:0">A deterministic event does not automatically imply misconduct, a failed settlement or counterparty insolvency. A risk-state change is a prompt for investigation, not a substitute for human judgment.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-compare">
+      <div class="section-title"><div><div class="goldtext">03 / ANALYST COMPARISON TOOL</div><h2>Compare Lab</h2><div class="sub">Put two archived XRPL evidence cases side by side. This compares recorded case fields, not financial performance.</div></div></div>
+      <div class="compare-banner"><span>↔</span><div><strong>From raw ledger events to operational context.</strong><small>Change the cases below and inspect differences in controls, evidence completeness and next review actions.</small></div></div>
+      <div class="compare-toolbar">
+        <label class="flabel" for="compareLeft">CASE A<select id="compareLeft" class="select"></select></label>
+        <div class="compare-glyph" aria-hidden="true">⇄</div>
+        <label class="flabel" for="compareRight">CASE B<select id="compareRight" class="select"></select></label>
+      </div>
+      <div class="compare-grid">
+        <article class="card compare-column"><div class="span-label">SOURCE A</div><h3 id="compareATitle">Loading…</h3><div id="compareA" class="compare-details"></div></article>
+        <article class="card compare-column"><div class="span-label">SOURCE B</div><h3 id="compareBTitle">Loading…</h3><div id="compareB" class="compare-details"></div></article>
+      </div>
+      <div class="card compare-takeaway" style="margin-top:14px"><div class="span-label">Differential interpretation</div><h3 id="compareHeadline">Select two cases</h3><p id="compareSummary" class="sub"></p>
+        <div class="toolsline"><button id="compareExport" class="btn-primary" type="button">Export comparison TXT</button><button id="compareGoCase" class="btn-outline" type="button">Inspect case A →</button></div>
+        <p class="sub">Differences are descriptive, not a ranking or a forecast. No external request is made beyond fetching the historical case catalogue.</p>
+      </div>
+    </section>
+    <section class="view" id="view-decision">
+      <div class="section-title"><div><div class="goldtext">02 / Analyst workflow</div><h2>Decision Lab</h2><div class="sub">Draft a scenario-specific review memo. Nothing is submitted to the server or saved to an account.</div></div></div>
+      <div class="two">
+        <div class="card">
+          <div class="span-label">Current evidence context</div><h3 id="decisionCase">Loading case…</h3><p id="decisionContext" class="sub"></p>
+          <label class="flabel" for="decisionTeam">Operational team</label><select id="decisionTeam" class="select"><option value="Treasury">Treasury</option><option value="Custody">Custody</option><option value="Risk & Audit">Risk & Audit</option><option value="RWA Operations">RWA Operations</option></select>
+          <div class="formrow">
+            <div><label class="flabel" for="decisionAction">Proposed disposition</label><select class="select" id="decisionAction"><option value="INVESTIGATE">Investigate</option><option value="MONITOR">Monitor</option><option value="ESCALATE">Escalate for review</option><option value="MORE_EVIDENCE">Request further evidence</option></select></div>
+            <div><label class="flabel" for="decisionOwner">Reviewer label (optional)</label><input class="input" id="decisionOwner" maxlength="60" placeholder="e.g. Risk analyst"></div>
+          </div>
+          <label class="flabel" for="decisionNotes">What would you verify next?</label><textarea id="decisionNotes" class="textarea" maxlength="1200" placeholder="Example: Confirm which internal records would be needed for settlement reconciliation. Do not enter client secrets."></textarea>
+          <div class="alert">No client records or personal information. This is a local, unapproved research memo. Choosing ESCALATE does not contact anyone or create an incident.</div>
+          <div class="toolsline"><button class="btn-primary" id="memoGenerate" type="button">Generate review memo</button><button class="btn-outline" id="memoCopy" type="button">Copy memo</button><button class="btn-outline" id="memoDownload" type="button">Export TXT</button></div>
+        </div>
+        <div class="card"><div class="span-label">Live local memo preview</div><h3>From signal to review question</h3><p class="sub">The memo cites one canonical case and keeps unverified information explicit.</p><div id="memoPreview" class="memo-preview" role="status">Choose a case and generate a review memo. No memo has been approved or sent.</div></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-evidence">
+      <div class="section-title"><div><div class="goldtext">03 / Provenance & traceability</div><h2>Evidence Vault</h2><div class="sub">Repository artifact consistency, SHA-256 fingerprint and links to historical XRPL transactions when the canonical file includes them.</div></div></div>
+      <div class="two">
+        <div class="card">
+          <div class="span-label">Currently selected case</div><h3 id="vaultTitle">Loading…</h3><p id="vaultDesc" class="sub"></p>
+          <dl id="vaultFacts"></dl>
+          <div class="toolsline"><button id="auditRun" class="btn-primary" type="button">Verify repository artifact</button><button id="vaultDownload" class="btn-outline" type="button">Export audited JSON</button><button id="vaultCopy" class="btn-outline" type="button">Copy SHA-256</button></div>
+          <div id="auditOutput" class="auditbox" aria-live="polite">Select “Verify repository artifact” to retrieve the audited historical pack. No on-chain query occurs in this check.</div>
+          <div class="separator"></div><div class="span-label">Transactions from the checked-in canonical source</div><div id="txLinks" class="sub">Run the audit to load transaction hashes.</div>
+        </div>
+        <div class="card">
+          <div class="span-label">Evidence integrity model</div><h3>What the check can establish</h3>
+          <div class="signalrow"><div><strong>Canonical file consistency</strong><small>Curated classification and event fields match archived data</small></div><span class="pill stable">CHECKED</span></div>
+          <div class="signalrow"><div><strong>SHA-256</strong><small>Fingerprint of repository artifact bytes</small></div><span class="pill stable">HASHED</span></div>
+          <div class="signalrow"><div><strong>Independent Mainnet replay</strong><small>Requires a new independent ledger query</small></div><span class="pill unknown">NOT HERE</span></div>
+          <div class="signalrow"><div><strong>Off-ledger settlement / reserves</strong><small>Not established by blockchain configuration</small></div><span class="pill unknown">UNKNOWN</span></div>
+          <div class="separator"></div>
+          <h3>Sources & research notes</h3>
+          <p class="sub"><a href="https://github.com/proofandsignal/XRP/issues/27" target="_blank" rel="noopener noreferrer">Proof &amp; Signal Research Note 001 ↗</a></p>
+          <p class="sub"><a href="https://xrpl.org/resources/dev-tools/xrpl-explorers" target="_blank" rel="noopener noreferrer">XRPL official explorer references ↗</a></p>
+          <div class="alert">A SHA-256 digest is not a digital signature. Verify authenticity by independently obtaining the pinned canonical artifact and, when needed, repeating the XRPL query.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-triage">
+      <div class="section-title"><div><div class="goldtext">06 / INTERACTIVE OPERATIONS SANDBOX</div><h2>Triage Desk</h2><div class="sub">Explore how a team might organize historical evidence into review actions. Local session state only; no customer incidents are created.</div></div></div>
+      <div class="triage-hero"><div><div class="span-label">Operations sandbox · NOT LIVE MONITORING</div><h3>From detection to disciplined review.</h3><p class="sub">Assign a disposition to the three archived cases, then export a simulated triage summary for an institutional discovery discussion.</p></div><button id="triageExport" type="button" class="btn-primary">Export triage briefing ↗</button></div>
+      <div class="triage-filters" role="group" aria-label="Triage filter">
+        <button type="button" class="triage-filter active" data-triage-filter="all">All archived cases</button>
+        <button type="button" class="triage-filter" data-triage-filter="material">Material changes</button>
+        <button type="button" class="triage-filter" data-triage-filter="needs">Needs source review</button>
+      </div>
+      <div id="triageItems" class="triage-items" aria-live="polite">Loading sandbox records…</div>
+      <div class="alert">These are not live risk alerts or customer tickets. Changes are held in the open browser tab only and are not stored, sent or shared.</div>
+    </section>
+    <section class="view" id="view-roadmap">
+      <div class="section-title"><div><div class="goldtext">04 / Product direction</div><h2>A more useful institutional workflow</h2><div class="sub">Features are explicitly separated into delivered research tools and future development candidates.</div></div></div>
+      <div class="two">
+        <div class="card">
+          <div class="span-label">Available now · Research preview</div><h3>What you can explore today</h3>
+          <div class="road"><span class="stage">LIVE</span><div><strong>Historical Case Explorer</strong><p>Three source-linked XRPL cases, classification, replay and recorded ledger ranges.</p></div></div>
+          <div class="road"><span class="stage">LIVE</span><div><strong>Audited evidence pack</strong><p>Checked-in artifact consistency and SHA-256, with unknowns preserved.</p></div></div>
+          <div class="road"><span class="stage">LIVE</span><div><strong>Decision Lab</strong><p>Local-only analyst notes, workflow lenses and exportable research memo.</p></div></div>
+          <div class="road"><span class="stage">LIVE</span><div><strong>Read-only Research Scanner</strong><p>The existing technical scanner remains separately accessible; it is not an approved enterprise monitoring feed.</p></div></div>
+        </div>
+        <div class="card">
+          <div class="span-label">Proposed · Requires review and validation</div><h3>Unlockable product capabilities</h3>
+          <div class="road"><span class="stage">PLANNED</span><div><strong>Continuous issuer-control watchlist</strong><p>Scheduled observed-state comparisons and evidence-linked alerts with explicit rate limits.</p></div></div>
+          <div class="road"><span class="stage">PLANNED</span><div><strong>Institutional reconciliation adapters</strong><p>Compare ledger evidence with client-authorized treasury or custody records.</p></div></div>
+          <div class="road"><span class="stage">PLANNED</span><div><strong>Review and approval queues</strong><p>Roles, case ownership, signed exports, secure retention and permissioned access.</p></div></div>
+          <div class="road"><span class="stage">PLANNED</span><div><strong>Settlement Assurance API</strong><p>Documented, client-specific scope only after proven demand and independent review.</p></div></div>
+          <a href="mailto:partners@proofandsignal.xyz?subject=Institutional%20XRPL%20Evidence%20Pilot" class="btn-primary" style="margin-top:20px">Discuss an evidence pilot ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer"><span><img src="/brand.svg" alt="" width="25" height="25" class="footer-logo"> XRPL Evidence OS · <strong>CREATED BY PROOF &amp; SIGNAL</strong> · Research Preview</span><span>Public historical cases · No wallet access · No sensitive data · Production and client release NOT approved</span></footer>
+  </main>
+</div>
+<div id="toast" class="toast" aria-live="polite"></div>
+<div id="tourLayer" class="tour-layer" hidden aria-live="polite" role="dialog" aria-label="Product experience tour">
+  <div class="tour-modal"><div class="span-label">GUIDED PRODUCT EXPERIENCE · <span id="tourProgress">1 / 5</span></div><h3 id="tourTitle">Explore institutional evidence</h3><p id="tourBody" class="sub"></p><div class="toolsline"><button id="tourNext" type="button" class="btn-primary">Next step →</button><button id="tourClose" type="button" class="btn-outline">Close tour</button></div></div>
+</div>
+<script>
+"use strict";
+var S={cases:[],selected:null,pack:null,lens:"treasury",step:0,memo:""};
+var $=id=>document.getElementById(id);
+var safe=s=>String(s===null||s===undefined?"":s).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+var notes={
+ "RLUSD-001":[["107761255","Validated baseline","Observed bounded partial trust-line evidence. No complete inventory claim."],["107761290","Stable observed window","No deterministic material change detected in the compared evidence. Partial completeness remains."]],
+ "RLUSD-002":[["89925779","Before AccountSet","Clawback flag was not enabled in the recorded state; risk PASS."],["89925780","Issuer control changed","AccountSet SetFlag 16 enabled trust-line clawback capability; risk became REVIEW. Not evidence of misuse."]],
+ "RLUSD-003":[["89925796","Before signing changes","Signing setup before the recorded changes; deterministic risk REVIEW."],["89925797","SignerListSet recorded","Multi-sign authorization configured; a change in signing paths."],["89925803","Master key disabled","An AccountSet disabled master-key authorization; alternative path visible in the archived case."]]
+};
+var lensText={
+ treasury:["Treasury / Payments","Does this recorded change affect your settlement control assumptions? Which internal payment and liquidity records would be needed before claiming reconciliation?"],
+ custody:["Custody / Signing Authority","Did issuer control or transaction authorization change? Do your off-ledger custody agreements, signer controls, or approved signatories require review?"],
+ risk:["Risk & Audit","Which exact ledger, transaction and canonical source supports the determination? Is the evidence complete enough to support an operational decision?"],
+ rwa:["Tokenization / RWA","Could token-control or authorization changes affect the token lifecycle? Which legal or off-chain issuer records remain outside the XRPL evidence?"]
+};
+function notice(msg){var el=$("toast");el.textContent=msg;el.classList.add("visible");clearTimeout(window._toastTimeout);window._toastTimeout=setTimeout(()=>el.classList.remove("visible"),2600)}
+function go(view){if(!$("view-"+view))return;document.querySelectorAll(".view").forEach(el=>el.classList.toggle("active",el.id==="view-"+view));document.querySelectorAll("[data-view]").forEach(b=>{b.classList.toggle("active",b.dataset.view===view);b.setAttribute("aria-current",b.dataset.view===view?"page":"false")});window.scrollTo({top:0,behavior:"smooth"});}
+function classificationLabel(c){return c.classification==="MATERIAL_CHANGE"?"MATERIAL CHANGE":"NO MATERIAL CHANGE IN OBSERVED WINDOW"}
+function caseCard(c){return '<button class="case-button '+(S.selected?.id===c.id?"selected":"")+'" type="button" data-case="'+safe(c.id)+'"><span class="topline"><span>'+safe(c.id)+'</span><span class="pill '+(c.classification==="MATERIAL_CHANGE"?"material":"stable")+'">'+safe(c.classification==="MATERIAL_CHANGE"?"MATERIAL":"BOUNDED")+'</span></span><strong>'+safe(c.title)+'</strong><small>'+safe(c.risk_transition)+" · "+safe(c.evidence_status)+'</small></button>'}
+function drawCaseLists(){var content=S.cases.map(caseCard).join("");$("overviewCases").innerHTML=content;$("casePicker").innerHTML=content;document.querySelectorAll("[data-case]").forEach(b=>b.onclick=()=>{selectCase(b.dataset.case);go("case")})}
+function renderStep(n){var steps=notes[S.selected?.id]||[];S.step=n;$("caseTimeline").innerHTML=steps.map((p,i)=>'<button type="button" class="step '+(i===n?"active":"")+'" data-step="'+i+'">'+safe(p[0])+'</button>').join("");var p=steps[n];$("caseStep").innerHTML=p?'<strong>'+safe(p[1])+'</strong>'+safe(p[2]):"No historical steps";$("caseTimeline").querySelectorAll("[data-step]").forEach(b=>b.onclick=()=>renderStep(Number(b.dataset.step)))}
+function renderLens(){var x=lensText[S.lens];$("lensDescription").innerHTML='<strong>'+safe(x[0])+'</strong>'+safe(x[1]);document.querySelectorAll("[data-lens]").forEach(b=>b.classList.toggle("active",b.dataset.lens===S.lens))}
+function selectCase(id){var c=S.cases.find(x=>x.id===id);if(!c)return;S.selected=c;S.pack=null;S.memo="";$("memoPreview").textContent="No memo generated or approved.";var pair=c.risk_transition.split(" → "),ledgers=c.ledgers.split(" → ");$("caseCode").textContent=c.id+" / HISTORICAL XRPL RECORD";$("caseTitle").textContent=c.title;$("caseHeadline").textContent=c.headline;$("caseBefore").textContent=pair[0]||"UNKNOWN";$("caseAfter").textContent=pair[1]||"UNKNOWN";$("ledgerBefore").textContent="Ledger "+(ledgers[0]||"UNKNOWN");$("ledgerAfter").textContent="Ledger "+(ledgers[1]||"UNKNOWN");
+$("caseTags").innerHTML=['XRPL Mainnet',classificationLabel(c),"Evidence: "+c.evidence_status].map(t=>'<span class="tag">'+safe(t)+'</span>').join("");
+$("caseEvents").innerHTML=c.events.length?c.events.map(e=>'<span class="tag">'+safe(e)+'</span>').join(""):'<span class="tag">NO MATERIAL EVENTS IN THE COMPARED WINDOW</span>';
+$("caseCaveat").textContent="Evidence boundary: "+c.caveat;$("decisionCase").textContent=c.id+" · "+c.title;$("decisionContext").textContent=c.headline+" Recorded completeness: "+c.evidence_status+".";
+$("vaultTitle").textContent=c.id+" · "+c.title;$("vaultDesc").textContent=c.caveat;$("vaultFacts").innerHTML='<div class="kv"><dt>Ledger range</dt><dd>'+safe(c.ledgers)+'</dd></div><div class="kv"><dt>Classification</dt><dd>'+safe(c.classification)+'</dd></div><div class="kv"><dt>Evidence status</dt><dd>'+safe(c.evidence_status)+'</dd></div><div class="kv"><dt>Canonical file</dt><dd>'+safe(c.evidence_file)+'</dd></div>';
+$("auditOutput").className="auditbox";$("auditOutput").textContent="Not checked in this browser session. Select Verify repository artifact.";$("txLinks").textContent="Run the audit to load canonical transaction references.";renderStep(0);drawCaseLists();
+}
+async function loadPack(){if(!S.selected)throw Error("No selected case");var id=S.selected.id;var r=await fetch("/api/demo-cases/"+encodeURIComponent(id),{cache:"no-store"});if(!r.ok)throw Error("Evidence service HTTP "+r.status);var data=await r.json();if(data.case?.id!==id||!data.audit?.canonical_sha256)throw Error("Audit response missing verified case reference");if(S.selected?.id!==id)throw Error("Case changed during request");S.pack=data;return data}
+function statusText(pack){return pack.audit.status==="REPOSITORY_ARTIFACT_CONSISTENCY_PASS"?"Repository consistency PASS":"PARTIAL consistency — review unknowns"}
+async function runAudit(){if(!S.selected)return;var box=$("auditOutput");box.className="auditbox";box.textContent="Checking canonical repository artifact…";try{var p=await loadPack(),a=p.audit;var partial=a.unverified_fields?.length>0;box.className="auditbox "+(partial?"warn":"good");box.innerHTML='<strong>'+safe(statusText(p))+'</strong><div class="separator"></div>'+
+'<div class="span-label">SHA-256 of canonical bytes</div><div style="overflow-wrap:anywhere;font-family:monospace">'+safe(a.canonical_sha256)+'</div>'+
+'<div class="separator"></div><strong>Checked fields:</strong> '+safe((a.checked_fields||[]).join(", "))+ '<br><strong>Unverified:</strong> '+safe((a.unverified_fields||[]).join(", ")||"None recorded for these comparison fields")+
+'<br><strong>Scope:</strong> Does not re-query XRPL, certify off-ledger operations, or authenticate the repository independently.';
+var tx=a.historical_transaction_references||[],issues=a.historical_reference_issues||[];$("txLinks").innerHTML=
+(tx.length?tx.map(x=>'<div class="signalrow"><div><strong>'+safe(x.transaction_type)+'</strong><small>Ledger '+safe(x.ledger_index)+'</small></div><a href="https://xrpscan.com/tx/'+encodeURIComponent(x.hash)+'" target="_blank" rel="noopener noreferrer">View transaction ↗</a></div>').join(""):'No valid historical transaction link in this canonical case; inspect ledger anchors and source file.')+
+(issues.length?'<div class="alert">'+safe(issues.length)+' invalid archival transaction reference(s) were withheld. No hash was guessed or repaired. The canonical artifact requires source remediation and independent revalidation.</div>':"");
+notice("Repository evidence checked");}catch(e){box.className="auditbox warn";box.textContent="Cannot verify this case: "+String(e.message||e);notice("Evidence check unavailable")}}
+async function exportAudit(){try{var pack=S.pack||await loadPack();download(JSON.stringify(pack,null,2),S.selected.id.toLowerCase()+"-audited-evidence.json","application/json");notice("Audited evidence exported")}catch(e){notice("Evidence export unavailable")}}
+function download(body,name,type){var blob=new Blob([body],{type:type}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),5000)}
+function createMemo(){if(!S.selected)return;var c=S.selected,action=$("decisionAction").value,team=$("decisionTeam").value,owner=$("decisionOwner").value.trim()||"Unassigned (local demo)",observations=$("decisionNotes").value.trim()||"No next-step observation supplied";
+S.memo=["PROOF & SIGNAL / XRPL EVIDENCE RESEARCH MEMO","Status: LOCAL UNAPPROVED DEMO — NOT A CUSTOMER INCIDENT","Case: "+c.id+" — "+c.title,"Operational lens: "+team,"Proposed disposition: "+action,"Reviewer label: "+owner,"Network: "+c.network,"Ledger range: "+c.ledgers,"Evidence completeness: "+c.evidence_status,"Deterministic classification: "+c.classification,"Risk transition: "+c.risk_transition,"Canonical source: "+c.evidence_file,"Public research note: https://github.com/proofandsignal/XRP/issues/27","Events: "+(c.events.join(", ")||"None in compared window"),"Evidence interpretation: "+c.headline,"Critical limitations: "+c.caveat,"Next verification question: "+observations,"Outcome: NO INDEPENDENT REVIEW OR APPROVAL DOCUMENTED","This memo is a locally generated research draft only. No data sent to the server. No financial or AML decision established."].join("\n");$("memoPreview").textContent=S.memo;notice("Local review memo created")}
+function copyText(t){if(!t){notice("Nothing to copy");return}if(navigator.clipboard?.writeText){navigator.clipboard.writeText(t).then(()=>notice("Copied to clipboard")).catch(()=>notice("Browser blocked clipboard"))}else notice("Clipboard unavailable in this browser")}
+
+/* V3 product discovery interactions. Only archived case metadata is used; no new risk scoring. */
+S.triage={};S.triageFilter="all";S.tourIndex=-1;
+function renderPulse(){
+  if(!S.cases.length)return;
+  $("pulseBars").innerHTML=S.cases.map(c=>{
+    const count=c.events.length,height=count?Math.round(count/4*108):5;
+    return '<button class="pulse-bar" type="button" data-pulse-case="'+safe(c.id)+'" aria-label="'+safe(c.id)+', '+count+' recorded events">'+
+      '<div class="pulse-count">'+count+' <small class="sub">events</small></div>'+
+      '<div class="pulse-bar-track"><span class="pulse-bar-fill" style="height:'+height+'px"></span></div>'+
+      '<span class="pulse-bar-name">'+safe(c.id)+'</span></button>';
+  }).join("");
+  $("pulseBars").querySelectorAll("[data-pulse-case]").forEach(b=>b.onclick=()=>{selectCase(b.dataset.pulseCase);go("case")});
+  const c=S.selected||S.cases[0];
+  $("pulseTitle").textContent=c.id+" — "+c.title;
+  $("pulseDetails").textContent=c.headline+" Evidence: "+c.evidence_status+".";
+}
+function renderCompare(){
+  if(!S.cases.length)return;
+  for(const name of ["compareLeft","compareRight"]){
+    const el=$(name),prior=el.value,choices=S.cases.map(c=>'<option value="'+safe(c.id)+'">'+safe(c.id)+' · '+safe(c.title)+'</option>').join("");
+    if(el.innerHTML!==choices){el.innerHTML=choices;if(prior&&S.cases.some(c=>c.id===prior))el.value=prior}
+  }
+  if(!$("compareLeft").value)$("compareLeft").value="RLUSD-002";
+  if(!$("compareRight").value||$("compareRight").value===$("compareLeft").value)$("compareRight").value="RLUSD-003";
+  const a=S.cases.find(c=>c.id===$("compareLeft").value),b=S.cases.find(c=>c.id===$("compareRight").value);
+  if(!a||!b)return;
+  const fields=c=>[
+    ["Ledger span",c.ledgers],["Risk state",c.risk_transition],["Classification",c.classification],
+    ["Evidence completeness",c.evidence_status],["Deterministic events",String(c.events.length)],
+    ["Canonical source",c.evidence_file],["Explicit limit",c.caveat]
+  ];
+  const html=c=>fields(c).map(([key,val])=>'<div class="signalrow"><span>'+safe(key)+'</span><strong>'+safe(val)+'</strong></div>').join("");
+  $("compareATitle").textContent=a.title;
+  $("compareBTitle").textContent=b.title;
+  $("compareA").innerHTML=html(a);
+  $("compareB").innerHTML=html(b);
+  const differences=fields(a).filter((field,i)=>field[1]!==fields(b)[i][1]).map(x=>x[0]);
+  $("compareHeadline").textContent=a.id+" vs "+b.id+" · "+differences.length+" different recorded dimensions";
+  $("compareSummary").textContent=(a.classification===b.classification?
+    "The two cases share a deterministic change classification, but their specific controls, evidence boundaries and observations may differ. ":
+    "The two cases have different deterministic materiality classifications. ")+
+    "The comparison checks archived fields only, not financial exposure or economic materiality. Both canonical records should be reviewed independently.";
+}
+function exportCompare(){
+  const a=S.cases.find(c=>c.id===$("compareLeft").value),b=S.cases.find(c=>c.id===$("compareRight").value);
+  if(!a||!b)return notice("Select two historical cases");
+  const text=["XRPL EVIDENCE OS / CASE COMPARISON — RESEARCH PREVIEW",
+    "Status: UNAPPROVED LOCAL DEMO, NOT AN INSTITUTIONAL ASSESSMENT",
+    ...[a,b].flatMap(c=>["","CASE "+c.id+" — "+c.title,"Ledgers: "+c.ledgers,"Risk: "+c.risk_transition,
+    "Classification: "+c.classification,"Evidence completeness: "+c.evidence_status,
+    "Events: "+(c.events.join("; ")||"No material event in observed window"),
+    "Source: "+c.evidence_file,"Limitations: "+c.caveat]),
+    "","No bank settlement, reserves, wallet screening or investment performance established.",
+    "No live XRPL query performed to create this comparison."].join("\n");
+  download(text,"xrpl-evidence-case-comparison.txt","text/plain");notice("Local comparison exported");
+}
+const triageLabels={NOT_TRIAGED:"Unassigned",INVESTIGATE:"Investigate",MONITOR:"Monitor",ESCALATE:"Request senior review",NEEDS_SOURCE:"Needs source revalidation"};
+function renderTriage(){
+  if(!S.cases.length)return;
+  const items=S.cases.filter(c=>S.triageFilter==="all"||
+    (S.triageFilter==="material"&&c.classification==="MATERIAL_CHANGE")||
+    (S.triageFilter==="needs"&&(c.evidence_status!=="COMPLETE"||S.triage[c.id]==="NEEDS_SOURCE")));
+  $("triageItems").innerHTML=items.map(c=>'<article class="card triage-item" aria-label="Historical case '+safe(c.id)+'">'+
+    '<span class="span-label">ARCHIVED / '+safe(c.id)+'</span><h3>'+safe(c.title)+'</h3>'+
+    '<span class="pill '+(c.classification==="MATERIAL_CHANGE"?"material":"stable")+'">'+safe(c.classification)+'</span>'+
+    '<p class="sub">'+safe(c.headline)+'</p>'+
+    '<label class="flabel" for="triage-'+safe(c.id)+'">Local review disposition</label>'+
+    '<select class="select" id="triage-'+safe(c.id)+'" data-triage-id="'+safe(c.id)+'">'+
+    Object.keys(triageLabels).map(k=>'<option value="'+safe(k)+'" '+((S.triage[c.id]||"NOT_TRIAGED")===k?"selected":"")+'>'+safe(triageLabels[k])+'</option>').join("")+
+    '</select><span class="triage-status">EVIDENCE: '+safe(c.evidence_status)+'</span></article>').join("")||'<div class="card">No archived cases match this filter.</div>';
+  $("triageItems").querySelectorAll("[data-triage-id]").forEach(el=>el.onchange=()=>{
+    S.triage[el.dataset.triageId]=el.value;
+    if(S.triageFilter!=="all")renderTriage();
+    notice("Local review disposition updated");
+  });
+  document.querySelectorAll("[data-triage-filter]").forEach(b=>b.classList.toggle("active",b.dataset.triageFilter===S.triageFilter));
+}
+function exportTriage(){
+  if(!S.cases.length)return notice("No historical cases loaded");
+  const body=["XRPL EVIDENCE OS / TRIAGE WORKSHOP BRIEFING",
+    "Synthetic workflow labels applied to real archived case records.",
+    "LOCAL ONLY; NO ACTUAL CASE MANAGEMENT, ALERT OR CLIENT ACTION.",
+    ...S.cases.flatMap(c=>["",c.id+" — "+c.title,"Evidence: "+c.evidence_status,
+      "Case classification: "+c.classification,"Local disposition: "+triageLabels[S.triage[c.id]||"NOT_TRIAGED"],
+      "Research limitation: "+c.caveat]),
+    "","No external approval, customer demand, financial outcome or investigation confirmed."].join("\n");
+  download(body,"xrpl-evidence-triage-workshop.txt","text/plain");notice("Triage workshop exported");
+}
+const experienceTour=[
+  {view:"overview",title:"Mission Control",body:"Start with three real archived XRPL records and a visual count of their deterministic events. These are not a live alert stream."},
+  {view:"case",title:"Trace the evidence",body:"Select RLUSD-002 and replay its AccountSet transition. Its policy shift is an archived deterministic result, not proof of harm."},
+  {view:"compare",title:"Compare without false certainty",body:"Place two cases side-by-side. Read differences in controls, completeness and limitations before any institutional decision."},
+  {view:"evidence",title:"Inspect provenance",body:"Retrieve the canonical SHA-256 and recorded transaction references. Malformed archival hashes are withheld, not guessed."},
+  {view:"decision",title:"Draft an analyst review",body:"Use Decision Lab to create a local-only research memo. Nothing is submitted, signed or approved through this preview."},
+  {view:"triage",title:"Try a workflow",body:"Assign temporary sandbox dispositions to historic cases and export a workshop briefing. This is not a live customer incident queue."}
+];
+function showTour(){
+  const step=experienceTour[S.tourIndex];if(!step)return closeTour();
+  go(step.view);$("tourLayer").hidden=false;
+  $("tourProgress").textContent=(S.tourIndex+1)+" / "+experienceTour.length;
+  $("tourTitle").textContent=step.title;$("tourBody").textContent=step.body;
+  $("tourNext").textContent=S.tourIndex===experienceTour.length-1?"Finish tour ✓":"Next step →";
+}
+function closeTour(){$("tourLayer").hidden=true;S.tourIndex=-1}
+function nextTour(){S.tourIndex++;if(S.tourIndex>=experienceTour.length){closeTour();notice("Tour complete — explore the workspace");return}showTour()}
+
+async function init(){try{var r=await fetch("/api/demo-cases",{cache:"no-store"});if(!r.ok)throw Error("HTTP "+r.status);var data=await r.json();if(!Array.isArray(data.cases)||data.cases.length===0)throw Error("Case catalogue unavailable");S.cases=data.cases.filter(x=>["RLUSD-001","RLUSD-002","RLUSD-003"].includes(x.id));if(S.cases.length!==3)throw Error("Incomplete evidence catalogue");$("kpiCases").textContent=S.cases.length;$("kpiMaterial").textContent=S.cases.filter(x=>x.classification==="MATERIAL_CHANGE").length;$("kpiPartial").textContent=S.cases.filter(x=>x.evidence_status==="PARTIAL").length;$("kpiUnknown").textContent=S.cases.filter(x=>x.evidence_status==="UNKNOWN").length;selectCase(S.cases.find(x=>x.id==="RLUSD-002")?.id||S.cases[0].id);
+renderPulse();renderCompare();renderTriage();var asked=new URL(location.href).searchParams.get("case");if(asked&&S.cases.some(x=>x.id===asked)){selectCase(asked);go("case")}}catch(e){$("overviewCases").textContent="Case API unavailable: "+String(e.message||e);$("caseTitle").textContent="Unable to load evidence. Please retry.";$("auditOutput").textContent="Cannot perform an audit while the case catalogue is unavailable.";notice("Evidence service unavailable")}}
+document.querySelectorAll("[data-view]").forEach(b=>b.onclick=()=>go(b.dataset.view));
+document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>go(b.dataset.go));
+document.querySelectorAll("[data-lens]").forEach(b=>b.onclick=()=>{S.lens=b.dataset.lens;renderLens()});
+$("auditRun").onclick=runAudit;$("vaultDownload").onclick=exportAudit;$("vaultCopy").onclick=()=>copyText(S.pack?.audit?.canonical_sha256);
+$("memoGenerate").onclick=createMemo;$("memoCopy").onclick=()=>copyText(S.memo);$("memoDownload").onclick=()=>S.memo?(download(S.memo,(S.selected?.id||"xrpl")+"-decision-research.txt","text/plain"),notice("Memo exported")):notice("Generate a memo first");
+$("pulseVerify").onclick=()=>{go("evidence");runAudit()};
+$("compareLeft").onchange=renderCompare;$("compareRight").onchange=renderCompare;
+$("compareExport").onclick=exportCompare;
+$("compareGoCase").onclick=()=>{selectCase($("compareLeft").value);go("case")};
+document.querySelectorAll("[data-triage-filter]").forEach(b=>b.onclick=()=>{S.triageFilter=b.dataset.triageFilter;renderTriage()});
+$("triageExport").onclick=exportTriage;
+$("startTour").onclick=()=>{S.tourIndex=0;showTour()};
+$("tourNext").onclick=nextTour;$("tourClose").onclick=closeTour;
+$("tourLayer").onclick=e=>{if(e.target===$("tourLayer"))closeTour()};
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("tourLayer").hidden)closeTour()});
+renderLens();init();
+</script>
+</body>
+</html>
