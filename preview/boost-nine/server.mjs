@@ -36,8 +36,10 @@ function contentPolicy(html){
     "form-action 'none'", "upgrade-insecure-requests"
   ].join('; ');
 }
-export function protectedPreview({ username, password }){
+export function protectedPreview({ username, password, readPage=readFile }){
   if(!username||!password||password.length<24)throw Error('Missing secure preview credentials');
+  // Injectable read-only loader lets the test deterministically exercise HTTP 500.
+  if(typeof readPage!=='function')throw TypeError('Invalid preview page loader');
   // Bounded failed-attempt throttling; never trust spoofable X-Forwarded-For.
   // Valid credentials are always accepted to avoid locking out reviewers
   // who share a reverse-proxy socket with failed attempts.
@@ -90,7 +92,7 @@ export function protectedPreview({ username, password }){
       response.writeHead(404,{'Content-Type':'text/plain; charset=utf-8'});response.end('Not found');return;
     }
     try{
-      const page=await readFile(join(directory,name),'utf8');
+      const page=await readPage(join(directory,name),'utf8');
       response.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Content-Security-Policy':contentPolicy(page)});
       response.end(request.method==='HEAD'?'':page);
     }catch{

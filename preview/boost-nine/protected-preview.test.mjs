@@ -100,3 +100,27 @@ test('SEC-01: bad credential bursts are throttled without spoofable forwarded IP
     assert.equal(valid.status,200,'a valid reviewer must never be locked out by failed attempts');
   }finally{await new Promise(resolve=>isolated.close(resolve));}
 });
+
+test('SEC-01: protected HTTP 500 keeps deny-by-default CSP, no leaks, no caching',async()=>{
+  const failing=protectedPreview({username,password,readPage:async()=>{throw Error('SIMULATED_FILE_IO_FAILURE_SECRET');}});
+  await new Promise(resolve=>failing.listen(0,'127.0.0.1',resolve));
+  try{
+    const url='http://127.0.0.1:'+failing.address().port+'/rwa.html';
+    const unauthorized=await fetch(url);
+    assert.equal(unauthorized.status,401,'authorization remains ahead of file I/O');
+    assert.match(unauthorized.headers.get('content-security-policy'),/default-src 'none'/);
+    const response=await fetch(url,{headers:{Authorization:auth}});
+    assert.equal(response.status,500);
+    assert.match(response.headers.get('content-security-policy'),/default-src 'none'/);
+    assert.match(response.headers.get('content-security-policy'),/object-src 'none'/);
+    assert.doesNotMatch(response.headers.get('content-security-policy'),/unsafe-inline|unsafe-eval/);
+    assert.match(response.headers.get('cache-control'),/no-store/);
+    assert.equal(response.headers.get('x-frame-options'),'DENY');
+    assert.equal(response.headers.get('x-content-type-options'),'nosniff');
+    const body=await response.text();
+    assert.equal(body,'Preview unavailable');
+    assert.doesNotMatch(body,/MPT-001|SIMULATED_FILE_IO_FAILURE_SECRET/);
+  }finally{
+    await new Promise(resolve=>failing.close(resolve));
+  }
+});

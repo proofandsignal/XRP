@@ -21,3 +21,10 @@ A second report asserted SEC-01 "no strict CSP" and FIN-01 "the repo claims MPT-
 - The RWA page explicitly says backing, legal identity and redemption rights are UNKNOWN; "fully backed" appears only as an unsupported claim in a **synthetic** metadata example. The financial finding is valid as **missing third-party backing evidence**, not as proof of a false representation by the current demo. No reserve proof/prospectus can be invented and none is a requirement to display an honest historical/synthetic research-only case.
 - `05EECEBE97A7D635DE2393068691A015FED5A89AD203F5AA` is an **MPTokenIssuanceID**, not the issuer account; ledger issuer account is `rNFta7UKwcoiCpxEYbhH2v92numE3cceB6`. Do not mark ledger verification independently PASS absent reproducible RPC request/response.
 - Physical Samsung, qualified Legal/IP and independent security review remain blocked. New author CI needed on new head.
+
+## Third report triage — 2026-11-18
+Reviewer target: c3c8aad1b0f8c1b964f3c7267afbcf8cf07a60d2.
+- SEC-01: source already sets a restrictive CSP before authentication and routing. The existing tests check 200 script/style hashes, 401 deny-by-default CSP, 429 deny-by-default CSP + Retry-After (failed attempts), authenticated Chromium scripts under CSP, noncanonical routes and bad authorization. The precise missing evidence was a deterministic HTTP 500 test. Added test-only page loader injection to exercise simulated file I/O failure, assert 500, CSP, no-store, no body leak or file path exposure. **This is author regression, not independent penetration test.**
+- FIN-01: a historical MPT object/issuance does NOT establish RWA asset backing. No backing claim is asserted in the product. The historical case uses a ledger reference also seen in official XRPL examples. Independent primary archive node evidence remains pending. A step-by-step reviewer protocol is in `MPT-001-INDEPENDENT-RPC-VERIFY.md`; it does not contain a fabricated response.
+- QA-01 remains physical Samsung PENDING; LEG-01 qualified independent professional counsel BLOCKED.
+- No protected HTTPS release authorized and PR #30 remains Draft.
