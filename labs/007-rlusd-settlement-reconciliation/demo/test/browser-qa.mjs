@@ -53,6 +53,18 @@ async function run() {
     const resp = await page.goto(base+'/',{waitUntil:'networkidle',timeout:15000});
     assert.equal(resp.status(),200);
     assert.equal(await page.locator('html').getAttribute('lang'),'en');
+    assert.match(await page.title(), /^XRPL Intelligence \|/);
+    assert.equal(await page.locator('.brandname').count(),1,'primary brand only once in header');
+    assert.equal((await page.locator('.brandname').innerText()).split('\n')[0],'XRPL INTELLIGENCE');
+    assert.equal(await page.locator('.brand-sub').innerText(),'by Proof & Signal');
+    const typography = await page.locator('.brandname').evaluate(brand => ({
+      primary: parseFloat(getComputedStyle(brand).fontSize),
+      signature: parseFloat(getComputedStyle(brand.querySelector('.brand-sub')).fontSize),
+      x:brand.getBoundingClientRect().x,
+      signatureX:brand.querySelector('.brand-sub').getBoundingClientRect().x
+    }));
+    assert.ok(typography.primary >= typography.signature * 1.35, name+' primary brand hierarchy should dominate creator signature');
+    assert.ok(Math.abs(typography.x-typography.signatureX) < 2,'creator line should align with product name');
     assert.equal(await page.locator('.brand-logo').count(),1,'own logo top-left');
     assert.ok(await page.locator('.brand-logo').evaluate(img=>img.complete && img.naturalWidth>0),'logo asset should load');
     assert.ok(await page.locator('.hero-visual img').evaluate(img=>img.complete && img.naturalWidth>0),'thematic cover should load');
