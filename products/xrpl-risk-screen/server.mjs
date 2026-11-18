@@ -7,9 +7,12 @@ import { scanMptIssuance } from "./lib/mpt.mjs"
 import { buildTransitionSnapshot, compareTransitionSnapshots } from "./lib/transitions.mjs"
 import { DEMO_CASES, PUBLIC_RESEARCH_NOTE_URL } from "./lib/demoCases.mjs"
 import { buildAuditedDemoPack } from "./lib/demoEvidenceAudit.mjs"
+import { authorizePreviewRequest } from "./lib/previewAccess.mjs"
+import { createScannerBudget } from "./lib/scannerBudget.mjs"
 
 const here=dirname(fileURLToPath(import.meta.url))
 const port=Number(process.env.PORT??8787)
+const scannerBudget=createScannerBudget()
 
 function send(res,status,body,type="application/json; charset=utf-8"){
   res.writeHead(status,{
@@ -35,6 +38,7 @@ async function readJson(req,maxBytes=262144){
 
 const server=http.createServer(async(req,res)=>{
   try{
+    if(!authorizePreviewRequest(req,res)) return
     const u=new URL(req.url,"http://localhost")
     if(req.method!=="GET"&&!(req.method==="POST"&&u.pathname==="/api/transition")) {
       return send(res,405,JSON.stringify({error:"Method not allowed"}))
@@ -47,6 +51,14 @@ const server=http.createServer(async(req,res)=>{
       return pack?send(res,200,JSON.stringify(pack)):send(res,404,JSON.stringify({error:"Demo case not found"}))
     }
 
+    // Quota is global to the single private QA instance, not per untrusted proxy header.
+    // Lease is released only when the awaited scanner has actually finished.
+    const scannerLease=scannerBudget.acquire(req.method,u.pathname)
+    if(!scannerLease.allowed){
+      res.setHeader("retry-after",String(scannerLease.retryAfter))
+      return send(res,429,JSON.stringify({error:scannerLease.error}))
+    }
+    try {
     if(u.pathname==="/api/account"){
       const account=u.searchParams.get("account")
       if(!account) return send(res,400,JSON.stringify({error:"Missing account"}))
@@ -69,6 +81,10 @@ const server=http.createServer(async(req,res)=>{
       const report=await scanMptIssuance(issuanceId,{network:u.searchParams.get("network")??"mainnet"})
       const passport=buildPassport(report)
       return send(res,200,JSON.stringify({report,passport,transition_snapshot:null}))
+    }
+
+    } finally {
+      scannerLease.release()
     }
 
     if(u.pathname==="/api/transition"&&req.method==="POST"){
