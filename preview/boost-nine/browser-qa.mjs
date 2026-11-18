@@ -64,6 +64,8 @@ test('RWA passport isolates synthetic cases from historical provenance and expor
   assert.equal(synthetic.on_chain_evidence.issuer_account,null);
   assert.equal(synthetic.on_chain_evidence.validated_ledger,null);
   assert.equal(synthetic.mode,'synthetic');
+  assert.equal(synthetic.archive_rpc_independent_replay,'PENDING');
+  assert.equal(synthetic.claim_source_type,'SYNTHETIC EDUCATIONAL CASE');
   assert.equal(synthetic.independently_verified_off_chain.backing,'UNKNOWN');
   assert.equal(synthetic.pass_allowed,false);
   assert.equal(synthetic.live_feed,false);
@@ -79,6 +81,8 @@ test('RWA passport isolates synthetic cases from historical provenance and expor
   const [historicalDownload]=await Promise.all([page.waitForEvent('download'),page.locator('#export').click()]);
   const historical=JSON.parse(await (await import('node:fs/promises')).readFile(await historicalDownload.path(),'utf8'));
   assert.equal(historical.mode,'historical evidence replay');
+  assert.equal(historical.archive_rpc_independent_replay,'PENDING');
+  assert.equal(historical.claim_source_type,'AUTHOR-CAPTURED CASE RECORD');
   assert.equal(historical.on_chain_evidence.validated_ledger,'107775551');
   assert.equal(historical.on_chain_evidence.captured_date,'2026-10-20');
   assert.equal(historical.independently_verified_off_chain.legal_identity,'UNKNOWN');
